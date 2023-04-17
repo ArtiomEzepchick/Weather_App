@@ -18,7 +18,7 @@
 }
 
 .site-layout {
-    padding-left: 5rem;
+    padding-left: $width-sider;
 
     .ant-layout-header {
         height: 3rem;
@@ -28,14 +28,14 @@
     .ant-layout-content {
         padding: 0 10rem;
 
-        .todays-forecast {
+        .weather-forecast {
             display: flex;
             flex-wrap: wrap;
             margin-top: 4rem;
             gap: 0.5rem;
 
             & > section {
-                background-color: $color-transparent-grey;
+                background-color: $color-white;
                 padding: 1rem;
                 border-radius: 0.5rem;
                 height: 8rem;

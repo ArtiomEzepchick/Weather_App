@@ -10,7 +10,7 @@ export function* weatherSaga(action: GetWeatherAction): any {
     const response = yield call(getWeatherByCityName, action.payload)
     yield put(getWeatherSuccess(response))
   } catch (error: any) {
-    yield put(getWeatherFailure(error.response.data.message))
+    yield put(getWeatherFailure(error.message))
   }
 }
 

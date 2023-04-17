@@ -2,17 +2,24 @@ import React, { useState } from 'react'
 import { CloudOutlined } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
 import { Layout, Menu } from 'antd'
+import { connect } from 'react-redux'
 
 import Copyright from '../Copyright/Copyright'
 import CitySearch from '../CitySearch/CitySearch'
 import CurrentWeather from '../CurrentWeather/CurrentWeather'
-import HourlyForecast from '../HourlyForecast/HourlyForecast'
 import DetailedWeatherInfo from '../DetailedWeatherInfo/DetailedWeatherInfo'
+import Loader from '../Loader/Loader'
+import HourlyForecast from '../HourlyForecast/HourlyForecast'
+import SeveralDaysForecast from '../SeveralDaysForecast/SeveralDaysForecast'
+import Error from '../Error/Error'
+
+import { WeatherState } from '../../types/states'
 
 import './index.scss'
 
 const { Header, Content, Footer, Sider } = Layout
 
+type Props = WeatherState
 type MenuItem = Required<MenuProps>['items'][number]
 
 const getItem = (
@@ -33,7 +40,11 @@ const items: MenuItem[] = [
     getItem('City', '1', <CloudOutlined />),
 ]
 
-const MainLayout: React.FC = () => {
+const MainLayout: React.FC<Props> = ({
+    data,
+    error,
+    loading
+}) => {
     const [collapsed, setCollapsed] = useState(true)
 
     return (
@@ -50,11 +61,18 @@ const MainLayout: React.FC = () => {
                     <CitySearch />
                 </Header>
                 <Content>
-                    <CurrentWeather />
-                    <section className='todays-forecast'>
-                        <HourlyForecast />
-                        <DetailedWeatherInfo />
-                    </section>
+                    {data && (
+                        <>
+                            <CurrentWeather />
+                            <section className='weather-forecast'>
+                                <HourlyForecast data={data} />
+                                <DetailedWeatherInfo />
+                                <SeveralDaysForecast />
+                            </section>
+                        </>
+                    )}
+                    {loading && <Loader />}
+                    {error && <Error error={error} />}
                 </Content>
                 <Footer style={{ padding: '0 1rem', height: '3rem' }}>
                     <Copyright />
@@ -64,4 +82,11 @@ const MainLayout: React.FC = () => {
     )
 }
 
-export default MainLayout
+const mapStateToProps = (state: WeatherState) => ({
+    ...state
+})
+
+export default connect(
+    mapStateToProps,
+    null
+)(MainLayout)
