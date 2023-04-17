@@ -1,6 +1,58 @@
-.ant-layout-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: row;
+@import '../../variables.scss';
+
+.ant-layout {
+    min-height: 100vh;
+
+    .ant-layout-sider {
+        overflow: auto;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+
+        .ant-layout-sider-children {
+            padding-top: 3rem;
+        }
+    }
+}
+
+.site-layout {
+    padding-left: 5rem;
+
+    .ant-layout-header {
+        height: 3rem;
+        background-color: $color-grey;
+    }
+
+    .ant-layout-content {
+        padding: 0 10rem;
+
+        .todays-forecast {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 4rem;
+            gap: 0.5rem;
+
+            & > section {
+                background-color: $color-transparent-grey;
+                padding: 1rem;
+                border-radius: 0.5rem;
+                height: 8rem;
+            }
+        }
+    }
+
+    .ant-layout-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: row;
+        color: $color-white;
+        background-color: $color-dark-blue;
+
+        i {
+            color: $color-white
+        }
+    }
 }

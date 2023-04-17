@@ -3,7 +3,7 @@ import { copyrightLinks } from "../../helpers/copyrightLinks/copyrightLinks"
 
 import './index.scss'
 
-const CopyrightInfo = (): JSX.Element => {
+const Copyright = (): JSX.Element => {
     return (
         <>
             <p>&#169; 2023 Made by Artsiom Ezepchik</p>
@@ -19,4 +19,4 @@ const CopyrightInfo = (): JSX.Element => {
     )
 }
 
-export default CopyrightInfo
+export default Copyright

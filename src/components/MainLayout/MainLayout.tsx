@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { CloudOutlined } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
-import { Layout, Menu, theme } from 'antd'
+import { Layout, Menu } from 'antd'
 
-import CopyrightInfo from '../CopyrigthInfo/CopyrightInfo'
+import Copyright from '../Copyright/Copyright'
+import CitySearch from '../CitySearch/CitySearch'
+import CurrentWeather from '../CurrentWeather/CurrentWeather'
+import HourlyForecast from '../HourlyForecast/HourlyForecast'
+import DetailedWeatherInfo from '../DetailedWeatherInfo/DetailedWeatherInfo'
 
 import './index.scss'
 
@@ -31,38 +35,29 @@ const items: MenuItem[] = [
 
 const MainLayout: React.FC = () => {
     const [collapsed, setCollapsed] = useState(true)
-    const {
-        token: { colorBgContainer },
-    } = theme.useToken()
 
     return (
-        <Layout style={{ minHeight: '100vh', paddingLeft: '80px' }}>
+        <Layout>
             <Sider
                 collapsible
                 collapsed={collapsed}
                 onCollapse={(value) => setCollapsed(value)}
-                style={{
-                    overflow: 'auto',
-                    height: '100vh',
-                    position: 'fixed',
-                    left: 0,
-                    top: 0,
-                    bottom: 0,
-                }}
             >
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
             </Sider>
             <Layout className="site-layout">
-                <Header style={{ padding: 0, background: colorBgContainer }}>
-
+                <Header>
+                    <CitySearch />
                 </Header>
-                <Content style={{ margin: '0 16px' }}>
-                    <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
-                    
-                    </div>
+                <Content>
+                    <CurrentWeather />
+                    <section className='todays-forecast'>
+                        <HourlyForecast />
+                        <DetailedWeatherInfo />
+                    </section>
                 </Content>
-                <Footer>
-                    <CopyrightInfo />
+                <Footer style={{ padding: '0 1rem', height: '3rem' }}>
+                    <Copyright />
                 </Footer>
             </Layout>
         </Layout>
