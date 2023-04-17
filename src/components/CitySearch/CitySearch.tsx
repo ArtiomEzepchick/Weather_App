@@ -1,17 +1,43 @@
-import React from "react"
+import React, { useState } from "react"
 import { Button, Input, Space } from "antd"
+import { connect } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+
+import { WeatherAction } from '../../types/actions'
+import { getWeather } from '../../model/weather/actions/actions'
 
 import './index.scss'
 
-const CitySearch: React.FC = () => {
+type Props = {
+    getWeather: (city: string) => WeatherAction;
+}
+
+const CitySearch: React.FC<Props> = ({ getWeather }) => {
+    const [city, setCity] = useState('')
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setCity(e.target.value)
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault()
+
+        getWeather(city)
+    }
+
     return (
-        <section className='find-city-container'>
+        <form className='city-search-container' onSubmit={handleSubmit}>
             <Space.Compact style={{ width: '100%' }}>
-                <Input defaultValue="Your city here" />
-                <Button type="primary">Find</Button>
+                <Input onChange={handleInputChange} value={city} placeholder="Your city here" />
+                <Button htmlType="submit">Find</Button>
             </Space.Compact>
-        </section>
+        </form>
     )
 }
 
-export default CitySearch
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    getWeather: bindActionCreators(getWeather, dispatch)
+})
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(CitySearch)

@@ -3,13 +3,12 @@
 .hourly-forecast {
     display: flex;
     width: max-content;
-    gap: 1rem;
+    gap: 2rem;
 
-    div {
+    & > section {
         display: flex;
         flex-direction: column;
         text-align: center;
-        gap: 0.5rem;
 
         img {
             height: 3rem;

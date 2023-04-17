@@ -29,4 +29,4 @@ export type WeatherAction =
   InitAction |
   GetWeatherAction |
   GetWeatherSuccessAction |
-  GetWeatherFailureAction;
+  GetWeatherFailureAction
