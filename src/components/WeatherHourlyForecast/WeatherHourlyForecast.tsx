@@ -9,7 +9,7 @@ type Props = {
     weatherData: WeatherTransformedData
 }
 
-const HourlyForecast: React.FC<Props> = ({ weatherData }) => {
+const WeatherHourlyForecast: React.FC<Props> = ({ weatherData }) => {
     const weatherDataSliced = weatherData.list.slice(0, 8)
     
     return (
@@ -24,4 +24,4 @@ const HourlyForecast: React.FC<Props> = ({ weatherData }) => {
     )
 }
 
-export default HourlyForecast
+export default WeatherHourlyForecast

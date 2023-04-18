@@ -15,44 +15,44 @@
             padding-top: 3rem;
         }
     }
-}
 
-.site-layout {
-    padding-left: $width-sider;
-
-    .ant-layout-header {
-        height: 3rem;
-        background-color: $color-grey;
-    }
-
-    .ant-layout-content {
-        padding: 0 10rem;
-
-        .weather-forecast {
-            display: flex;
-            flex-wrap: wrap;
-            margin-top: 4rem;
-            gap: 0.5rem;
-
-            & > section {
-                background-color: $color-white;
-                padding: 1rem;
-                border-radius: $border-radius-weather-block;
-                height: 8rem;
+    .site-layout {
+        padding-left: $width-sider;
+    
+        .ant-layout-header {
+            height: 3rem;
+            background-color: $color-grey;
+        }
+    
+        .ant-layout-content {
+            padding: 0 10rem 2rem;
+    
+            .weather-forecast {
+                display: flex;
+                flex-wrap: wrap;
+                margin-top: 4rem;
+                gap: 0.5rem;
+    
+                & > section {
+                    background-color: $color-white;
+                    padding: 1rem;
+                    border-radius: $border-radius-weather-block;
+                    height: 8rem;
+                }
             }
         }
-    }
-
-    .ant-layout-footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-direction: row;
-        color: $color-white;
-        background-color: $color-dark-blue;
-
-        i {
-            color: $color-white
+    
+        .ant-layout-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: row;
+            color: $color-white;
+            background-color: $color-dark-blue;
+    
+            i {
+                color: $color-white
+            }
         }
     }
 }

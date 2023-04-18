@@ -6,12 +6,12 @@ import { connect } from 'react-redux'
 
 import Copyright from '../Copyright/Copyright'
 import CitySearch from '../CitySearch/CitySearch'
+import Error from '../Error/Error'
+import Loader from '../Loader/Loader'
 import WeatherMainForecast from '../WeatherMainForecast/WeatherMainForecast'
 import WeatherDetailedForecast from '../WeatherDetailedForecast/WeatherDetailedForecast'
-import Loader from '../Loader/Loader'
-import HourlyForecast from '../HourlyForecast/HourlyForecast'
-import SeveralDaysForecast from '../SeveralDaysForecast/SeveralDaysForecast'
-import Error from '../Error/Error'
+import WeatherHourlyForecast from '../WeatherHourlyForecast/WeatherHourlyForecast'
+import WeatherDaysForecast from '../WeatherDaysForecast/WeatherDaysForecast'
 
 import { WeatherState } from '../../types/states'
 
@@ -65,9 +65,9 @@ const MainLayout: React.FC<Props> = ({
                         <>
                             <WeatherMainForecast weatherData={weatherData}/>
                             <section className='weather-forecast'>
-                                <HourlyForecast weatherData={weatherData} />
+                                <WeatherHourlyForecast weatherData={weatherData} />
                                 <WeatherDetailedForecast weatherData={weatherData} />
-                                <SeveralDaysForecast />
+                                <WeatherDaysForecast weatherData={weatherData} />
                             </section>
                         </>
                     )}

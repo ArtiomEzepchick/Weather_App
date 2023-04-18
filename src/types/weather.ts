@@ -26,26 +26,28 @@ export interface WeatherPayload {
   }[]
 }
 
-export interface WeatherTransformedData {
-  city: string;
-  list: {
-    day: string;
-    description: string;
-    dt: number;
-    feels_like: string;
-    icon: string;
-    humidity: number;
-    pressure: number;
-    time: string;
-    temp: string;
-    temp_max: string;
-    temp_min: string;
-    visibility: number;
-    wind: string;
-  }[]
+export interface WeatherList {
+  day: string;
+  description: string;
+  dt: number;
+  feels_like: string;
+  icon: string;
+  humidity: number;
+  pressure: number;
+  time: string;
+  temp: string;
+  temp_max: string;
+  temp_min: string;
+  visibility: number;
+  wind: string;
 }
 
-export type ForecastInfo = {
+export interface WeatherTransformedData {
+  city: string;
+  list: WeatherList[]
+}
+
+export interface ForecastInfo {
   label: string;
   icon: string;
   forecast: string | number;
@@ -57,4 +59,4 @@ export interface Forecast {
   pressure: ForecastInfo;
   visibility: ForecastInfo;
   wind: ForecastInfo;
-}[]
+}

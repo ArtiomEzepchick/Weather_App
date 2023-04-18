@@ -1,4 +1,4 @@
-import { Forecast, ForecastInfo } from "../../types/weather"
+import { Forecast, ForecastInfo, WeatherList } from "../../types/weather"
 import { WeatherTransformedData } from "../../types/weather"
 import { FORECAST_LABELS, ICON_SRC, degreeSymbol } from "../constants/constants"
 
@@ -8,7 +8,7 @@ export const addUnitsBasedOnLabels = (label: string): string | JSX.Element => {
         case FORECAST_LABELS.FEELS_LIKE: return degreeSymbol
         case FORECAST_LABELS.HUMIDITY: return '%'
         case FORECAST_LABELS.PRESSURE: return ' hPa'
-        case FORECAST_LABELS.VISIBILITY: return ' metres'
+        case FORECAST_LABELS.VISIBILITY: return ' m'
         case FORECAST_LABELS.WIND: return ' km/h'
     }        
 
@@ -51,4 +51,24 @@ export const transformForecastData = (data: WeatherTransformedData): ForecastInf
     })
 
     return Object.values(forecastBlocks)
+}
+
+export const filterWeatherData = (data: WeatherTransformedData): WeatherList[] => {
+    let currentDay = data.list[0].day
+    let count = 0
+    const result = []
+
+    for (let item of data.list) {
+        if (item.day !== currentDay) {
+            ++count
+
+            if (count === 4) {
+                result.push(item)
+                currentDay = item.day
+                count = 0
+            }
+        }
+    }
+
+    return result
 }
