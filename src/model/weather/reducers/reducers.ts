@@ -12,7 +12,7 @@ import {
 import { WeatherState } from '../../../types/states'
 
 export const initialState: WeatherState = {
-  data: null,
+  weatherData: null,
   error: null,
   loading: false
 }
@@ -24,21 +24,21 @@ const weatherReducer = (
   switch (action.type) {
     case GET_WEATHER_REQUEST:
       return {
-        data: null,
+        weatherData: null,
         error: null,
         loading: true
       }
 
     case GET_WEATHER_SUCCESS:
       return {
-        data: action.payload,
+        weatherData: action.payload,
         error: null,
         loading: false
       }
 
     case GET_WEATHER_FAILURE:
       return {
-        data: null,
+        weatherData: null,
         error: action.payload,
         loading: false
       }

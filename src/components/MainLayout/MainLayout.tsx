@@ -6,12 +6,12 @@ import { connect } from 'react-redux'
 
 import Copyright from '../Copyright/Copyright'
 import CitySearch from '../CitySearch/CitySearch'
-import CurrentWeather from '../CurrentWeather/CurrentWeather'
-import DetailedWeatherInfo from '../DetailedWeatherInfo/DetailedWeatherInfo'
-import Loader from '../Loader/Loader'
-import HourlyForecast from '../HourlyForecast/HourlyForecast'
-import SeveralDaysForecast from '../SeveralDaysForecast/SeveralDaysForecast'
 import Error from '../Error/Error'
+import Loader from '../Loader/Loader'
+import WeatherMainForecast from '../WeatherMainForecast/WeatherMainForecast'
+import WeatherDetailedForecast from '../WeatherDetailedForecast/WeatherDetailedForecast'
+import WeatherHourlyForecast from '../WeatherHourlyForecast/WeatherHourlyForecast'
+import WeatherDaysForecast from '../WeatherDaysForecast/WeatherDaysForecast'
 
 import { WeatherState } from '../../types/states'
 
@@ -41,7 +41,7 @@ const items: MenuItem[] = [
 ]
 
 const MainLayout: React.FC<Props> = ({
-    data,
+    weatherData,
     error,
     loading
 }) => {
@@ -61,13 +61,13 @@ const MainLayout: React.FC<Props> = ({
                     <CitySearch />
                 </Header>
                 <Content>
-                    {data && (
+                    {weatherData && (
                         <>
-                            <CurrentWeather />
+                            <WeatherMainForecast weatherData={weatherData}/>
                             <section className='weather-forecast'>
-                                <HourlyForecast data={data} />
-                                <DetailedWeatherInfo />
-                                <SeveralDaysForecast />
+                                <WeatherHourlyForecast weatherData={weatherData} />
+                                <WeatherDetailedForecast weatherData={weatherData} />
+                                <WeatherDaysForecast weatherData={weatherData} />
                             </section>
                         </>
                     )}

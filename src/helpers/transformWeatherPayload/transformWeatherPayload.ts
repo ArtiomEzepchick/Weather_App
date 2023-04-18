@@ -12,12 +12,16 @@ export const transformWeatherPayload = (payload: WeatherPayload): WeatherTransfo
   list: payload.list
     .map(item => ({
       day: moment.unix(item.dt).utc().format('dddd'),
-      time: moment.unix(item.dt).utc().format('H:mm'),
+      description: `${item.weather[0].description.slice(0, 1).toUpperCase() + item.weather[0].description.slice(1)}`,
+      dt: item.dt,
+      feels_like: `${Math.round(item.main.feels_like)}`,
+      icon: `${ICON_URL}${item.weather[0].icon}@2x.png`,
+      humidity: item.main.humidity,
+      pressure: item.main.pressure,
       temp: `${Math.round(item.main.temp)}`,
       temp_max: `${Math.round(item.main.temp_max)}`,
       temp_min: `${Math.round(item.main.temp_min)}`,
-      icon: `${ICON_URL}${item.weather[0].icon}@2x.png`,
-      dt: item.dt,
+      time: moment.unix(item.dt).utc().format('H:mm'),
       visibility: item.visibility,
       wind: `${Math.round(item.wind.speed)}`
     }))
