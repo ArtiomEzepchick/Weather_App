@@ -3,16 +3,21 @@
 .hourly-forecast {
     display: flex;
     width: max-content;
-    gap: 2rem;
+    gap: 1rem;
 
     & > section {
-        display: flex;
+        @include flex-all-centered;
         flex-direction: column;
         text-align: center;
+        min-width: 5rem;
 
         img {
             height: 3rem;
             width: 3rem;
+        }
+
+        .hourly-forecast-temp {
+            font-size: 1.1rem;
         }
     }
 }

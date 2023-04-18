@@ -6,8 +6,8 @@ import { connect } from 'react-redux'
 
 import Copyright from '../Copyright/Copyright'
 import CitySearch from '../CitySearch/CitySearch'
-import CurrentWeather from '../CurrentWeather/CurrentWeather'
-import DetailedWeatherInfo from '../DetailedWeatherInfo/DetailedWeatherInfo'
+import WeatherMainForecast from '../WeatherMainForecast/WeatherMainForecast'
+import WeatherDetailedForecast from '../WeatherDetailedForecast/WeatherDetailedForecast'
 import Loader from '../Loader/Loader'
 import HourlyForecast from '../HourlyForecast/HourlyForecast'
 import SeveralDaysForecast from '../SeveralDaysForecast/SeveralDaysForecast'
@@ -41,7 +41,7 @@ const items: MenuItem[] = [
 ]
 
 const MainLayout: React.FC<Props> = ({
-    data,
+    weatherData,
     error,
     loading
 }) => {
@@ -61,12 +61,12 @@ const MainLayout: React.FC<Props> = ({
                     <CitySearch />
                 </Header>
                 <Content>
-                    {data && (
+                    {weatherData && (
                         <>
-                            <CurrentWeather />
+                            <WeatherMainForecast weatherData={weatherData}/>
                             <section className='weather-forecast'>
-                                <HourlyForecast data={data} />
-                                <DetailedWeatherInfo />
+                                <HourlyForecast weatherData={weatherData} />
+                                <WeatherDetailedForecast weatherData={weatherData} />
                                 <SeveralDaysForecast />
                             </section>
                         </>

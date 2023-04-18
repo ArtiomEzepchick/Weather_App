@@ -10,6 +10,9 @@ export interface WeatherPayload {
       temp: number;
       temp_max: number;
       temp_min: number;
+      feels_like: number;
+      humidity: number;
+      pressure: number;
     };
     weather: {
       main: string;
@@ -27,13 +30,31 @@ export interface WeatherTransformedData {
   city: string;
   list: {
     day: string;
+    description: string;
+    dt: number;
+    feels_like: string;
+    icon: string;
+    humidity: number;
+    pressure: number;
     time: string;
     temp: string;
     temp_max: string;
     temp_min: string;
-    icon: string;
-    dt: number;
     visibility: number;
     wind: string;
   }[]
 }
+
+export type ForecastInfo = {
+  label: string;
+  icon: string;
+  forecast: string | number;
+}
+
+export interface Forecast {
+  feels_like: ForecastInfo;
+  humidity: ForecastInfo;
+  pressure: ForecastInfo;
+  visibility: ForecastInfo;
+  wind: ForecastInfo;
+}[]
