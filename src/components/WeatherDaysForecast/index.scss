@@ -1,27 +1,18 @@
 @import '../../variables.scss';
 
-.weather-days-forecast {
+.weather-days-container {
     display: flex;
     flex-direction: column;
     width: max-content;
+    padding-top: 0;
+    height: 8rem;
 
-    .weather-days-container {
+    h2 {
+        text-align: center;
+        padding-bottom: 0.1rem; 
+    }
+
+    .weather-days-forecast {
         @include flex-all-centered;
-
-        section {
-            @include flex-all-centered;
-            flex-direction: column;
-            text-align: center;
-            min-width: 5rem;
-
-            img {
-                height: 3rem;
-                width: 3rem;
-            }
-
-            .hourly-forecast-temp {
-                font-size: 1.1rem;
-            }
-        }
     }
 }

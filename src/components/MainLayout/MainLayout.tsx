@@ -4,7 +4,6 @@ import type { MenuProps } from 'antd'
 import { Layout, Menu } from 'antd'
 import { connect } from 'react-redux'
 
-import Copyright from '../Copyright/Copyright'
 import CitySearch from '../CitySearch/CitySearch'
 import Error from '../Error/Error'
 import Loader from '../Loader/Loader'
@@ -14,6 +13,7 @@ import WeatherHourlyForecast from '../WeatherHourlyForecast/WeatherHourlyForecas
 import WeatherDaysForecast from '../WeatherDaysForecast/WeatherDaysForecast'
 
 import { WeatherState } from '../../types/states'
+import { copyrightLinks } from '../../helpers/copyrightLinks/copyrightLinks'
 
 import './index.scss'
 
@@ -63,7 +63,7 @@ const MainLayout: React.FC<Props> = ({
                 <Content>
                     {weatherData && (
                         <>
-                            <WeatherMainForecast weatherData={weatherData}/>
+                            <WeatherMainForecast weatherData={weatherData} />
                             <section className='weather-forecast'>
                                 <WeatherHourlyForecast weatherData={weatherData} />
                                 <WeatherDetailedForecast weatherData={weatherData} />
@@ -75,7 +75,15 @@ const MainLayout: React.FC<Props> = ({
                     {error && <Error error={error} />}
                 </Content>
                 <Footer style={{ padding: '0 1rem', height: '3rem' }}>
-                    <Copyright />
+                    <span>&#169; 2023 Made by Artsiom Ezepchik</span>
+                    <section className="copyright-links">
+                        <span>Contact me:</span>
+                        {copyrightLinks.map(({ href, iconClassName }) => (
+                            <a key={href} target='blank' href={href}>
+                                <i className={iconClassName} />
+                            </a>
+                        ))}
+                    </section>
                 </Footer>
             </Layout>
         </Layout>

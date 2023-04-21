@@ -1,24 +1,30 @@
 @import '../../variables.scss';
 
-.weather-detailed-forecast-item {
-    position: relative;
-    width: 10rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
+.weather-detailed-forecast {
+    @include flex-all-centered;
+    flex-wrap: wrap;
 
-    img {
-        position: absolute;
-        width: 6rem;
-        height: 6rem;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        opacity: 0.04;
-    }
-
-    p {
-        font-size: 1rem;
+    .weather-detailed-forecast-item {
+        position: relative;
+        width: 10rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        height: 8rem;
+    
+        img {
+            position: absolute;
+            width: 6rem;
+            height: 6rem;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.04;
+        }
+    
+        p {
+            font-size: 1rem;
+        }
     }
 }

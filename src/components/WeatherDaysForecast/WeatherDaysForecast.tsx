@@ -1,8 +1,9 @@
 import React from "react"
 
+import WeatherTemperatureItem from "../WeatherTemperatureItem/WeatherTemperatureItem"
+
 import { filterWeatherData } from "../../helpers/transformForecastData/transformForecastData"
 import { WeatherTransformedData } from "../../types/weather"
-import { degreeSymbol } from "../../helpers/constants/constants"
 
 import "./index.scss"
 
@@ -14,15 +15,14 @@ const WeatherDaysForecast: React.FC<Props> = ({ weatherData }) => {
     const filteredData = filterWeatherData(weatherData)
 
     return (
-        <section className="weather-days-forecast">
+        <section className="weather-days-container">
             <h2>4 days forecast</h2>
-            <section className="weather-days-container">
-                {filteredData.map((item, index) => (
-                    <section key={item.dt}>
-                        <p>{item.day}</p>
-                        <img src={item.icon} alt={filteredData[index].description} />
-                        <p className="hourly-forecast-temp">{item.temp}{degreeSymbol}</p>
-                    </section>
+            <section className="weather-days-forecast">
+                {filteredData.map(item => (
+                    <WeatherTemperatureItem 
+                        data={item}
+                        key={item.dt}
+                    />
                 ))}
             </section>
         </section>
