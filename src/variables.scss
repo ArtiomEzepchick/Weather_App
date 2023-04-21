@@ -8,7 +8,10 @@ $width-sider: 5rem;
 
 $border-radius-weather-block: 0.5rem;
 
-$media-max-1180: 1180px;
+$max-width-540: 540px;
+$max-width-790: 790px;
+$max-width-1040: 1040px;
+$max-width-1180: 1180px;
 
 @mixin flex-all-centered {
     display: flex;

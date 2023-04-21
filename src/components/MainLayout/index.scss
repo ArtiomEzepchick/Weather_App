@@ -22,24 +22,42 @@
         .ant-layout-header {
             height: 3rem;
             background-color: $color-grey;
+
+            @media (max-width: $max-width-540) {
+                padding: 0;
+                margin: 0 auto;
+            }
         }
     
         .ant-layout-content {
             padding: 0 10rem 2rem;
+
+            @media (max-width: $max-width-1040) {
+                padding: 0 2rem 2rem;
+            }
     
             .weather-forecast {
                 display: flex;
                 flex-wrap: wrap;
                 margin-top: 4rem;
                 gap: 0.5rem;
+                justify-content: center;
 
-                @media (max-width: $media-max-1180) {
-                    height: auto;
+                @media (max-width: $max-width-1180) {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    grid-template-rows: 1fr;
+                }
+
+                @media (max-width: $max-width-790) {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                @media (max-width: $max-width-540) {
+                    display: flex;
                 }
     
                 & > section {
-                    background-color: $color-white;
-                    padding: 1rem;
                     border-radius: $border-radius-weather-block;
                 }
 

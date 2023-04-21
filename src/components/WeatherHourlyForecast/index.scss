@@ -5,9 +5,16 @@
     width: 100%;
     justify-content: space-between;
     gap: 1rem;
+    background-color: $color-white;
+    padding: 1rem;
 
-    @media (max-width: $media-max-1180) {
+    @media (max-width: $max-width-1180) {
         flex-direction: column;
-        width: max-content;
+        width: 15rem;
+        justify-self: center;
+    }
+
+    @media (max-width: $max-width-790) {
+        justify-self: end;
     }
 }

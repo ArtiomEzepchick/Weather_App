@@ -67,6 +67,8 @@ export const filterWeatherData = (data: WeatherTransformedData): WeatherList[] =
                 currentDay = item.day
                 count = 0
             }
+
+            if (result.length === 4) return result
         }
     }
 
