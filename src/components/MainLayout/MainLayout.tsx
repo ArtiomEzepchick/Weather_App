@@ -1,16 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { CloudOutlined } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
 import { Layout, Menu } from 'antd'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import CitySearch from '../CitySearch/CitySearch'
 import Error from '../Error/Error'
 import Loader from '../Loader/Loader'
-import WeatherMainForecast from '../WeatherMainForecast/WeatherMainForecast'
-import WeatherDetailedForecast from '../WeatherDetailedForecast/WeatherDetailedForecast'
-import WeatherHourlyForecast from '../WeatherHourlyForecast/WeatherHourlyForecast'
-import WeatherDaysForecast from '../WeatherDaysForecast/WeatherDaysForecast'
+import WeatherForecast from '../WeatherForecast/WeatherForecast'
 
 import { WeatherState } from '../../types/states'
 import { copyrightLinks } from '../../helpers/copyrightLinks/copyrightLinks'
@@ -19,33 +16,36 @@ import './index.scss'
 
 const { Header, Content, Footer, Sider } = Layout
 
-type Props = WeatherState
 type MenuItem = Required<MenuProps>['items'][number]
 
 const getItem = (
     label: React.ReactNode,
     key: React.Key,
     icon?: React.ReactNode,
-    children?: MenuItem[],
 ): MenuItem => {
     return {
-        key,
-        icon,
-        children,
         label,
+        key,
+        icon
     } as MenuItem
 }
 
-const items: MenuItem[] = [
-    getItem('City', '1', <CloudOutlined />),
-]
-
-const MainLayout: React.FC<Props> = ({
-    weatherData,
-    error,
-    loading
-}) => {
+const MainLayout: React.FC = () => {
+    const { weatherData, error, loading } = useSelector((state: WeatherState) => state)
     const [collapsed, setCollapsed] = useState(true)
+    const [menuItems, setMenuItems] = useState<MenuItem[]>([getItem('City', '1', <CloudOutlined />)])
+
+    // console.log(weatherData)
+    // console.log(menuItems)
+
+    // useEffect(() => {
+    //     if (weatherData?.city) {
+    //         setMenuItems([
+    //             ...menuItems,
+    //             getItem(weatherData.city, '2', <CloudOutlined />)
+    //         ])
+    //     }
+    // }, [menuItems, weatherData?.city])
 
     return (
         <Layout>
@@ -54,23 +54,14 @@ const MainLayout: React.FC<Props> = ({
                 collapsed={collapsed}
                 onCollapse={(value) => setCollapsed(value)}
             >
-                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={menuItems} />
             </Sider>
             <Layout className="site-layout">
                 <Header>
                     <CitySearch />
                 </Header>
                 <Content>
-                    {weatherData && (
-                        <>
-                            <WeatherMainForecast weatherData={weatherData} />
-                            <section className='weather-forecast'>
-                                <WeatherHourlyForecast weatherData={weatherData} />
-                                <WeatherDetailedForecast weatherData={weatherData} />
-                                <WeatherDaysForecast weatherData={weatherData} />
-                            </section>
-                        </>
-                    )}
+                    {weatherData && <WeatherForecast weatherData={weatherData} />}
                     {loading && <Loader />}
                     {error && <Error error={error} />}
                 </Content>
@@ -90,11 +81,4 @@ const MainLayout: React.FC<Props> = ({
     )
 }
 
-const mapStateToProps = (state: WeatherState) => ({
-    ...state
-})
-
-export default connect(
-    mapStateToProps,
-    null
-)(MainLayout)
+export default MainLayout

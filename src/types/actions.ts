@@ -3,6 +3,7 @@ import {
   GET_WEATHER_REQUEST,
   GET_WEATHER_SUCCESS,
   GET_WEATHER_FAILURE,
+  SET_CURRENT_CITY
 } from '../model/weather/constants/constants'
 import { WeatherTransformedData } from '../types/weather'
 
@@ -25,8 +26,14 @@ interface GetWeatherFailureAction {
   payload: string;
 }
 
+interface SetCurrentCityAction {
+  type: typeof SET_CURRENT_CITY;
+  payload: string;
+}
+
 export type WeatherAction =
   InitAction |
   GetWeatherAction |
   GetWeatherSuccessAction |
-  GetWeatherFailureAction
+  GetWeatherFailureAction |
+  SetCurrentCityAction

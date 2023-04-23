@@ -68,7 +68,7 @@ export const filterWeatherData = (data: WeatherTransformedData): WeatherList[] =
                 count = 0
             }
 
-            if (result.length === 4) return result
+            if (result.length === 4) break
         }
     }
 
