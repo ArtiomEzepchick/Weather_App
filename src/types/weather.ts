@@ -47,7 +47,9 @@ export interface WeatherList {
 }
 
 export interface WeatherTransformedData {
+  id: string;
   city: string;
+  lastUpdate: Date;
   list: WeatherList[]
 }
 

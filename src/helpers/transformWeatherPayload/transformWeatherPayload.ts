@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { nanoid } from 'nanoid'
 
 import {
   WeatherPayload,
@@ -8,7 +9,9 @@ import {
 const ICON_URL = 'https://openweathermap.org/img/wn/'
 
 export const transformWeatherPayload = (payload: WeatherPayload): WeatherTransformedData => ({
+  id: nanoid(),
   city: `${payload.city.name}`,
+  lastUpdate: new Date(),
   list: payload.list
     .map(item => ({
       day: moment.unix(item.dt).utc().format('dddd'),

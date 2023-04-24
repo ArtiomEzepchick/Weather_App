@@ -17,9 +17,10 @@ import {
     setFoundCities,
     setMenuItems,
     clearMenuItems,
-    setAllCitiesWeatherData,
+    addAllCitiesWeatherData,
     setCurrentWeather,
     setInputCityValue,
+    updateAllCitiesWeatherData,
     clearError
 } from '../../model/weather/actions/actions'
 
@@ -58,12 +59,27 @@ const MainLayout: React.FC = () => {
     useEffect(() => {
         if (currentWeatherData && !foundCities.includes(currentWeatherData.city)) {
             dispatch(setFoundCities(currentWeatherData.city))
-            dispatch(setAllCitiesWeatherData(currentWeatherData))
+            dispatch(addAllCitiesWeatherData(currentWeatherData))
+            dispatch(setInputCityValue(''))
+        }
+
+        if (currentWeatherData && foundCities.includes(currentWeatherData.city)) {
+            const isCityIdExist = allCitiesWeatherData.every(item => item.id !== currentWeatherData.id)
+
+            if (isCityIdExist) {
+                const newWeatherData = allCitiesWeatherData.map(item => {
+                    return item.city === currentWeatherData.city ? item = currentWeatherData : item
+                })
+
+                dispatch(setInputCityValue(''))
+                dispatch(updateAllCitiesWeatherData(newWeatherData))
+            }
         }
     }, [
         dispatch,
         foundCities,
-        currentWeatherData
+        currentWeatherData,
+        allCitiesWeatherData
     ])
 
     useEffect(() => {
@@ -77,7 +93,6 @@ const MainLayout: React.FC = () => {
         }
 
         if (currentWeatherData && foundCities.includes(currentWeatherData.city)) {
-            dispatch(setInputCityValue(''))
             activeMenuItemKey.current = foundCities.indexOf(currentWeatherData.city).toString()
             return
         }
@@ -97,17 +112,17 @@ const MainLayout: React.FC = () => {
     ])
 
     useEffect(() => {
-        const handleClickOutsideSider = (e: MouseEvent) => {
+        const handleMouseOverOutsideSider = (e: MouseEvent) => {
             const target = e.target as HTMLDivElement
 
-            if (siderRef.current && !siderRef.current.contains(target)) {
-                dispatch(setAsideCollapsed(true))
-            }
+            siderRef.current && !siderRef.current.contains(target)
+                ? dispatch(setAsideCollapsed(true))
+                : dispatch(setAsideCollapsed(false))
         }
 
-        document.addEventListener("mousedown", handleClickOutsideSider)
+        document.addEventListener("mouseover", handleMouseOverOutsideSider)
 
-        return () => document.removeEventListener("mousedown", handleClickOutsideSider)
+        return () => document.removeEventListener("mouseover", handleMouseOverOutsideSider)
     }, [siderRef, dispatch])
 
     const handleMenuItemClick = (e: MenuInfo) => {
@@ -123,6 +138,7 @@ const MainLayout: React.FC = () => {
                 collapsible
                 collapsed={asideCollapsed}
                 onCollapse={(value) => dispatch(setAsideCollapsed(value))}
+                trigger={!asideCollapsed && null}
             >
                 <Menu
                     selectable={!loading}

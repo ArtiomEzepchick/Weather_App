@@ -7,12 +7,13 @@ import {
   GET_CURRENT_WEATHER_REQUEST,
   GET_CURRENT_WEATHER_SUCCESS,
   GET_CURRENT_WEATHER_FAILURE,
+  ADD_ALL_CITIES_WEATHER_DATA,
+  UPDATE_ALL_CITIES_WEATHER_DATA,
   SET_INPUT_CITY_VALUE,
   SET_ASIDE_COLLAPSED,
   SET_MENU_ITEMS,
   SET_FOUND_CITIES,
   CLEAR_MENU_ITEMS,
-  SET_ALL_CITIES_WEATHER_DATA,
   SET_CURRENT_WEATHER,
   CLEAR_ERROR
 } from '../constants/constants'
@@ -61,6 +62,19 @@ const weatherReducer = (
         ...state,
         currentWeatherData: action.payload
       }
+    case ADD_ALL_CITIES_WEATHER_DATA:
+      return {
+        ...state,
+        allCitiesWeatherData: [
+          ...state.allCitiesWeatherData,
+          action.payload
+        ]
+      }
+    case UPDATE_ALL_CITIES_WEATHER_DATA:
+      return {
+        ...state,
+        allCitiesWeatherData: action.payload
+      }
     case SET_INPUT_CITY_VALUE:
       return {
         ...state,
@@ -84,19 +98,11 @@ const weatherReducer = (
         ...state,
         menuItems: []
       }
-    case SET_FOUND_CITIES: 
+    case SET_FOUND_CITIES:
       return {
         ...state,
         foundCities: [
           ...state.foundCities,
-          action.payload
-        ]
-      }
-    case SET_ALL_CITIES_WEATHER_DATA:
-      return {
-        ...state,
-        allCitiesWeatherData: [
-          ...state.allCitiesWeatherData,
           action.payload
         ]
       }

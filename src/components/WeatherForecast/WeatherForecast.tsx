@@ -1,4 +1,5 @@
 import React from "react"
+import moment from "moment"
 
 import WeatherTemperatureItem from "../WeatherTemperatureItem/WeatherTemperatureItem"
 
@@ -26,6 +27,7 @@ const WeatherForecast: React.FC<Props> = ({ weatherData }) => {
         <>
             <section className="weather-short-forecast">
                 <h1>{weatherData.city}</h1>
+                <span className='last-update'>Last updated: {moment.utc(weatherData.lastUpdate).fromNow()}</span>
                 <span className="degree">
                     {shortWeatherData.temp}{degreeSymbol}
                     <img src={shortWeatherData.icon} alt={shortWeatherData.description}></img>
