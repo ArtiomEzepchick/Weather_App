@@ -1,29 +1,40 @@
 import {
   INIT,
-  GET_WEATHER_REQUEST,
-  GET_WEATHER_SUCCESS,
-  GET_WEATHER_FAILURE,
-  SET_CURRENT_CITY
+  GET_CURRENT_WEATHER_REQUEST,
+  GET_CURRENT_WEATHER_SUCCESS,
+  GET_CURRENT_WEATHER_FAILURE,
+  SET_CURRENT_CITY,
+  SET_ASIDE_COLLAPSED,
+  SET_MENU_ITEMS,
+  CLEAR_MENU_ITEMS,
+  SET_FOUND_CITIES,
+  SET_ALL_CITIES_WEATHER_DATA,
+  SET_CURRENT_WEATHER
 } from '../model/weather/constants/constants'
-import { WeatherTransformedData } from '../types/weather'
+import { WeatherTransformedData, MenuItem } from '../types/weather'
 
 export interface InitAction {
   type: typeof INIT,
 }
 
-export interface GetWeatherAction {
-  type: typeof GET_WEATHER_REQUEST;
+export interface GetCurrentWeatherAction {
+  type: typeof GET_CURRENT_WEATHER_REQUEST;
   payload: string;
 }
 
-interface GetWeatherSuccessAction {
-  type: typeof GET_WEATHER_SUCCESS;
+interface GetCurrentWeatherSuccessAction {
+  type: typeof GET_CURRENT_WEATHER_SUCCESS;
   payload: WeatherTransformedData;
 }
 
-interface GetWeatherFailureAction {
-  type: typeof GET_WEATHER_FAILURE;
+interface GetCurrentWeatherFailureAction {
+  type: typeof GET_CURRENT_WEATHER_FAILURE;
   payload: string;
+}
+
+interface SetCurrentWeatherAction {
+  type: typeof SET_CURRENT_WEATHER;
+  payload: WeatherTransformedData;
 }
 
 interface SetCurrentCityAction {
@@ -31,9 +42,40 @@ interface SetCurrentCityAction {
   payload: string;
 }
 
+interface SetAsideCollapsedAction {
+  type: typeof SET_ASIDE_COLLAPSED;
+  payload: boolean;
+}
+
+interface SetMenuItemsAction {
+  type: typeof SET_MENU_ITEMS;
+  payload: MenuItem;
+}
+
+interface ClearMenuItemsAction {
+  type: typeof CLEAR_MENU_ITEMS;
+  payload: [];
+}
+
+interface SetFoundCitiesAction {
+  type: typeof SET_FOUND_CITIES;
+  payload: string;
+}
+
+interface SetAllCitiesWeatherDataAction {
+  type: typeof SET_ALL_CITIES_WEATHER_DATA;
+  payload: WeatherTransformedData;
+}
+
 export type WeatherAction =
   InitAction |
-  GetWeatherAction |
-  GetWeatherSuccessAction |
-  GetWeatherFailureAction |
-  SetCurrentCityAction
+  GetCurrentWeatherAction |
+  GetCurrentWeatherSuccessAction |
+  GetCurrentWeatherFailureAction |
+  SetCurrentWeatherAction |
+  SetCurrentCityAction |
+  SetAsideCollapsedAction |
+  SetMenuItemsAction |
+  ClearMenuItemsAction |
+  SetFoundCitiesAction |
+  SetAllCitiesWeatherDataAction

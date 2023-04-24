@@ -1,3 +1,7 @@
+import { MenuProps } from "antd"
+
+export type MenuItem = Required<MenuProps>['items'][number]
+
 export interface WeatherPayload {
   cod: string;
   message: number;
@@ -47,16 +51,16 @@ export interface WeatherTransformedData {
   list: WeatherList[]
 }
 
-export interface ForecastInfo {
+export interface ForecastData {
   label: string;
   icon: string;
   forecast: string | number;
 }
 
 export interface Forecast {
-  feels_like: ForecastInfo;
-  humidity: ForecastInfo;
-  pressure: ForecastInfo;
-  visibility: ForecastInfo;
-  wind: ForecastInfo;
+  feels_like: ForecastData;
+  humidity: ForecastData;
+  pressure: ForecastData;
+  visibility: ForecastData;
+  wind: ForecastData;
 }

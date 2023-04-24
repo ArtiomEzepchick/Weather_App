@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { CloudOutlined } from '@ant-design/icons'
-import type { MenuProps } from 'antd'
 import { Layout, Menu } from 'antd'
-import { useSelector } from 'react-redux'
+import { MenuInfo } from 'rc-menu/lib/interface'
+import { useDispatch, useSelector } from 'react-redux'
 
 import CitySearch from '../CitySearch/CitySearch'
 import Error from '../Error/Error'
@@ -10,13 +10,20 @@ import Loader from '../Loader/Loader'
 import WeatherForecast from '../WeatherForecast/WeatherForecast'
 
 import { WeatherState } from '../../types/states'
+import { MenuItem } from '../../types/weather'
 import { copyrightLinks } from '../../helpers/copyrightLinks/copyrightLinks'
+import {
+    setAsideCollapsed,
+    setFoundCities,
+    setMenuItems,
+    clearMenuItems,
+    setAllCitiesWeatherData,
+    setCurrentWeather
+} from '../../model/weather/actions/actions'
 
 import './index.scss'
 
 const { Header, Content, Footer, Sider } = Layout
-
-type MenuItem = Required<MenuProps>['items'][number]
 
 const getItem = (
     label: React.ReactNode,
@@ -31,37 +38,87 @@ const getItem = (
 }
 
 const MainLayout: React.FC = () => {
-    const { weatherData, error, loading } = useSelector((state: WeatherState) => state)
-    const [collapsed, setCollapsed] = useState(true)
-    const [menuItems, setMenuItems] = useState<MenuItem[]>([getItem('City', '1', <CloudOutlined />)])
+    const {
+        allCitiesWeatherData,
+        currentWeatherData,
+        error,
+        loading,
+        asideCollapsed,
+        menuItems,
+        foundCities
+    } = useSelector((state: WeatherState) => state)
 
-    // console.log(weatherData)
-    // console.log(menuItems)
+    const dispatch = useDispatch()
 
-    // useEffect(() => {
-    //     if (weatherData?.city) {
-    //         setMenuItems([
-    //             ...menuItems,
-    //             getItem(weatherData.city, '2', <CloudOutlined />)
-    //         ])
-    //     }
-    // }, [menuItems, weatherData?.city])
+    const activeMenuItemKey = useRef('')
+
+    useEffect(() => {
+        if (currentWeatherData && !foundCities.includes(currentWeatherData.city)) {
+            dispatch(setFoundCities(currentWeatherData.city))
+            dispatch(setAllCitiesWeatherData(currentWeatherData))
+        }
+    }, [
+        dispatch, 
+        foundCities, 
+        currentWeatherData
+    ])
+
+    useEffect(() => {
+        let key = 0
+
+        dispatch(clearMenuItems([]))
+
+        for (let item of foundCities) {
+            dispatch(setMenuItems(getItem(item, key.toString(), <CloudOutlined />)))
+            key++
+        }
+
+        if (currentWeatherData && foundCities.includes(currentWeatherData.city)) {
+            activeMenuItemKey.current = foundCities.indexOf(currentWeatherData.city).toString()
+            return
+        }
+
+        if (!currentWeatherData) {
+            activeMenuItemKey.current = ''
+            return
+        }
+
+        if (!loading) activeMenuItemKey.current = (foundCities.length - 1).toString()
+    }, [
+        dispatch, 
+        foundCities,
+        activeMenuItemKey, 
+        currentWeatherData, 
+        loading
+    ])
+
+    const handleMenuItemClick = (e: MenuInfo) => {
+        activeMenuItemKey.current = e.key
+        dispatch(setCurrentWeather(allCitiesWeatherData[Number(e.key)]))
+    }
 
     return (
         <Layout>
             <Sider
                 collapsible
-                collapsed={collapsed}
-                onCollapse={(value) => setCollapsed(value)}
+                collapsed={asideCollapsed}
+                onCollapse={(value) => dispatch(setAsideCollapsed(value))}
             >
-                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={menuItems} />
+                <Menu
+                    selectedKeys={[activeMenuItemKey.current]}
+                    theme="dark"
+                    defaultSelectedKeys={['0']}
+                    mode="inline"
+                    items={menuItems}
+                    onClick={handleMenuItemClick}
+                />
             </Sider>
             <Layout className="site-layout">
                 <Header>
                     <CitySearch />
                 </Header>
                 <Content>
-                    {weatherData && <WeatherForecast weatherData={weatherData} />}
+                    {currentWeatherData && <WeatherForecast weatherData={currentWeatherData} />}
                     {loading && <Loader />}
                     {error && <Error error={error} />}
                 </Content>

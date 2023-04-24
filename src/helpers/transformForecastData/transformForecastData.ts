@@ -1,7 +1,6 @@
-import { Forecast, ForecastInfo, WeatherList } from "../../types/weather"
+import { Forecast, ForecastData, WeatherList } from "../../types/weather"
 import { WeatherTransformedData } from "../../types/weather"
 import { FORECAST_LABELS, ICON_SRC, degreeSymbol } from "../constants/constants"
-
 
 export const addUnitsBasedOnLabels = (label: string): string | JSX.Element => {
     switch(label) {
@@ -15,7 +14,7 @@ export const addUnitsBasedOnLabels = (label: string): string | JSX.Element => {
     return ''
 }
 
-export const transformForecastData = (data: WeatherTransformedData): ForecastInfo[] => {
+export const transformForecastData = (data: WeatherTransformedData): ForecastData[] => {
     const forecastBlocks: Forecast = {
         feels_like: {
             label: FORECAST_LABELS.FEELS_LIKE,
