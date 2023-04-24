@@ -14,7 +14,7 @@ const WeatherTemperatureItem: React.FC<Props> = ({ data, isTime = false }) => {
     return (
         <section className="weather-temperature-item" key={data.dt}>
             <span>{data.day}<br /> {isTime && data.time}</span>
-            <img src={data.icon} alt={data.description} />
+            <img src={data.icon} alt={data.description} title={data.description} />
             <span className="temperature-forecast">{data.temp}{degreeSymbol}</span>
         </section>
     )

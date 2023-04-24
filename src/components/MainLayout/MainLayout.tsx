@@ -18,14 +18,16 @@ import {
     setMenuItems,
     clearMenuItems,
     setAllCitiesWeatherData,
-    setCurrentWeather
+    setCurrentWeather,
+    setInputCityValue,
+    clearError
 } from '../../model/weather/actions/actions'
 
 import './index.scss'
 
 const { Header, Content, Footer, Sider } = Layout
 
-const getItem = (
+const makeMenuItem = (
     label: React.ReactNode,
     key: React.Key,
     icon?: React.ReactNode,
@@ -50,7 +52,8 @@ const MainLayout: React.FC = () => {
 
     const dispatch = useDispatch()
 
-    const activeMenuItemKey = useRef('')
+    const activeMenuItemKey = useRef<string>('')
+    const siderRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         if (currentWeatherData && !foundCities.includes(currentWeatherData.city)) {
@@ -58,22 +61,23 @@ const MainLayout: React.FC = () => {
             dispatch(setAllCitiesWeatherData(currentWeatherData))
         }
     }, [
-        dispatch, 
-        foundCities, 
+        dispatch,
+        foundCities,
         currentWeatherData
     ])
 
     useEffect(() => {
-        let key = 0
+        let key: number = 0
 
         dispatch(clearMenuItems([]))
 
         for (let item of foundCities) {
-            dispatch(setMenuItems(getItem(item, key.toString(), <CloudOutlined />)))
+            dispatch(setMenuItems(makeMenuItem(item, key.toString(), <CloudOutlined />)))
             key++
         }
 
         if (currentWeatherData && foundCities.includes(currentWeatherData.city)) {
+            dispatch(setInputCityValue(''))
             activeMenuItemKey.current = foundCities.indexOf(currentWeatherData.city).toString()
             return
         }
@@ -85,26 +89,43 @@ const MainLayout: React.FC = () => {
 
         if (!loading) activeMenuItemKey.current = (foundCities.length - 1).toString()
     }, [
-        dispatch, 
+        dispatch,
         foundCities,
-        activeMenuItemKey, 
-        currentWeatherData, 
+        activeMenuItemKey,
+        currentWeatherData,
         loading
     ])
 
+    useEffect(() => {
+        const handleClickOutsideSider = (e: MouseEvent) => {
+            const target = e.target as HTMLDivElement
+
+            if (siderRef.current && !siderRef.current.contains(target)) {
+                dispatch(setAsideCollapsed(true))
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutsideSider)
+
+        return () => document.removeEventListener("mousedown", handleClickOutsideSider)
+    }, [siderRef, dispatch])
+
     const handleMenuItemClick = (e: MenuInfo) => {
         activeMenuItemKey.current = e.key
+        dispatch(clearError(null))
         dispatch(setCurrentWeather(allCitiesWeatherData[Number(e.key)]))
     }
 
     return (
         <Layout>
             <Sider
+                ref={siderRef}
                 collapsible
                 collapsed={asideCollapsed}
                 onCollapse={(value) => dispatch(setAsideCollapsed(value))}
             >
                 <Menu
+                    selectable={!loading}
                     selectedKeys={[activeMenuItemKey.current]}
                     theme="dark"
                     defaultSelectedKeys={['0']}

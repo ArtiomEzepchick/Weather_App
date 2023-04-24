@@ -3,12 +3,13 @@ import {
   GET_CURRENT_WEATHER_SUCCESS,
   GET_CURRENT_WEATHER_FAILURE,
   SET_CURRENT_WEATHER,
-  SET_CURRENT_CITY,
+  SET_INPUT_CITY_VALUE,
   SET_ASIDE_COLLAPSED,
   SET_MENU_ITEMS,
   CLEAR_MENU_ITEMS,
   SET_FOUND_CITIES,
-  SET_ALL_CITIES_WEATHER_DATA
+  SET_ALL_CITIES_WEATHER_DATA,
+  CLEAR_ERROR
 } from '../constants/constants'
 import { WeatherAction } from '../../../types/actions'
 import { WeatherTransformedData, MenuItem } from '../../../types/weather'
@@ -33,8 +34,8 @@ export const setCurrentWeather = (payload: WeatherTransformedData): WeatherActio
   payload
 })
 
-export const setCurrentCity = (payload: string): WeatherAction => ({
-  type: SET_CURRENT_CITY,
+export const setInputCityValue = (payload: string): WeatherAction => ({
+  type: SET_INPUT_CITY_VALUE,
   payload
 })
 
@@ -60,5 +61,10 @@ export const setFoundCities = (payload: string): WeatherAction => ({
 
 export const setAllCitiesWeatherData = (payload: WeatherTransformedData): WeatherAction => ({
   type: SET_ALL_CITIES_WEATHER_DATA,
+  payload
+})
+
+export const clearError = (payload: null): WeatherAction => ({
+  type: CLEAR_ERROR,
   payload
 })

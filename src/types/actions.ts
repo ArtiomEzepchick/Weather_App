@@ -3,13 +3,14 @@ import {
   GET_CURRENT_WEATHER_REQUEST,
   GET_CURRENT_WEATHER_SUCCESS,
   GET_CURRENT_WEATHER_FAILURE,
-  SET_CURRENT_CITY,
+  SET_INPUT_CITY_VALUE,
   SET_ASIDE_COLLAPSED,
   SET_MENU_ITEMS,
   CLEAR_MENU_ITEMS,
   SET_FOUND_CITIES,
   SET_ALL_CITIES_WEATHER_DATA,
-  SET_CURRENT_WEATHER
+  SET_CURRENT_WEATHER,
+  CLEAR_ERROR
 } from '../model/weather/constants/constants'
 import { WeatherTransformedData, MenuItem } from '../types/weather'
 
@@ -37,8 +38,8 @@ interface SetCurrentWeatherAction {
   payload: WeatherTransformedData;
 }
 
-interface SetCurrentCityAction {
-  type: typeof SET_CURRENT_CITY;
+interface SetInputCityValueAction {
+  type: typeof SET_INPUT_CITY_VALUE;
   payload: string;
 }
 
@@ -67,15 +68,21 @@ interface SetAllCitiesWeatherDataAction {
   payload: WeatherTransformedData;
 }
 
+interface ClearErrorAction {
+  type: typeof CLEAR_ERROR;
+  payload: null;
+}
+
 export type WeatherAction =
   InitAction |
   GetCurrentWeatherAction |
   GetCurrentWeatherSuccessAction |
   GetCurrentWeatherFailureAction |
   SetCurrentWeatherAction |
-  SetCurrentCityAction |
+  SetInputCityValueAction  |
   SetAsideCollapsedAction |
   SetMenuItemsAction |
   ClearMenuItemsAction |
   SetFoundCitiesAction |
-  SetAllCitiesWeatherDataAction
+  SetAllCitiesWeatherDataAction |
+  ClearErrorAction

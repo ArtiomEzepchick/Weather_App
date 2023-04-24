@@ -8,11 +8,11 @@ $width-sider: 5rem;
 
 $border-radius-weather-block: 0.5rem;
 
-$width-540: 540px;
-$width-790: 790px;
-$width-1040: 1040px;
-$width-1180: 1180px;
-$width-1500: 1500px;
+$width-xs: 540px;
+$width-s: 790px;
+$width-m: 1040px;
+$width-l: 1180px;
+$width-xl: 1500px;
 
 @mixin flex-all-centered {
     display: flex;

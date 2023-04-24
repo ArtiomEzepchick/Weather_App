@@ -7,13 +7,14 @@ import {
   GET_CURRENT_WEATHER_REQUEST,
   GET_CURRENT_WEATHER_SUCCESS,
   GET_CURRENT_WEATHER_FAILURE,
-  SET_CURRENT_CITY,
+  SET_INPUT_CITY_VALUE,
   SET_ASIDE_COLLAPSED,
   SET_MENU_ITEMS,
   SET_FOUND_CITIES,
   CLEAR_MENU_ITEMS,
   SET_ALL_CITIES_WEATHER_DATA,
-  SET_CURRENT_WEATHER
+  SET_CURRENT_WEATHER,
+  CLEAR_ERROR
 } from '../constants/constants'
 
 import { WeatherState } from '../../../types/states'
@@ -22,7 +23,7 @@ export const initialState: WeatherState = {
   asideCollapsed: true,
   error: null,
   loading: false,
-  currentCity: '',
+  inputCityValue: '',
   currentWeatherData: null,
   menuItems: [],
   foundCities: [],
@@ -60,10 +61,10 @@ const weatherReducer = (
         ...state,
         currentWeatherData: action.payload
       }
-    case SET_CURRENT_CITY:
+    case SET_INPUT_CITY_VALUE:
       return {
         ...state,
-        currentCity: action.payload
+        inputCityValue: action.payload
       }
     case SET_ASIDE_COLLAPSED:
       return {
@@ -98,6 +99,11 @@ const weatherReducer = (
           ...state.allCitiesWeatherData,
           action.payload
         ]
+      }
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        error: null
       }
     default:
       return state

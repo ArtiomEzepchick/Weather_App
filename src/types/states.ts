@@ -4,7 +4,7 @@ export interface WeatherState {
   asideCollapsed: boolean;
   error: string | null;
   loading: boolean;
-  currentCity: string;
+  inputCityValue: string;
   currentWeatherData: WeatherTransformedData | null;
   allCitiesWeatherData: WeatherTransformedData[];
   menuItems: MenuItem[],

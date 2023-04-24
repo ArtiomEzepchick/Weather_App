@@ -41,21 +41,21 @@
     gap: 0.5rem;
     justify-content: center;
 
-    @media (max-width: $width-1180) {
+    @media (max-width: $width-l) {
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: 1fr;
     }
 
-    @media (max-width: $width-790) {
+    @media (max-width: $width-s) {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    @media (max-width: $width-540) {
+    @media (max-width: $width-s) {
         display: flex;
         flex-wrap: wrap;
     }
 
-    @media (min-width: $width-1500) {
+    @media (min-width: $width-xl) {
         display: flex;
         flex-wrap: wrap;
     }
@@ -72,18 +72,18 @@
         background-color: $color-white;
         padding: 1rem;
     
-        @media (max-width: $width-1180) {
+        @media (max-width: $width-l) {
             flex-direction: column;
             width: 15rem;
             justify-self: center;
         }
     
-        @media (max-width: $width-790) {
+        @media (max-width: $width-s) {
             justify-self: end;
         }
 
-        @media (min-width: $width-1500) {
-            width: $width-1040;
+        @media (min-width: $width-xl) {
+            width: $width-m;
             justify-self: center;
         }
     }
@@ -94,12 +94,12 @@
         gap: 0.5rem;
         width: 100%;
     
-        @media (max-width: $width-1040) {
+        @media (max-width: $width-m) {
             flex-wrap: nowrap;
             flex-direction: column;
         }
 
-        @media (min-width: $width-1500) {
+        @media (min-width: $width-xl) {
             width: max-content;
         }
         
@@ -115,7 +115,7 @@
             padding: 1rem;
             border-radius: $border-radius-weather-block;
     
-            @media (max-width: $width-540) {
+            @media (max-width: $width-xs) {
                 width: 15rem;
             }
         
@@ -144,13 +144,13 @@
         height: 8rem;
         background-color: $color-white;
     
-        @media (max-width: $width-1180) {
+        @media (max-width: $width-l) {
             height: max-content;
             width: 15rem;
             justify-self: center;
         }
     
-        @media (max-width: $width-790) {
+        @media (max-width: $width-s) {
             grid-column: 1 / 3;
             justify-self: center;
         }
@@ -159,7 +159,7 @@
             text-align: center;
             padding-bottom: 0.1rem; 
     
-            @media (max-width: $width-1180) {
+            @media (max-width: $width-l) {
                 margin-top: 0.5rem;
             }
         }
@@ -168,7 +168,7 @@
             @include flex-all-centered;
             gap: 2rem;
     
-            @media (max-width: $width-1180) {
+            @media (max-width: $width-l) {
                 flex-direction: column;
                 gap: 1.5rem;
             }
