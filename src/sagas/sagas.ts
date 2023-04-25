@@ -1,7 +1,7 @@
 import { put, call, takeLatest } from 'redux-saga/effects'
 
 import { GetCurrentWeatherAction } from '../types/actions'
-import { getWeatherByCityName } from '../helpers/requests/getWeatherByCityName/getWeatherByCityName'
+import { getWeatherByCityName } from '../helpers/requests/requests'
 import { getCurrentWeatherSuccess, getCurrentWeatherFailure } from '../model/weather/actions/actions'
 import { GET_CURRENT_WEATHER_REQUEST } from '../model/weather/constants/constants'
 

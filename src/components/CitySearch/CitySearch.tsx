@@ -8,7 +8,7 @@ import { WeatherState } from "../../types/states"
 import './index.scss'
 
 const CitySearch: React.FC = () => {
-    const { inputCityValue, loading } = useSelector((state: WeatherState) => state)
+    const { inputCityValue, isLoading } = useSelector((state: WeatherState) => state)
 
     const dispatch = useDispatch()
 
@@ -23,8 +23,8 @@ const CitySearch: React.FC = () => {
     return (
         <form className='city-search-container' onSubmit={handleSubmit}>
             <Space.Compact style={{ width: '100%' }}>
-                <Input disabled={loading} onChange={handleInputChange} value={inputCityValue} placeholder="Your city here" />
-                <Button disabled={loading} htmlType="submit">Find</Button>
+                <Input disabled={isLoading} onChange={handleInputChange} value={inputCityValue} placeholder="Enter city here" />
+                <Button disabled={isLoading} htmlType="submit">Find</Button>
             </Space.Compact>
         </form>
     )

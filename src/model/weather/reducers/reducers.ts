@@ -1,7 +1,4 @@
-import {
-  InitAction,
-  WeatherAction,
-} from '../../../types/actions'
+import { InitAction, WeatherAction } from '../../../types/actions'
 
 import {
   GET_CURRENT_WEATHER_REQUEST,
@@ -16,7 +13,8 @@ import {
   CLEAR_MENU_ITEMS,
   SET_CURRENT_WEATHER,
   CLEAR_ERROR,
-  SET_BACKGROUND_NAME
+  SET_BACKGROUND_NAME,
+  SET_IS_LOADING
 } from '../constants/constants'
 
 import { WeatherState } from '../../../types/states'
@@ -24,7 +22,7 @@ import { WeatherState } from '../../../types/states'
 export const initialState: WeatherState = {
   asideCollapsed: true,
   error: null,
-  loading: false,
+  isLoading: false,
   inputCityValue: '',
   currentWeatherData: null,
   menuItems: [],
@@ -43,21 +41,21 @@ const weatherReducer = (
         ...state,
         currentWeatherData: null,
         error: null,
-        loading: true
+        isLoading: true
       }
     case GET_CURRENT_WEATHER_SUCCESS:
       return {
         ...state,
         currentWeatherData: action.payload,
         error: null,
-        loading: false,
+        isLoading: false,
       }
     case GET_CURRENT_WEATHER_FAILURE:
       return {
         ...state,
         currentWeatherData: null,
         error: action.payload,
-        loading: false
+        isLoading: false
       }
     case SET_CURRENT_WEATHER:
       return {
@@ -117,6 +115,11 @@ const weatherReducer = (
       return {
         ...state,
         backgroundName: action.payload
+      }
+    case SET_IS_LOADING:
+      return {
+        ...state,
+        isLoading: action.payload
       }
     default:
       return state

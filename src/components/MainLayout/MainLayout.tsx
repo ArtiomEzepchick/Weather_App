@@ -1,8 +1,10 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useCallback } from 'react'
 import { CloudOutlined } from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
 import { MenuInfo } from 'rc-menu/lib/interface'
 import { useDispatch, useSelector } from 'react-redux'
+// import * as Scroll from 'react-scroll'
+import classNames from 'classnames'
 
 import CitySearch from '../CitySearch/CitySearch'
 import Error from '../Error/Error'
@@ -12,6 +14,8 @@ import WeatherForecast from '../WeatherForecast/WeatherForecast'
 import { WeatherState } from '../../types/states'
 import { MenuItem } from '../../types/weather'
 import { copyrightLinks } from '../../helpers/copyrightLinks/copyrightLinks'
+import { getUserLocation } from '../../helpers/requests/requests'
+import { weatherDescription, WEATHER_IMAGES_SRC } from '../../helpers/weatherConstants/weatherConstants'
 import {
     setAsideCollapsed,
     setFoundCities,
@@ -22,9 +26,9 @@ import {
     setInputCityValue,
     updateAllCitiesWeatherData,
     clearError,
-    setBackgroundName
+    setBackgroundName,
+    setIsLoading
 } from '../../model/weather/actions/actions'
-import { weatherDescription, WEATHER_IMAGES_SRC } from '../../helpers/weatherConstants/weatherConstants'
 
 import './index.scss'
 
@@ -47,7 +51,7 @@ const MainLayout: React.FC = () => {
         allCitiesWeatherData,
         currentWeatherData,
         error,
-        loading,
+        isLoading,
         asideCollapsed,
         menuItems,
         foundCities,
@@ -55,9 +59,29 @@ const MainLayout: React.FC = () => {
     } = useSelector((state: WeatherState) => state)
 
     const dispatch = useDispatch()
-
     const activeMenuItemKey = useRef<string>('')
     const siderRef = useRef<HTMLDivElement>(null)
+
+    const fetchUserLocation = useCallback(async () => {
+        try {
+            dispatch(setIsLoading(true))
+            const userLocation = await getUserLocation()
+            dispatch(setInputCityValue(userLocation))
+            dispatch(setIsLoading(false))
+        } catch (error: any) {
+            console.log(error)
+        } finally {
+            dispatch(setIsLoading(false))
+        }
+    }, [dispatch])
+
+    useEffect(() => {
+        dispatch(setIsLoading(true))
+
+        const timer = setTimeout(() => fetchUserLocation(), 500)
+
+        return () => clearTimeout(timer)
+    }, [fetchUserLocation, dispatch])
 
     useEffect(() => {
         if (currentWeatherData && !foundCities.includes(currentWeatherData.city)) {
@@ -105,17 +129,17 @@ const MainLayout: React.FC = () => {
             return
         }
 
-        if (!loading) activeMenuItemKey.current = (foundCities.length - 1).toString()
+        if (!isLoading) activeMenuItemKey.current = (foundCities.length - 1).toString()
     }, [
         dispatch,
         foundCities,
         activeMenuItemKey,
         currentWeatherData,
-        loading
+        isLoading
     ])
 
     useEffect(() => {
-        const handleMouseOverOutsideSider = (e: MouseEvent) => {
+        const handleMouseOverOutsideSider = (e: MouseEvent): void => {
             const target = e.target as HTMLDivElement
 
             siderRef.current && !siderRef.current.contains(target)
@@ -131,15 +155,14 @@ const MainLayout: React.FC = () => {
     useEffect(() => {
         if (currentWeatherData) {
             weatherDescription.includes(currentWeatherData.shortDescription)
-            ? dispatch(setBackgroundName(currentWeatherData.shortDescription))
-            : dispatch(setBackgroundName('fog'))
+                ? dispatch(setBackgroundName(currentWeatherData.shortDescription))
+                : dispatch(setBackgroundName('fog'))
         } else {
             dispatch(setBackgroundName('clear'))
         }
-
     }, [currentWeatherData, dispatch])
 
-    const handleMenuItemClick = (e: MenuInfo) => {
+    const handleMenuItemClick = (e: MenuInfo): void => {
         activeMenuItemKey.current = e.key
         dispatch(clearError(null))
         dispatch(setCurrentWeather(allCitiesWeatherData[Number(e.key)]))
@@ -155,7 +178,7 @@ const MainLayout: React.FC = () => {
                 trigger={!asideCollapsed && null}
             >
                 <Menu
-                    selectable={!loading}
+                    selectable={!isLoading}
                     selectedKeys={[activeMenuItemKey.current]}
                     theme="dark"
                     defaultSelectedKeys={['0']}
@@ -168,9 +191,14 @@ const MainLayout: React.FC = () => {
                 <Header>
                     <CitySearch />
                 </Header>
-                <Content>
+                <Content className={classNames(!currentWeatherData && 'flex-all-centered')}>
+                    {!currentWeatherData && !error && !isLoading && <section className='welcome-block'>
+                        <h1>Welcome to Weather App!</h1>
+                        <span>You need to enter city in the input at the top to start exploring.</span>
+                        <span>Hope you enjoy it!</span>
+                    </section>}
                     {currentWeatherData && <WeatherForecast weatherData={currentWeatherData} />}
-                    {loading && <Loader />}
+                    {isLoading && <Loader />}
                     {error && <Error error={error} />}
                 </Content>
                 <Footer style={{ padding: '0 1rem', height: '3rem' }}>
