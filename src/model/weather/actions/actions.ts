@@ -11,6 +11,7 @@ import {
   CLEAR_MENU_ITEMS,
   SET_FOUND_CITIES,
   CLEAR_ERROR,
+  SET_BACKGROUND_NAME
 } from '../constants/constants'
 import { WeatherAction } from '../../../types/actions'
 import { WeatherTransformedData, MenuItem } from '../../../types/weather'
@@ -72,5 +73,10 @@ export const setFoundCities = (payload: string): WeatherAction => ({
 
 export const clearError = (payload: null): WeatherAction => ({
   type: CLEAR_ERROR,
+  payload
+})
+
+export const setBackgroundName = (payload: string): WeatherAction => ({
+  type: SET_BACKGROUND_NAME,
   payload
 })

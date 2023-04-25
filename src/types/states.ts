@@ -8,5 +8,6 @@ export interface WeatherState {
   currentWeatherData: WeatherTransformedData | null;
   allCitiesWeatherData: WeatherTransformedData[];
   menuItems: MenuItem[],
-  foundCities: string[]
+  foundCities: string[],
+  backgroundName: string
 }

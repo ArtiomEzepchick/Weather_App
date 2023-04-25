@@ -15,7 +15,8 @@ import {
   SET_FOUND_CITIES,
   CLEAR_MENU_ITEMS,
   SET_CURRENT_WEATHER,
-  CLEAR_ERROR
+  CLEAR_ERROR,
+  SET_BACKGROUND_NAME
 } from '../constants/constants'
 
 import { WeatherState } from '../../../types/states'
@@ -28,7 +29,8 @@ export const initialState: WeatherState = {
   currentWeatherData: null,
   menuItems: [],
   foundCities: [],
-  allCitiesWeatherData: []
+  allCitiesWeatherData: [],
+  backgroundName: ''
 }
 
 const weatherReducer = (
@@ -110,6 +112,11 @@ const weatherReducer = (
       return {
         ...state,
         error: null
+      }
+    case SET_BACKGROUND_NAME: 
+      return {
+        ...state,
+        backgroundName: action.payload
       }
     default:
       return state

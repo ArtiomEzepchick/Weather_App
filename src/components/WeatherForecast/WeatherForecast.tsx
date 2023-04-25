@@ -4,7 +4,7 @@ import moment from "moment"
 import WeatherTemperatureItem from "../WeatherTemperatureItem/WeatherTemperatureItem"
 
 import { WeatherTransformedData } from "../../types/weather"
-import { degreeSymbol } from "../../helpers/constants/constants"
+import { degreeSymbol } from "../../helpers/weatherConstants/weatherConstants"
 import {
     transformForecastData,
     filterWeatherData,

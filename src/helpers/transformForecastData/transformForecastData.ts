@@ -1,6 +1,6 @@
 import { Forecast, ForecastData, WeatherList } from "../../types/weather"
 import { WeatherTransformedData } from "../../types/weather"
-import { FORECAST_LABELS, ICON_SRC, degreeSymbol } from "../constants/constants"
+import { FORECAST_LABELS, ICON_SRC, degreeSymbol } from "../weatherConstants/weatherConstants"
 
 export const addUnitsBasedOnLabels = (label: string): string | JSX.Element => {
     switch(label) {

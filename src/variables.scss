@@ -1,12 +1,15 @@
 $color-grey: #f5f5f5;
 $color-transparent-grey: #dcdcdc64;
-$color-white: #fff;
+$color-white: #ffffff;
+$color-transparent-white: #ffffffec;
 $color-dark-blue: #01396e;
 $color-red: #b41301;
 
 $width-sider: 5rem;
 
 $border-radius-weather-block: 0.5rem;
+
+$height-l: 960px;
 
 $width-xs: 540px;
 $width-s: 790px;
@@ -18,4 +21,4 @@ $width-xl: 1500px;
     display: flex;
     justify-content: center;
     align-items: center;
-}
+};

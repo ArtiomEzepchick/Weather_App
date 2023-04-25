@@ -21,8 +21,10 @@ import {
     setCurrentWeather,
     setInputCityValue,
     updateAllCitiesWeatherData,
-    clearError
+    clearError,
+    setBackgroundName
 } from '../../model/weather/actions/actions'
+import { weatherDescription, WEATHER_IMAGES_SRC } from '../../helpers/weatherConstants/weatherConstants'
 
 import './index.scss'
 
@@ -48,7 +50,8 @@ const MainLayout: React.FC = () => {
         loading,
         asideCollapsed,
         menuItems,
-        foundCities
+        foundCities,
+        backgroundName
     } = useSelector((state: WeatherState) => state)
 
     const dispatch = useDispatch()
@@ -125,6 +128,17 @@ const MainLayout: React.FC = () => {
         return () => document.removeEventListener("mouseover", handleMouseOverOutsideSider)
     }, [siderRef, dispatch])
 
+    useEffect(() => {
+        if (currentWeatherData) {
+            weatherDescription.includes(currentWeatherData.shortDescription)
+            ? dispatch(setBackgroundName(currentWeatherData.shortDescription))
+            : dispatch(setBackgroundName('fog'))
+        } else {
+            dispatch(setBackgroundName('clear'))
+        }
+
+    }, [currentWeatherData, dispatch])
+
     const handleMenuItemClick = (e: MenuInfo) => {
         activeMenuItemKey.current = e.key
         dispatch(clearError(null))
@@ -132,7 +146,7 @@ const MainLayout: React.FC = () => {
     }
 
     return (
-        <Layout>
+        <Layout style={{ backgroundImage: `url(${WEATHER_IMAGES_SRC + backgroundName}.jpg)` }}>
             <Sider
                 ref={siderRef}
                 collapsible

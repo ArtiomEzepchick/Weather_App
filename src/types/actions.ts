@@ -11,7 +11,8 @@ import {
   CLEAR_MENU_ITEMS,
   SET_FOUND_CITIES,
   SET_CURRENT_WEATHER,
-  CLEAR_ERROR
+  CLEAR_ERROR,
+  SET_BACKGROUND_NAME
 } from '../model/weather/constants/constants'
 import { WeatherTransformedData, MenuItem } from '../types/weather'
 
@@ -79,6 +80,11 @@ interface ClearErrorAction {
   payload: null;
 }
 
+interface SetBackgroundNameAction {
+  type: typeof SET_BACKGROUND_NAME;
+  payload: string;
+}
+
 export type WeatherAction =
   InitAction |
   GetCurrentWeatherAction |
@@ -92,4 +98,5 @@ export type WeatherAction =
   ClearMenuItemsAction |
   SetFoundCitiesAction |
   AddAllCitiesWeatherDataAction |
-  ClearErrorAction
+  ClearErrorAction |
+  SetBackgroundNameAction

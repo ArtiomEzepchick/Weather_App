@@ -1,7 +1,7 @@
 import React from "react"
 
 import { WeatherList } from "../../types/weather"
-import { degreeSymbol } from "../../helpers/constants/constants"
+import { degreeSymbol } from "../../helpers/weatherConstants/weatherConstants"
 
 import './index.scss'
 

@@ -12,6 +12,7 @@ export const transformWeatherPayload = (payload: WeatherPayload): WeatherTransfo
   id: nanoid(),
   city: `${payload.city.name}`,
   lastUpdate: new Date(),
+  shortDescription: payload.list[0].weather[0].main.toLocaleLowerCase(),
   list: payload.list
     .map(item => ({
       day: moment.unix(item.dt).utc().format('dddd'),
@@ -20,6 +21,7 @@ export const transformWeatherPayload = (payload: WeatherPayload): WeatherTransfo
       feels_like: `${Math.round(item.main.feels_like)}`,
       icon: `${ICON_URL}${item.weather[0].icon}@2x.png`,
       humidity: item.main.humidity,
+      main: item.weather[0].main,
       pressure: item.main.pressure,
       temp: `${Math.round(item.main.temp)}`,
       temp_max: `${Math.round(item.main.temp_max)}`,
