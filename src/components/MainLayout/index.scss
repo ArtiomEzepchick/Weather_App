@@ -32,16 +32,17 @@
             height: 3rem;
             background-color: transparent;
 
-            @media (max-width: $width-xs) {
+            @media (max-width: $size-xs) {
                 padding: 0;
                 margin: 0 auto;
             }
         }
     
         .ant-layout-content {
+            @include flex-all-centered;
             padding: 0 10rem 2rem;
 
-            @media (max-width: $width-m) {
+            @media (max-width: $size-l) {
                 padding: 0 2rem 2rem;
             }
 
@@ -61,7 +62,7 @@
                 padding: 2rem;
                 text-align: center;
 
-                @media (max-width: $width-m) {
+                @media (max-width: $size-l) {
                     height: max-content;
                     gap: 2rem;
                 }

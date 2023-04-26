@@ -7,7 +7,7 @@
     text-align: center;
     min-width: 5rem;
 
-    @media (max-width: $width-l) {
+    @media (max-width: $size-xl) {
         flex-direction: row;
         height: max-content;
         width: 12rem;
@@ -22,7 +22,7 @@
         height: 3rem;
         width: 3rem;
 
-        @media (max-width: $width-l) {
+        @media (max-width: $size-xl) {
             margin-left: auto;
         }
     }
@@ -30,7 +30,7 @@
     .temperature-forecast {
         font-size: 1.1rem;
 
-        @media (max-width: $width-l) {
+        @media (max-width: $size-xl) {
             width: 2rem;
         }
     }

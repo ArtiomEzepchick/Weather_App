@@ -59,6 +59,7 @@ export interface WeatherTransformedData {
   city: string;
   shortDescription: string;
   lastUpdate: Date;
+  iconId: string;
   list: WeatherList[]
 }
 

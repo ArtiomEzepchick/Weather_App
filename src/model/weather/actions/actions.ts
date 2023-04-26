@@ -2,20 +2,16 @@ import {
   GET_CURRENT_WEATHER_REQUEST,
   GET_CURRENT_WEATHER_SUCCESS,
   GET_CURRENT_WEATHER_FAILURE,
-  SET_CURRENT_WEATHER,
+  SET_CURRENT_WEATHER_DATA,
   ADD_ALL_CITIES_WEATHER_DATA,
   UPDATE_ALL_CITIES_WEATHER_DATA,
   SET_INPUT_CITY_VALUE,
   SET_ASIDE_COLLAPSED,
-  SET_MENU_ITEMS,
-  CLEAR_MENU_ITEMS,
-  SET_FOUND_CITIES,
   CLEAR_ERROR,
-  SET_BACKGROUND_NAME,
   SET_IS_LOADING
 } from '../constants/constants'
 import { WeatherAction } from '../../../types/actions'
-import { WeatherTransformedData, MenuItem } from '../../../types/weather'
+import { WeatherTransformedData } from '../../../types/weather'
 
 export const getCurrentWeather = (payload: string): WeatherAction  => ({
   type: GET_CURRENT_WEATHER_REQUEST,
@@ -32,8 +28,8 @@ export const getCurrentWeatherFailure = (payload: string): WeatherAction  => ({
   payload
 })
 
-export const setCurrentWeather = (payload: WeatherTransformedData): WeatherAction  => ({
-  type: SET_CURRENT_WEATHER,
+export const setCurrentWeatherData = (payload: WeatherTransformedData): WeatherAction  => ({
+  type: SET_CURRENT_WEATHER_DATA,
   payload
 })
 
@@ -57,28 +53,8 @@ export const setAsideCollapsed = (payload: boolean): WeatherAction => ({
   payload
 })
 
-export const setMenuItems = (payload: MenuItem): WeatherAction => ({
-  type: SET_MENU_ITEMS,
-  payload
-})
-
-export const clearMenuItems = (payload: []): WeatherAction => ({
-  type: CLEAR_MENU_ITEMS,
-  payload
-})
-
-export const setFoundCities = (payload: string): WeatherAction => ({
-  type: SET_FOUND_CITIES,
-  payload
-})
-
 export const clearError = (payload: null): WeatherAction => ({
   type: CLEAR_ERROR,
-  payload
-})
-
-export const setBackgroundName = (payload: string): WeatherAction => ({
-  type: SET_BACKGROUND_NAME,
   payload
 })
 

@@ -8,12 +8,8 @@ import {
   UPDATE_ALL_CITIES_WEATHER_DATA,
   SET_INPUT_CITY_VALUE,
   SET_ASIDE_COLLAPSED,
-  SET_MENU_ITEMS,
-  SET_FOUND_CITIES,
-  CLEAR_MENU_ITEMS,
-  SET_CURRENT_WEATHER,
+  SET_CURRENT_WEATHER_DATA,
   CLEAR_ERROR,
-  SET_BACKGROUND_NAME,
   SET_IS_LOADING
 } from '../constants/constants'
 
@@ -25,10 +21,7 @@ export const initialState: WeatherState = {
   isLoading: false,
   inputCityValue: '',
   currentWeatherData: null,
-  menuItems: [],
-  foundCities: [],
-  allCitiesWeatherData: [],
-  backgroundName: ''
+  allCitiesWeatherData: []
 }
 
 const weatherReducer = (
@@ -40,7 +33,6 @@ const weatherReducer = (
       return {
         ...state,
         currentWeatherData: null,
-        error: null,
         isLoading: true
       }
     case GET_CURRENT_WEATHER_SUCCESS:
@@ -57,7 +49,7 @@ const weatherReducer = (
         error: action.payload,
         isLoading: false
       }
-    case SET_CURRENT_WEATHER:
+    case SET_CURRENT_WEATHER_DATA:
       return {
         ...state,
         currentWeatherData: action.payload
@@ -85,36 +77,10 @@ const weatherReducer = (
         ...state,
         asideCollapsed: action.payload
       }
-    case SET_MENU_ITEMS:
-      return {
-        ...state,
-        menuItems: [
-          ...state.menuItems,
-          action.payload
-        ]
-      }
-    case CLEAR_MENU_ITEMS:
-      return {
-        ...state,
-        menuItems: []
-      }
-    case SET_FOUND_CITIES:
-      return {
-        ...state,
-        foundCities: [
-          ...state.foundCities,
-          action.payload
-        ]
-      }
     case CLEAR_ERROR:
       return {
         ...state,
         error: null
-      }
-    case SET_BACKGROUND_NAME: 
-      return {
-        ...state,
-        backgroundName: action.payload
       }
     case SET_IS_LOADING:
       return {

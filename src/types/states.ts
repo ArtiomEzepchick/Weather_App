@@ -7,7 +7,4 @@ export interface WeatherState {
   inputCityValue: string;
   currentWeatherData: WeatherTransformedData | null;
   allCitiesWeatherData: WeatherTransformedData[];
-  menuItems: MenuItem[],
-  foundCities: string[],
-  backgroundName: string
 }

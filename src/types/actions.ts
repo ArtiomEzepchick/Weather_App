@@ -7,18 +7,14 @@ import {
   UPDATE_ALL_CITIES_WEATHER_DATA,
   SET_INPUT_CITY_VALUE,
   SET_ASIDE_COLLAPSED,
-  SET_MENU_ITEMS,
-  CLEAR_MENU_ITEMS,
-  SET_FOUND_CITIES,
-  SET_CURRENT_WEATHER,
+  SET_CURRENT_WEATHER_DATA,
   CLEAR_ERROR,
-  SET_BACKGROUND_NAME,
   SET_IS_LOADING
 } from '../model/weather/constants/constants'
-import { WeatherTransformedData, MenuItem } from '../types/weather'
+import { WeatherTransformedData } from '../types/weather'
 
 export interface InitAction {
-  type: typeof INIT,
+  type: typeof INIT;
 }
 
 export interface GetCurrentWeatherAction {
@@ -36,8 +32,8 @@ interface GetCurrentWeatherFailureAction {
   payload: string;
 }
 
-interface SetCurrentWeatherAction {
-  type: typeof SET_CURRENT_WEATHER;
+interface SetCurrentWeatherDataAction {
+  type: typeof SET_CURRENT_WEATHER_DATA;
   payload: WeatherTransformedData;
 }
 
@@ -61,29 +57,9 @@ interface SetAsideCollapsedAction {
   payload: boolean;
 }
 
-interface SetMenuItemsAction {
-  type: typeof SET_MENU_ITEMS;
-  payload: MenuItem;
-}
-
-interface ClearMenuItemsAction {
-  type: typeof CLEAR_MENU_ITEMS;
-  payload: [];
-}
-
-interface SetFoundCitiesAction {
-  type: typeof SET_FOUND_CITIES;
-  payload: string;
-}
-
 interface ClearErrorAction {
   type: typeof CLEAR_ERROR;
   payload: null;
-}
-
-interface SetBackgroundNameAction {
-  type: typeof SET_BACKGROUND_NAME;
-  payload: string;
 }
 
 interface SetIsLoadingAction {
@@ -96,14 +72,10 @@ export type WeatherAction =
   GetCurrentWeatherAction |
   GetCurrentWeatherSuccessAction |
   GetCurrentWeatherFailureAction |
-  SetCurrentWeatherAction |
+  SetCurrentWeatherDataAction |
   UpdateAllCitiesWeatherDataAction |
   SetInputCityValueAction  |
   SetAsideCollapsedAction |
-  SetMenuItemsAction |
-  ClearMenuItemsAction |
-  SetFoundCitiesAction |
   AddAllCitiesWeatherDataAction |
   ClearErrorAction |
-  SetBackgroundNameAction |
   SetIsLoadingAction

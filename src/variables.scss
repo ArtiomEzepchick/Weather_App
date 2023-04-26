@@ -1,22 +1,29 @@
 $color-grey: #f5f5f5;
 $color-white: #ffffff;
 $color-dark-blue: #01396e;
-$color-red: #b41301;
+$color-red: #cb1400df;
 
 $width-sider: 5rem;
 
 $border-radius-weather-block: 0.5rem;
 
-$height-l: 960px;
-
-$width-xs: 540px;
-$width-s: 790px;
-$width-m: 1040px;
-$width-l: 1180px;
-$width-xl: 1500px;
+$size-xs: 540px;
+$size-s: 790px;
+$size-m: 960px;
+$size-l: 1040px;
+$size-xl: 1180px;
+$size-xxl: 1500px;
 
 @mixin flex-all-centered {
     display: flex;
     justify-content: center;
     align-items: center;
 };
+
+@mixin opacity-low {
+    transition: opacity 0.1s ease-in;
+
+    &.opacity-low {
+        opacity: 0.5;
+    }
+}

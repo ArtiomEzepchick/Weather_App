@@ -1,39 +1,50 @@
 import React from "react"
 import moment from "moment"
+import classNames from "classnames"
+import { useDispatch } from "react-redux"
 
 import WeatherTemperatureItem from "../WeatherTemperatureItem/WeatherTemperatureItem"
 
 import { WeatherTransformedData } from "../../types/weather"
-import { degreeSymbol } from "../../helpers/weatherConstants/weatherConstants"
+import { DEGREE_SYMBOL } from "../../helpers/weatherConstants/weatherConstants"
+import { getCurrentWeather } from "../../model/weather/actions/actions"
 import {
     transformForecastData,
     filterWeatherData,
-    addUnitsBasedOnLabels
+    addUnitsBasedOnLabels,
 } from "../../helpers/transformForecastData/transformForecastData"
 
 import './index.scss'
 
 type Props = {
-    weatherData: WeatherTransformedData
+    weatherData: WeatherTransformedData;
+    isLoading: boolean;
 }
 
-const WeatherForecast: React.FC<Props> = ({ weatherData }) => {
-    const shortWeatherData = weatherData.list[0]
+const WeatherForecast: React.FC<Props> = ({ weatherData, isLoading }) => {
+    const dispatch = useDispatch()
+
+    const shortForecastData = weatherData.list[0]
     const hourlyForecastData = weatherData.list.slice(0, 8)
     const detailedForecastData = transformForecastData(weatherData)
     const nextDaysForecastData = filterWeatherData(weatherData)
 
+    const handleUpdateWeatherData = () => {
+        if (weatherData) dispatch(getCurrentWeather(weatherData.city))
+    }
+
     return (
-        <>
+        <section className={classNames("weather-forecast-container", isLoading && 'opacity-low')}>
             <section className="weather-short-forecast">
                 <h1>{weatherData.city}</h1>
                 <span className='last-update'>Last updated: {moment.utc(weatherData.lastUpdate).fromNow()}</span>
                 <span className="degree">
-                    {shortWeatherData.temp}{degreeSymbol}
-                    <img src={shortWeatherData.icon} alt={shortWeatherData.description}></img>
+                    {shortForecastData.temp}{DEGREE_SYMBOL}
+                    <img src={shortForecastData.icon} alt={shortForecastData.description}></img>
                 </span>
-                <span>{shortWeatherData.description}</span>
-                <span>Max: {shortWeatherData.temp_max}{degreeSymbol}, min: {shortWeatherData.temp_min}{degreeSymbol}</span>
+                <span>{shortForecastData.description}</span>
+                <span>Max: {shortForecastData.temp_max}{DEGREE_SYMBOL}, min: {shortForecastData.temp_min}{DEGREE_SYMBOL}</span>
+                <button onClick={handleUpdateWeatherData} />
             </section>
             <section className="weather-main-forecast">
                 <section className="weather-hourly-forecast">
@@ -66,7 +77,7 @@ const WeatherForecast: React.FC<Props> = ({ weatherData }) => {
                     </section>
                 </section>
             </section>
-        </>
+        </section>
     )
 }
 

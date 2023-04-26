@@ -24,7 +24,7 @@ const CitySearch: React.FC = () => {
         <form className='city-search-container' onSubmit={handleSubmit}>
             <Space.Compact style={{ width: '100%' }}>
                 <Input disabled={isLoading} onChange={handleInputChange} value={inputCityValue} placeholder="Enter city here" />
-                <Button disabled={isLoading} htmlType="submit">Find</Button>
+                <Button disabled={isLoading || !inputCityValue} htmlType="submit">Find</Button>
             </Space.Compact>
         </form>
     )

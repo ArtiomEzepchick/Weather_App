@@ -1,32 +1,33 @@
-import React, { useEffect, useRef, useCallback } from 'react'
+import React, {
+    useEffect,
+    useRef,
+    useCallback,
+    useMemo
+} from 'react'
 import { CloudOutlined } from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
 import { MenuInfo } from 'rc-menu/lib/interface'
 import { useDispatch, useSelector } from 'react-redux'
-// import * as Scroll from 'react-scroll'
-import classNames from 'classnames'
+import { animateScroll } from 'react-scroll'
 
 import CitySearch from '../CitySearch/CitySearch'
 import Error from '../Error/Error'
 import Loader from '../Loader/Loader'
 import WeatherForecast from '../WeatherForecast/WeatherForecast'
 
+import { useScrollLock } from '../../hooks/useScrollLock'
 import { WeatherState } from '../../types/states'
-import { MenuItem } from '../../types/weather'
+import { MenuItem, WeatherTransformedData } from '../../types/weather'
 import { copyrightLinks } from '../../helpers/copyrightLinks/copyrightLinks'
 import { getUserLocation } from '../../helpers/requests/requests'
-import { weatherDescription, WEATHER_IMAGES_SRC } from '../../helpers/weatherConstants/weatherConstants'
+import { WEATHER_IMAGES_SRC, DEGREE_SYMBOL } from '../../helpers/weatherConstants/weatherConstants'
 import {
     setAsideCollapsed,
-    setFoundCities,
-    setMenuItems,
-    clearMenuItems,
     addAllCitiesWeatherData,
-    setCurrentWeather,
+    setCurrentWeatherData,
     setInputCityValue,
     updateAllCitiesWeatherData,
     clearError,
-    setBackgroundName,
     setIsLoading
 } from '../../model/weather/actions/actions'
 
@@ -53,14 +54,34 @@ const MainLayout: React.FC = () => {
         error,
         isLoading,
         asideCollapsed,
-        menuItems,
-        foundCities,
-        backgroundName
     } = useSelector((state: WeatherState) => state)
 
     const dispatch = useDispatch()
     const activeMenuItemKey = useRef<string>('')
     const siderRef = useRef<HTMLDivElement>(null)
+    const prevWeatherData = useRef<WeatherTransformedData | null>(currentWeatherData)
+    const { lockScroll, unlockScroll } = useScrollLock()
+
+    const cities: string[] = useMemo(() => {
+        return allCitiesWeatherData.map(item => item.city)
+    }, [allCitiesWeatherData])
+
+    const menuItems = useMemo(() => {
+        let key: number = 0
+        const items: MenuItem[] = []
+
+        for (let item of allCitiesWeatherData) {
+            items.push(makeMenuItem(
+                `${item.city + ' ' + item.list[0].temp + DEGREE_SYMBOL}`,
+                key.toString(),
+                <CloudOutlined />
+            ))
+
+            key++
+        }
+
+        return items
+    }, [allCitiesWeatherData])
 
     const fetchUserLocation = useCallback(async () => {
         try {
@@ -84,58 +105,62 @@ const MainLayout: React.FC = () => {
     }, [fetchUserLocation, dispatch])
 
     useEffect(() => {
-        if (currentWeatherData && !foundCities.includes(currentWeatherData.city)) {
-            dispatch(setFoundCities(currentWeatherData.city))
+        if (currentWeatherData) {
+            prevWeatherData.current = currentWeatherData
+        }
+    }, [currentWeatherData])
+
+    useEffect(() => {
+        isLoading ? lockScroll() : unlockScroll()
+
+        if (prevWeatherData.current && currentWeatherData?.id !== prevWeatherData.current?.id) {
+            dispatch(setCurrentWeatherData(prevWeatherData.current))
+        }
+
+        if (currentWeatherData && !cities.includes(currentWeatherData.city)) {
             dispatch(addAllCitiesWeatherData(currentWeatherData))
             dispatch(setInputCityValue(''))
         }
 
-        if (currentWeatherData && foundCities.includes(currentWeatherData.city)) {
-            const isCityIdExist = allCitiesWeatherData.every(item => item.id !== currentWeatherData.id)
+        if (currentWeatherData && cities.includes(currentWeatherData.city)) {
+            const isCityIdNotExist = allCitiesWeatherData.every(item => item.id !== currentWeatherData.id)
 
-            if (isCityIdExist) {
+            if (isCityIdNotExist) {
                 const newWeatherData = allCitiesWeatherData.map(item => {
                     return item.city === currentWeatherData.city ? item = currentWeatherData : item
                 })
 
-                dispatch(setInputCityValue(''))
                 dispatch(updateAllCitiesWeatherData(newWeatherData))
+                dispatch(setInputCityValue(''))
             }
         }
     }, [
         dispatch,
-        foundCities,
+        lockScroll,
+        unlockScroll,
+        cities,
         currentWeatherData,
-        allCitiesWeatherData
+        allCitiesWeatherData,
+        isLoading,
+        prevWeatherData
     ])
 
     useEffect(() => {
-        let key: number = 0
-
-        dispatch(clearMenuItems([]))
-
-        for (let item of foundCities) {
-            dispatch(setMenuItems(makeMenuItem(item, key.toString(), <CloudOutlined />)))
-            key++
-        }
-
-        if (currentWeatherData && foundCities.includes(currentWeatherData.city)) {
-            activeMenuItemKey.current = foundCities.indexOf(currentWeatherData.city).toString()
-            return
-        }
-
-        if (!currentWeatherData) {
+        if (!currentWeatherData || error) {
             activeMenuItemKey.current = ''
             return
         }
 
-        if (!isLoading) activeMenuItemKey.current = (foundCities.length - 1).toString()
+        currentWeatherData && cities.includes(currentWeatherData.city)
+            ? activeMenuItemKey.current = cities.indexOf(currentWeatherData.city).toString()
+            : activeMenuItemKey.current = allCitiesWeatherData.length.toString()
     }, [
         dispatch,
-        foundCities,
+        cities,
         activeMenuItemKey,
         currentWeatherData,
-        isLoading
+        allCitiesWeatherData,
+        error
     ])
 
     useEffect(() => {
@@ -152,24 +177,15 @@ const MainLayout: React.FC = () => {
         return () => document.removeEventListener("mouseover", handleMouseOverOutsideSider)
     }, [siderRef, dispatch])
 
-    useEffect(() => {
-        if (currentWeatherData) {
-            weatherDescription.includes(currentWeatherData.shortDescription)
-                ? dispatch(setBackgroundName(currentWeatherData.shortDescription))
-                : dispatch(setBackgroundName('fog'))
-        } else {
-            dispatch(setBackgroundName('clear'))
-        }
-    }, [currentWeatherData, dispatch])
-
     const handleMenuItemClick = (e: MenuInfo): void => {
         activeMenuItemKey.current = e.key
+        animateScroll.scrollToTop({ duration: 500 })
         dispatch(clearError(null))
-        dispatch(setCurrentWeather(allCitiesWeatherData[Number(e.key)]))
+        prevWeatherData.current = allCitiesWeatherData[Number(e.key)]
     }
 
     return (
-        <Layout style={{ backgroundImage: `url(${WEATHER_IMAGES_SRC + backgroundName}.jpg)` }}>
+        <Layout style={{ backgroundImage: `url(${WEATHER_IMAGES_SRC + (prevWeatherData.current?.iconId || '01d')}.jpg)` }}>
             <Sider
                 ref={siderRef}
                 collapsible
@@ -191,15 +207,20 @@ const MainLayout: React.FC = () => {
                 <Header>
                     <CitySearch />
                 </Header>
-                <Content className={classNames(!currentWeatherData && 'flex-all-centered')}>
-                    {!currentWeatherData && !error && !isLoading && <section className='welcome-block'>
-                        <h1>Welcome to Weather App!</h1>
-                        <span>You need to enter city in the input at the top to start exploring.</span>
-                        <span>Hope you enjoy it!</span>
-                    </section>}
-                    {currentWeatherData && <WeatherForecast weatherData={currentWeatherData} />}
+                <Content>
+                    {!currentWeatherData && !error && !isLoading &&
+                        <section className='welcome-block'>
+                            <h1>Welcome to Weather App!</h1>
+                            <span>You need to enter the name of the city in the input at the top to start exploring.</span>
+                            <span>Hope you enjoy it!</span>
+                        </section>}
+                    {!error && prevWeatherData.current &&
+                        <WeatherForecast
+                            isLoading={isLoading}
+                            weatherData={prevWeatherData.current}
+                        />}
                     {isLoading && <Loader />}
-                    {error && <Error error={error} />}
+                    {error && <Error error={error} isLoading={isLoading} />}
                 </Content>
                 <Footer style={{ padding: '0 1rem', height: '3rem' }}>
                     <span>&#169; 2023 Made by Artsiom Ezepchik</span>
