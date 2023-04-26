@@ -1,0 +1,227 @@
+@import '../../variables.scss';
+
+
+.weather-forecast-container {
+    @include opacity-low;
+    
+    .weather-short-forecast {
+        @include flex-all-centered;
+        position: relative;
+        gap: 0.5rem;
+        width: 18rem;
+        margin: 2rem auto 0;
+        padding: 1rem;
+        flex-direction: column;
+        background-color: $color-white;
+        border-radius: $border-radius-weather-block;
+    
+        @media (max-width: $size-xs) {
+            width: 15rem;
+        }
+    
+        span {
+            font-size: 1.2rem;
+    
+            &.last-update {
+                font-size: 0.8rem;
+            }
+    
+            &.degree {
+                @include flex-all-centered;
+                width: max-content;
+                background-color: $color-white;
+                border-radius: $border-radius-weather-block;
+                padding: 0 0.5rem;
+    
+                img {
+                    height: 4rem;
+                    width: 4rem;
+                }
+            }
+        }
+    
+        h1 {
+            font-size: 1.8rem;
+            text-align: center;
+            word-wrap: break-word;
+        }
+    
+        .degree {
+            font-size: 2.8rem;
+        }
+    
+        button {
+            position: absolute;
+            top: -5%;
+            right: -5%;
+            background-image: url("../../../public/assets/icons/update.png");
+            background-size: contain;
+            background-color: $color-white;
+            cursor: pointer;
+            font-weight: bold;
+            height: 2rem;
+            width: 2rem;
+            border-radius: 100%;
+            border: 5px solid $color-white;
+            opacity: 1;
+            transition: opacity 0.1s ease-in;
+    
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
+    
+    .weather-main-forecast {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 1fr);
+        margin-top: 2rem;
+        gap: 0.5rem;
+        justify-content: center;
+    
+        @media (max-width: $size-xl) {
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: 1fr;
+        }
+    
+        @media (max-width: $size-s) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    
+        @media (max-width: $size-xs) {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    
+        @media (min-width: $size-xxl) {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    
+        & > section {
+            border-radius: $border-radius-weather-block;
+        }
+    
+        .weather-hourly-forecast {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            gap: 2rem;
+            background-color: $color-white;
+            padding: 1rem;
+        
+            @media (max-width: $size-xl) {
+                flex-direction: column;
+                width: 15rem;
+                justify-self: center;
+            }
+        
+            @media (max-width: $size-s) {
+                justify-self: end;
+            }
+    
+            @media (max-width: $size-xs) {
+                height: 11rem;
+                overflow-y: scroll;
+            }
+    
+            @media (min-width: $size-xxl) {
+                width: $size-l;
+                justify-self: center;
+            }
+        }
+        
+        .weather-detailed-forecast {
+            @include flex-all-centered;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            width: 100%;
+        
+            @media (max-width: $size-l) {
+                flex-wrap: nowrap;
+                flex-direction: column;
+            }
+    
+            @media (min-width: $size-xxl) {
+                width: max-content;
+            }
+            
+            .weather-detailed-forecast-item {
+                position: relative;
+                width: 9rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-around;
+                height: 8rem;
+                background-color: $color-white;
+                padding: 1rem;
+                border-radius: $border-radius-weather-block;
+        
+                @media (max-width: $size-xs) {
+                    width: 15rem;
+                }
+            
+                img {
+                    position: absolute;
+                    width: 6rem;
+                    height: 6rem;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    opacity: 0.04;
+                }
+            
+                span {
+                    font-size: 1rem;
+                }
+            }
+        }
+        
+        .weather-days-forecast {
+            display: flex;
+            flex-direction: column;
+            width: max-content;
+            justify-self: center;
+            padding: 0.2rem 1rem 1rem 1rem;
+            height: 8rem;
+            background-color: $color-white;
+        
+            @media (max-width: $size-xl) {
+                height: max-content;
+                width: 15rem;
+                justify-self: center;
+            }
+        
+            @media (max-width: $size-s) {
+                grid-column: 1 / 3;
+                justify-self: center;
+            }
+    
+            @media (max-width: $size-xs) {
+                height: 13rem;
+                overflow-y: scroll;
+            }
+        
+            h2 {
+                text-align: center;
+                padding-bottom: 0.1rem; 
+        
+                @media (max-width: $size-xl) {
+                    margin-top: 0.5rem;
+                }
+            }
+        
+            & > section {
+                @include flex-all-centered;
+                gap: 2rem;
+        
+                @media (max-width: $size-xl) {
+                    flex-direction: column;
+                    gap: 1.5rem;
+                }
+            }
+        }
+    }
+}

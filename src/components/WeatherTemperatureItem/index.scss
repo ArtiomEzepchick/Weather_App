@@ -1,0 +1,37 @@
+@import "../../variables.scss";
+
+.weather-temperature-item {
+    @include flex-all-centered;
+    position: relative;
+    flex-direction: column;
+    text-align: center;
+    min-width: 5rem;
+
+    @media (max-width: $size-xl) {
+        flex-direction: row;
+        height: max-content;
+        width: 12rem;
+        justify-content: space-between;
+
+        span {
+            width: 4rem;
+        }
+    }
+
+    img {
+        height: 3rem;
+        width: 3rem;
+
+        @media (max-width: $size-xl) {
+            margin-left: auto;
+        }
+    }
+
+    .temperature-forecast {
+        font-size: 1.1rem;
+
+        @media (max-width: $size-xl) {
+            width: 2rem;
+        }
+    }
+}

@@ -1,32 +1,81 @@
 import {
   INIT,
-  GET_WEATHER_REQUEST,
-  GET_WEATHER_SUCCESS,
-  GET_WEATHER_FAILURE,
+  GET_CURRENT_WEATHER_REQUEST,
+  GET_CURRENT_WEATHER_SUCCESS,
+  GET_CURRENT_WEATHER_FAILURE,
+  ADD_ALL_CITIES_WEATHER_DATA,
+  UPDATE_ALL_CITIES_WEATHER_DATA,
+  SET_INPUT_CITY_VALUE,
+  SET_ASIDE_COLLAPSED,
+  SET_CURRENT_WEATHER_DATA,
+  CLEAR_ERROR,
+  SET_IS_LOADING
 } from '../model/weather/constants/constants'
 import { WeatherTransformedData } from '../types/weather'
 
 export interface InitAction {
-  type: typeof INIT,
+  type: typeof INIT;
 }
 
-export interface GetWeatherAction {
-  type: typeof GET_WEATHER_REQUEST;
+export interface GetCurrentWeatherAction {
+  type: typeof GET_CURRENT_WEATHER_REQUEST;
   payload: string;
 }
 
-interface GetWeatherSuccessAction {
-  type: typeof GET_WEATHER_SUCCESS;
+interface GetCurrentWeatherSuccessAction {
+  type: typeof GET_CURRENT_WEATHER_SUCCESS;
   payload: WeatherTransformedData;
 }
 
-interface GetWeatherFailureAction {
-  type: typeof GET_WEATHER_FAILURE;
+interface GetCurrentWeatherFailureAction {
+  type: typeof GET_CURRENT_WEATHER_FAILURE;
   payload: string;
+}
+
+interface SetCurrentWeatherDataAction {
+  type: typeof SET_CURRENT_WEATHER_DATA;
+  payload: WeatherTransformedData;
+}
+
+interface UpdateAllCitiesWeatherDataAction {
+  type: typeof UPDATE_ALL_CITIES_WEATHER_DATA;
+  payload: WeatherTransformedData[];
+}
+
+interface AddAllCitiesWeatherDataAction {
+  type: typeof ADD_ALL_CITIES_WEATHER_DATA;
+  payload: WeatherTransformedData;
+}
+
+interface SetInputCityValueAction {
+  type: typeof SET_INPUT_CITY_VALUE;
+  payload: string;
+}
+
+interface SetAsideCollapsedAction {
+  type: typeof SET_ASIDE_COLLAPSED;
+  payload: boolean;
+}
+
+interface ClearErrorAction {
+  type: typeof CLEAR_ERROR;
+  payload: null;
+}
+
+interface SetIsLoadingAction {
+  type: typeof SET_IS_LOADING;
+  payload: boolean;
 }
 
 export type WeatherAction =
   InitAction |
-  GetWeatherAction |
-  GetWeatherSuccessAction |
-  GetWeatherFailureAction
+  GetCurrentWeatherAction |
+  GetCurrentWeatherSuccessAction |
+  GetCurrentWeatherFailureAction |
+  SetCurrentWeatherDataAction |
+  UpdateAllCitiesWeatherDataAction |
+  SetInputCityValueAction  |
+  SetAsideCollapsedAction |
+  AddAllCitiesWeatherDataAction |
+  ClearErrorAction |
+  SetIsLoadingAction

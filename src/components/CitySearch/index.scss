@@ -1,7 +1,16 @@
+@import '../../variables.scss';
+
 .city-search-container {
     display: flex;
     align-items: center;
     width: 15rem;
     height: 100%;
     margin-left: auto;
+
+    .ant-space-compact {
+        button:disabled {
+            background-color: $color-white;
+            opacity: 0.8;
+        }
+    }
 }

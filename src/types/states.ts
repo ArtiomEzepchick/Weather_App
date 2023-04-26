@@ -1,7 +1,10 @@
-import { WeatherTransformedData } from './weather'
+import { WeatherTransformedData, MenuItem } from './weather'
 
 export interface WeatherState {
-  weatherData: WeatherTransformedData | null
-  error: string | null
-  loading: boolean
+  asideCollapsed: boolean;
+  error: string | null;
+  isLoading: boolean;
+  inputCityValue: string;
+  currentWeatherData: WeatherTransformedData | null;
+  allCitiesWeatherData: WeatherTransformedData[];
 }

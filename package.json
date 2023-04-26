@@ -13,10 +13,12 @@
     "antd": "^5.4.0",
     "classnames": "^2.3.2",
     "moment": "^2.29.4",
+    "nanoid": "^4.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
     "react-scripts": "5.0.1",
+    "react-scroll": "^1.8.9",
     "redux": "^4.2.1",
     "redux-saga": "^1.2.3",
     "sass": "^1.60.0",
@@ -48,6 +50,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-redux": "^7.1.25"
+    "@types/react-redux": "^7.1.25",
+    "@types/react-scroll": "^1.8.6"
   }
 }

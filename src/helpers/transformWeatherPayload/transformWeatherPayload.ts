@@ -1,14 +1,18 @@
 import moment from 'moment'
+import { nanoid } from 'nanoid'
 
+import { ICON_URL } from '../weatherConstants/weatherConstants'
 import {
   WeatherPayload,
   WeatherTransformedData
 } from '../../types/weather'
 
-const ICON_URL = 'https://openweathermap.org/img/wn/'
-
 export const transformWeatherPayload = (payload: WeatherPayload): WeatherTransformedData => ({
+  id: nanoid(),
   city: `${payload.city.name}`,
+  lastUpdate: new Date(),
+  shortDescription: payload.list[0].weather[0].main.toLocaleLowerCase(),
+  iconId: payload.list[0].weather[0].icon,
   list: payload.list
     .map(item => ({
       day: moment.unix(item.dt).utc().format('dddd'),
@@ -17,6 +21,7 @@ export const transformWeatherPayload = (payload: WeatherPayload): WeatherTransfo
       feels_like: `${Math.round(item.main.feels_like)}`,
       icon: `${ICON_URL}${item.weather[0].icon}@2x.png`,
       humidity: item.main.humidity,
+      main: item.weather[0].main,
       pressure: item.main.pressure,
       temp: `${Math.round(item.main.temp)}`,
       temp_max: `${Math.round(item.main.temp_max)}`,

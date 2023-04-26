@@ -2,6 +2,9 @@
 
 .ant-layout {
     min-height: 100vh;
+    background: none;
+    background-size: cover;
+    transition: background-image 0.4s ease-in-out;
 
     .ant-layout-sider {
         overflow: auto;
@@ -10,6 +13,12 @@
         left: 0;
         top: 0;
         bottom: 0;
+        z-index: 10;
+        opacity: 0.8;
+
+        &:hover {
+            opacity: 1;
+        }
 
         .ant-layout-sider-children {
             padding-top: 3rem;
@@ -21,23 +30,49 @@
     
         .ant-layout-header {
             height: 3rem;
-            background-color: $color-grey;
+            background-color: transparent;
+
+            @media (max-width: $size-xs) {
+                padding: 0;
+                margin: 0 auto;
+            }
         }
     
         .ant-layout-content {
+            @include flex-all-centered;
             padding: 0 10rem 2rem;
-    
-            .weather-forecast {
+
+            @media (max-width: $size-l) {
+                padding: 0 2rem 2rem;
+            }
+
+            &.flex-all-centered {
+                @include flex-all-centered;
+            }
+
+            .welcome-block {
                 display: flex;
-                flex-wrap: wrap;
-                margin-top: 4rem;
+                justify-content: space-between;
+                flex-direction: column;
                 gap: 0.5rem;
-    
-                & > section {
-                    background-color: $color-white;
-                    padding: 1rem;
-                    border-radius: $border-radius-weather-block;
-                    height: 8rem;
+                width: 30rem;
+                height: 15rem;
+                background-color: $color-white;
+                border-radius: $border-radius-weather-block;
+                padding: 2rem;
+                text-align: center;
+
+                @media (max-width: $size-l) {
+                    height: max-content;
+                    gap: 2rem;
+                }
+
+                h1 {
+                    font-size: 2rem;
+                }
+
+                span {
+                    font-size: 1.2rem;
                 }
             }
         }
@@ -50,8 +85,19 @@
             color: $color-white;
             background-color: $color-dark-blue;
     
-            i {
-                color: $color-white
+            .copyright-links {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            
+                i {
+                    font-size: 1.5rem;
+                    color: $color-white
+                }
+            
+                i:hover {
+                    opacity: 0.6;
+                }
             }
         }
     }
