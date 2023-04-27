@@ -5,14 +5,14 @@ import React, {
     useMemo
 } from 'react'
 import { CloudOutlined } from '@ant-design/icons'
-import { Layout, Menu } from 'antd'
+import { InputRef, Layout, Menu } from 'antd'
 import { MenuInfo } from 'rc-menu/lib/interface'
 import { useDispatch, useSelector } from 'react-redux'
 import { animateScroll } from 'react-scroll'
 
 import CitySearch from '../CitySearch/CitySearch'
-import Error from '../Error/Error'
 import Loader from '../Loader/Loader'
+import Modal from '../Modal/Modal'
 import WeatherForecast from '../WeatherForecast/WeatherForecast'
 
 import { useScrollLock } from '../../hooks/useScrollLock'
@@ -53,13 +53,16 @@ const MainLayout: React.FC = () => {
         currentWeatherData,
         error,
         isLoading,
+        isModalOpen,
+        inputCityValue,
         asideCollapsed,
     } = useSelector((state: WeatherState) => state)
 
     const dispatch = useDispatch()
-    const activeMenuItemKey = useRef<string>('')
+    const activeMenuItemKeyRef = useRef<string>('')
     const siderRef = useRef<HTMLDivElement>(null)
-    const prevWeatherData = useRef<WeatherTransformedData | null>(currentWeatherData)
+    const prevWeatherDataRef = useRef<WeatherTransformedData | null>(currentWeatherData)
+    const inputRef = useRef<InputRef>(null)
     const { lockScroll, unlockScroll } = useScrollLock()
 
     const cities: string[] = useMemo(() => {
@@ -106,15 +109,15 @@ const MainLayout: React.FC = () => {
 
     useEffect(() => {
         if (currentWeatherData) {
-            prevWeatherData.current = currentWeatherData
+            prevWeatherDataRef.current = currentWeatherData
         }
     }, [currentWeatherData])
 
     useEffect(() => {
         isLoading ? lockScroll() : unlockScroll()
 
-        if (prevWeatherData.current && currentWeatherData?.id !== prevWeatherData.current?.id) {
-            dispatch(setCurrentWeatherData(prevWeatherData.current))
+        if (prevWeatherDataRef.current && currentWeatherData?.id !== prevWeatherDataRef.current?.id) {
+            dispatch(setCurrentWeatherData(prevWeatherDataRef.current))
         }
 
         if (currentWeatherData && !cities.includes(currentWeatherData.city)) {
@@ -142,22 +145,22 @@ const MainLayout: React.FC = () => {
         currentWeatherData,
         allCitiesWeatherData,
         isLoading,
-        prevWeatherData
+        prevWeatherDataRef
     ])
 
     useEffect(() => {
-        if (!currentWeatherData || error) {
-            activeMenuItemKey.current = ''
+        if (!currentWeatherData) {
+            activeMenuItemKeyRef.current = ''
             return
         }
 
         currentWeatherData && cities.includes(currentWeatherData.city)
-            ? activeMenuItemKey.current = cities.indexOf(currentWeatherData.city).toString()
-            : activeMenuItemKey.current = allCitiesWeatherData.length.toString()
+            ? activeMenuItemKeyRef.current = cities.indexOf(currentWeatherData.city).toString()
+            : activeMenuItemKeyRef.current = allCitiesWeatherData.length.toString()
     }, [
         dispatch,
         cities,
-        activeMenuItemKey,
+        activeMenuItemKeyRef,
         currentWeatherData,
         allCitiesWeatherData,
         error
@@ -178,14 +181,14 @@ const MainLayout: React.FC = () => {
     }, [siderRef, dispatch])
 
     const handleMenuItemClick = (e: MenuInfo): void => {
-        activeMenuItemKey.current = e.key
+        activeMenuItemKeyRef.current = e.key
         animateScroll.scrollToTop({ duration: 500 })
         dispatch(clearError(null))
-        prevWeatherData.current = allCitiesWeatherData[Number(e.key)]
+        prevWeatherDataRef.current = allCitiesWeatherData[Number(e.key)]
     }
 
     return (
-        <Layout style={{ backgroundImage: `url(${WEATHER_IMAGES_SRC + (prevWeatherData.current?.iconId || '01d')}.jpg)` }}>
+        <Layout style={{ backgroundImage: `url(${WEATHER_IMAGES_SRC + (prevWeatherDataRef.current?.iconId || '01d')}.jpg)` }}>
             <Sider
                 ref={siderRef}
                 collapsible
@@ -195,7 +198,7 @@ const MainLayout: React.FC = () => {
             >
                 <Menu
                     selectable={!isLoading}
-                    selectedKeys={[activeMenuItemKey.current]}
+                    selectedKeys={[activeMenuItemKeyRef.current]}
                     theme="dark"
                     defaultSelectedKeys={['0']}
                     mode="inline"
@@ -205,7 +208,11 @@ const MainLayout: React.FC = () => {
             </Sider>
             <Layout className="site-layout">
                 <Header>
-                    <CitySearch />
+                    <CitySearch 
+                        inputRef={inputRef}
+                        inputCityValue={inputCityValue}
+                        isLoading={isLoading}
+                    />
                 </Header>
                 <Content>
                     {!currentWeatherData && !error && !isLoading &&
@@ -214,13 +221,18 @@ const MainLayout: React.FC = () => {
                             <span>You need to enter the name of the city in the input at the top to start exploring.</span>
                             <span>Hope you enjoy it!</span>
                         </section>}
-                    {!error && prevWeatherData.current &&
+                    {prevWeatherDataRef.current &&
                         <WeatherForecast
                             isLoading={isLoading}
-                            weatherData={prevWeatherData.current}
+                            weatherData={prevWeatherDataRef.current}
                         />}
                     {isLoading && <Loader />}
-                    {error && <Error error={error} isLoading={isLoading} />}
+                    {error && <Modal  
+                        headerText={`City "${inputCityValue}" not found`}
+                        contentText={error}
+                        isModalOpen={isModalOpen}
+                        inputRef={inputRef}
+                    />}
                 </Content>
                 <Footer style={{ padding: '0 1rem', height: '3rem' }}>
                     <span>&#169; 2023 Made by Artsiom Ezepchik</span>

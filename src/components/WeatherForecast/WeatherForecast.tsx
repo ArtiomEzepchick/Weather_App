@@ -28,6 +28,8 @@ const WeatherForecast: React.FC<Props> = ({ weatherData, isLoading }) => {
     const hourlyForecastData = weatherData.list.slice(0, 8)
     const detailedForecastData = transformForecastData(weatherData)
     const nextDaysForecastData = filterWeatherData(weatherData)
+    const lastWeatherUpdate = moment.utc(weatherData.lastUpdate).fromNow()
+    const currentLocationTime = moment().utcOffset(weatherData.timezone / 60).format("H:mm")
 
     const handleUpdateWeatherData = () => {
         if (weatherData) dispatch(getCurrentWeather(weatherData.city))
@@ -37,13 +39,14 @@ const WeatherForecast: React.FC<Props> = ({ weatherData, isLoading }) => {
         <section className={classNames("weather-forecast-container", isLoading && 'opacity-low')}>
             <section className="weather-short-forecast">
                 <h1>{weatherData.city}</h1>
-                <span className='last-update'>Last updated: {moment.utc(weatherData.lastUpdate).fromNow()}</span>
+                <span>Location time: {currentLocationTime}</span>
                 <span className="degree">
                     {shortForecastData.temp}{DEGREE_SYMBOL}
                     <img src={shortForecastData.icon} alt={shortForecastData.description}></img>
                 </span>
                 <span>{shortForecastData.description}</span>
                 <span>Max: {shortForecastData.temp_max}{DEGREE_SYMBOL}, min: {shortForecastData.temp_min}{DEGREE_SYMBOL}</span>
+                <span className='last-update'>Last updated: {lastWeatherUpdate}</span>
                 <button onClick={handleUpdateWeatherData} />
             </section>
             <section className="weather-main-forecast">

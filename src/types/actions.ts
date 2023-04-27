@@ -9,7 +9,8 @@ import {
   SET_ASIDE_COLLAPSED,
   SET_CURRENT_WEATHER_DATA,
   CLEAR_ERROR,
-  SET_IS_LOADING
+  SET_IS_LOADING,
+  SET_IS_MODAL_OPEN
 } from '../model/weather/constants/constants'
 import { WeatherTransformedData } from '../types/weather'
 
@@ -67,6 +68,11 @@ interface SetIsLoadingAction {
   payload: boolean;
 }
 
+interface SetIsModalOpenAction {
+  type: typeof SET_IS_MODAL_OPEN;
+  payload: boolean;
+}
+
 export type WeatherAction =
   InitAction |
   GetCurrentWeatherAction |
@@ -78,4 +84,5 @@ export type WeatherAction =
   SetAsideCollapsedAction |
   AddAllCitiesWeatherDataAction |
   ClearErrorAction |
-  SetIsLoadingAction
+  SetIsLoadingAction |
+  SetIsModalOpenAction

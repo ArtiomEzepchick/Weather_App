@@ -10,7 +10,8 @@ import {
   SET_ASIDE_COLLAPSED,
   SET_CURRENT_WEATHER_DATA,
   CLEAR_ERROR,
-  SET_IS_LOADING
+  SET_IS_LOADING,
+  SET_IS_MODAL_OPEN
 } from '../constants/constants'
 
 import { WeatherState } from '../../../types/states'
@@ -19,6 +20,7 @@ export const initialState: WeatherState = {
   asideCollapsed: true,
   error: null,
   isLoading: false,
+  isModalOpen: false,
   inputCityValue: '',
   currentWeatherData: null,
   allCitiesWeatherData: []
@@ -47,7 +49,8 @@ const weatherReducer = (
         ...state,
         currentWeatherData: null,
         error: action.payload,
-        isLoading: false
+        isLoading: false,
+        isModalOpen: true
       }
     case SET_CURRENT_WEATHER_DATA:
       return {
@@ -86,6 +89,11 @@ const weatherReducer = (
       return {
         ...state,
         isLoading: action.payload
+      }
+    case SET_IS_MODAL_OPEN:
+      return {
+        ...state,
+        isModalOpen: action.payload
       }
     default:
       return state

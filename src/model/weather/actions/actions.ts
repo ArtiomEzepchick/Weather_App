@@ -8,7 +8,8 @@ import {
   SET_INPUT_CITY_VALUE,
   SET_ASIDE_COLLAPSED,
   CLEAR_ERROR,
-  SET_IS_LOADING
+  SET_IS_LOADING,
+  SET_IS_MODAL_OPEN
 } from '../constants/constants'
 import { WeatherAction } from '../../../types/actions'
 import { WeatherTransformedData } from '../../../types/weather'
@@ -60,5 +61,10 @@ export const clearError = (payload: null): WeatherAction => ({
 
 export const setIsLoading = (payload: boolean): WeatherAction => ({
   type: SET_IS_LOADING,
+  payload
+})
+
+export const setIsModalOpen = (payload: boolean): WeatherAction => ({
+  type: SET_IS_MODAL_OPEN,
   payload
 })
