@@ -4,7 +4,6 @@ import {
   GET_CURRENT_WEATHER_REQUEST,
   GET_CURRENT_WEATHER_SUCCESS,
   GET_CURRENT_WEATHER_FAILURE,
-  ADD_ALL_CITIES_WEATHER_DATA,
   UPDATE_ALL_CITIES_WEATHER_DATA,
   SET_INPUT_CITY_VALUE,
   SET_ASIDE_COLLAPSED,
@@ -56,14 +55,6 @@ const weatherReducer = (
       return {
         ...state,
         currentWeatherData: action.payload
-      }
-    case ADD_ALL_CITIES_WEATHER_DATA:
-      return {
-        ...state,
-        allCitiesWeatherData: [
-          ...state.allCitiesWeatherData,
-          action.payload
-        ]
       }
     case UPDATE_ALL_CITIES_WEATHER_DATA:
       return {

@@ -26,8 +26,18 @@ const CitySearch: React.FC<Props> = ({ inputCityValue, isLoading, inputRef }) =>
     return (
         <form className='city-search-container' onSubmit={handleSubmit}>
             <Space.Compact style={{ width: '100%' }}>
-                <Input  ref={inputRef} disabled={isLoading} onChange={handleInputChange} value={inputCityValue} placeholder="Enter city here" />
-                <Button disabled={isLoading || !inputCityValue} htmlType="submit">Find</Button>
+                <Input
+                    ref={inputRef}
+                    disabled={isLoading}
+                    onChange={handleInputChange}
+                    value={inputCityValue}
+                    placeholder="Enter city here"
+                />
+                <Button
+                    disabled={isLoading || !inputCityValue}
+                    htmlType="submit">
+                        Find
+                </Button>
             </Space.Compact>
         </form>
     )

@@ -3,7 +3,6 @@ import {
   GET_CURRENT_WEATHER_REQUEST,
   GET_CURRENT_WEATHER_SUCCESS,
   GET_CURRENT_WEATHER_FAILURE,
-  ADD_ALL_CITIES_WEATHER_DATA,
   UPDATE_ALL_CITIES_WEATHER_DATA,
   SET_INPUT_CITY_VALUE,
   SET_ASIDE_COLLAPSED,
@@ -35,17 +34,12 @@ interface GetCurrentWeatherFailureAction {
 
 interface SetCurrentWeatherDataAction {
   type: typeof SET_CURRENT_WEATHER_DATA;
-  payload: WeatherTransformedData;
+  payload: WeatherTransformedData | null;
 }
 
 interface UpdateAllCitiesWeatherDataAction {
   type: typeof UPDATE_ALL_CITIES_WEATHER_DATA;
   payload: WeatherTransformedData[];
-}
-
-interface AddAllCitiesWeatherDataAction {
-  type: typeof ADD_ALL_CITIES_WEATHER_DATA;
-  payload: WeatherTransformedData;
 }
 
 interface SetInputCityValueAction {
@@ -82,7 +76,6 @@ export type WeatherAction =
   UpdateAllCitiesWeatherDataAction |
   SetInputCityValueAction  |
   SetAsideCollapsedAction |
-  AddAllCitiesWeatherDataAction |
   ClearErrorAction |
   SetIsLoadingAction |
   SetIsModalOpenAction
