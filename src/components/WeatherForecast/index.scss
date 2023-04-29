@@ -29,8 +29,6 @@
             &.degree {
                 @include flex-all-centered;
                 width: max-content;
-                background-color: $color-white;
-                border-radius: $border-radius-weather-block;
                 padding: 0 0.5rem;
     
                 img {

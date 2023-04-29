@@ -7,6 +7,7 @@ import {
   SET_INPUT_CITY_VALUE,
   SET_ASIDE_COLLAPSED,
   SET_CURRENT_WEATHER_DATA,
+  SET_ERROR,
   CLEAR_ERROR,
   SET_IS_LOADING,
   SET_IS_MODAL_OPEN
@@ -52,6 +53,11 @@ interface SetAsideCollapsedAction {
   payload: boolean;
 }
 
+interface SetErrorAction {
+  type: typeof SET_ERROR;
+  payload: string;
+}
+
 interface ClearErrorAction {
   type: typeof CLEAR_ERROR;
   payload: null;
@@ -76,6 +82,7 @@ export type WeatherAction =
   UpdateAllCitiesWeatherDataAction |
   SetInputCityValueAction  |
   SetAsideCollapsedAction |
+  SetErrorAction|
   ClearErrorAction |
   SetIsLoadingAction |
   SetIsModalOpenAction

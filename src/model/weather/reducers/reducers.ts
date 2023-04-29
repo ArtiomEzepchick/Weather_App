@@ -8,6 +8,7 @@ import {
   SET_INPUT_CITY_VALUE,
   SET_ASIDE_COLLAPSED,
   SET_CURRENT_WEATHER_DATA,
+  SET_ERROR,
   CLEAR_ERROR,
   SET_IS_LOADING,
   SET_IS_MODAL_OPEN
@@ -70,6 +71,11 @@ const weatherReducer = (
       return {
         ...state,
         asideCollapsed: action.payload
+      }
+    case SET_ERROR:
+      return {
+        ...state,
+        error: action.payload
       }
     case CLEAR_ERROR:
       return {

@@ -10,7 +10,7 @@ export const getWeatherByCityName = async (city: string) => {
 
         return transformWeatherPayload(data)
     } catch (error: any) {
-        throw new Error("Please enter correct city name")
+        throw new Error(`City "${city}" not found. Please enter correct city name`)
     }
 }
 

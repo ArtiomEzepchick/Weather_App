@@ -12,14 +12,12 @@ import { closeModal } from "./closeModal"
 import "./index.scss"
 
 type Props = {
-    headerText: string;
     contentText: string;
     isModalOpen: boolean;
     inputRef: RefObject<InputRef>;
 }
 
 const Modal: React.FC<Props> = ({
-    headerText,
     contentText,
     isModalOpen,
     inputRef
@@ -31,22 +29,24 @@ const Modal: React.FC<Props> = ({
 
     const handleCloseModal = useCallback(() => {
         closeModal()
+        unlockScroll()
 
         setTimeout(() => {
             dispatch(clearError(null))
         }, 200)
-    }, [dispatch])
+    }, [dispatch, unlockScroll])
 
     const handleCloseModalAndEdit = useCallback(() => {
         if (inputRef.current) inputRef.current.focus()
 
         closeModal()
+        unlockScroll()
 
         setTimeout(() => {
             dispatch(clearError(null))
             dispatch(setInputCityValue(''))
         }, 200)
-    }, [dispatch, inputRef])
+    }, [dispatch, inputRef, unlockScroll])
 
     useEffect(() => {
         isModalOpen ? lockScroll() : unlockScroll()
@@ -78,7 +78,7 @@ const Modal: React.FC<Props> = ({
                         ref={modalRef}
                     >
                         <section className="modal-content">
-                            <h2>{headerText}</h2>
+                            <h2>An error has occurred</h2>
                             <span>{contentText}</span>
                         </section>
                         <section className="modal-buttons">

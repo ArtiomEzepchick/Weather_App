@@ -4,10 +4,10 @@ import React, {
     useCallback,
     useMemo
 } from 'react'
-import { 
-    InputRef, 
-    Layout, 
-    Menu 
+import {
+    InputRef,
+    Layout,
+    Menu
 } from 'antd'
 import { CloudOutlined } from '@ant-design/icons'
 import { MenuInfo } from 'rc-menu/lib/interface'
@@ -61,7 +61,7 @@ const MainLayout: React.FC = () => {
     } = useSelector((state: WeatherState) => state)
 
     const dispatch = useDispatch()
-    const activeMenuItemKeyRef = useRef<string>('')
+    const menuItemKeyRef = useRef<string>('')
     const siderRef = useRef<HTMLDivElement>(null)
     const savedWeatherDataRef = useRef<WeatherTransformedData | null>(currentWeatherData)
     const inputRef = useRef<InputRef>(null)
@@ -70,37 +70,54 @@ const MainLayout: React.FC = () => {
     const cities: string[] = useMemo(() => {
         return allCitiesWeatherData.map(item => item.city)
     }, [allCitiesWeatherData])
-    console.log(savedWeatherDataRef.current)
+
+    const handleDeleteBtnClick = useCallback(() => {
+        const newWeatherData = allCitiesWeatherData.filter((item, index) => index.toString() !== menuItemKeyRef.current)
+
+        dispatch(setIsLoading(true))
+        dispatch(updateAllCitiesWeatherData(newWeatherData))
+
+        setTimeout(() => {
+            dispatch(setIsLoading(false))
+        }, 200)
+
+        if (!newWeatherData.length) {
+            savedWeatherDataRef.current = null
+            dispatch(setAsideCollapsed(true))
+            dispatch(setCurrentWeatherData(null))
+            return
+        }
+
+        if (+menuItemKeyRef.current >= newWeatherData.length - 1) {
+            menuItemKeyRef.current = (newWeatherData.length - 1).toString()
+            dispatch(setCurrentWeatherData(newWeatherData[+menuItemKeyRef.current]))
+            savedWeatherDataRef.current = newWeatherData[+menuItemKeyRef.current]
+            return
+        } else {
+            dispatch(setCurrentWeatherData(newWeatherData[+menuItemKeyRef.current]))
+            savedWeatherDataRef.current = newWeatherData[+menuItemKeyRef.current]
+            return
+        }
+    }, [allCitiesWeatherData, dispatch])
 
     const menuItems = useMemo(() => {
         let key: number = 0
         const items: MenuItem[] = []
 
-        const handleDeleteBtnClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
-            const newWeatherData = allCitiesWeatherData.filter((item, index) => index.toString() !== activeMenuItemKeyRef.current)
-
-            dispatch(updateAllCitiesWeatherData(newWeatherData))
-
-            if (!newWeatherData.length) {
-                savedWeatherDataRef.current = null
-                dispatch(setAsideCollapsed(true))
-                dispatch(setCurrentWeatherData(null))
-                return
-            }
-
-
-            dispatch(setCurrentWeatherData(newWeatherData[0]))
-            savedWeatherDataRef.current = newWeatherData[0]
-            // activeMenuItemKeyRef.current = '0'
-        }
-
         for (let item of allCitiesWeatherData) {
             const cityInfo = item.list[0].temp + DEGREE_SYMBOL + ' ' + item.city
-            
+
             const menuItem: React.ReactNode = (
                 <>
                     <span>{cityInfo}</span>
-                    <button onClick={handleDeleteBtnClick} className='menu-delete-btn' title='Delete'>X</button>
+                    <button
+                        className='menu-delete-btn'
+                        onClick={handleDeleteBtnClick}
+                        title='Delete'
+                        style={{ pointerEvents: `${isLoading ? 'none' : 'auto'}` }}
+                    >
+                        X
+                    </button>
                 </>
             )
 
@@ -114,7 +131,11 @@ const MainLayout: React.FC = () => {
         }
 
         return items
-    }, [allCitiesWeatherData, dispatch])
+    }, [
+        allCitiesWeatherData,
+        isLoading,
+        handleDeleteBtnClick
+    ])
 
     const fetchUserLocation = useCallback(async () => {
         try {
@@ -138,13 +159,15 @@ const MainLayout: React.FC = () => {
     }, [fetchUserLocation, dispatch])
 
     useEffect(() => {
+        isLoading ? lockScroll() : unlockScroll()
+
         if (currentWeatherData) {
             savedWeatherDataRef.current = currentWeatherData
         }
-    }, [currentWeatherData])
 
-    useEffect(() => {
-        isLoading ? lockScroll() : unlockScroll()
+        if (error && savedWeatherDataRef.current) {
+            menuItemKeyRef.current = (allCitiesWeatherData.indexOf(savedWeatherDataRef.current)).toString()
+        }
 
         if (currentWeatherData && !cities.includes(currentWeatherData.city)) {
             dispatch(updateAllCitiesWeatherData([...allCitiesWeatherData, currentWeatherData]))
@@ -164,32 +187,32 @@ const MainLayout: React.FC = () => {
             }
         }
     }, [
-        dispatch,
         lockScroll,
         unlockScroll,
         cities,
         currentWeatherData,
         allCitiesWeatherData,
         isLoading,
-        savedWeatherDataRef
+        savedWeatherDataRef,
+        error,
+        dispatch,
     ])
 
     useEffect(() => {
         if (!currentWeatherData) {
-            activeMenuItemKeyRef.current = ''
+            menuItemKeyRef.current = ''
             return
         }
 
         currentWeatherData && cities.includes(currentWeatherData.city)
-            ? activeMenuItemKeyRef.current = cities.indexOf(currentWeatherData.city).toString()
-            : activeMenuItemKeyRef.current = allCitiesWeatherData.length.toString()
+            ? menuItemKeyRef.current = cities.indexOf(currentWeatherData.city).toString()
+            : menuItemKeyRef.current = allCitiesWeatherData.length.toString()
     }, [
-        dispatch,
         cities,
-        activeMenuItemKeyRef,
+        menuItemKeyRef,
         currentWeatherData,
         allCitiesWeatherData,
-        error
+        dispatch
     ])
 
     useEffect(() => {
@@ -204,17 +227,24 @@ const MainLayout: React.FC = () => {
         if (menuItems.length) document.addEventListener("mouseover", handleMouseOverSider)
 
         return () => document.removeEventListener("mouseover", handleMouseOverSider)
-    }, [siderRef, dispatch, menuItems])
+    }, [
+        siderRef,
+        menuItems,
+        dispatch
+    ])
 
-    const handleMenuItemClick = (menuInfo: MenuInfo): void => {
-        activeMenuItemKeyRef.current = menuInfo.key
+    const handleMenuItemSelect = (menuInfo: MenuInfo): void => {
+        menuItemKeyRef.current = menuInfo.key
         animateScroll.scrollToTop({ duration: 500 })
         dispatch(setCurrentWeatherData(allCitiesWeatherData[Number(menuInfo.key)]))
         savedWeatherDataRef.current = allCitiesWeatherData[Number(menuInfo.key)]
     }
 
     return (
-        <Layout style={{ backgroundImage: `url(${WEATHER_IMAGES_SRC + (savedWeatherDataRef.current?.iconId || '01d')}.jpg)` }}>
+        <Layout style={{
+            backgroundImage: `url(${WEATHER_IMAGES_SRC + (savedWeatherDataRef.current?.iconId || '01d')}.jpg)`,
+            backgroundColor: `${savedWeatherDataRef.current?.iconId ? 'none' : '#3badff'}`
+        }}>
             <Sider
                 ref={siderRef}
                 collapsible
@@ -223,23 +253,24 @@ const MainLayout: React.FC = () => {
             >
                 <Menu
                     selectable={!isLoading}
-                    selectedKeys={[activeMenuItemKeyRef.current]}
+                    selectedKeys={[menuItemKeyRef.current]}
                     theme="dark"
                     mode="inline"
                     items={menuItems}
-                    onSelect={handleMenuItemClick}
+                    onSelect={handleMenuItemSelect}
                 />
             </Sider>
             <Layout className="site-layout">
                 <Header>
                     <CitySearch
+                        dataLength={allCitiesWeatherData.length}
                         inputRef={inputRef}
                         inputCityValue={inputCityValue}
                         isLoading={isLoading}
                     />
                 </Header>
                 <Content>
-                    {!currentWeatherData && !error && !isLoading &&
+                    {!savedWeatherDataRef.current && !error && !isLoading &&
                         <section className='welcome-block'>
                             <h1>Welcome to Weather App!</h1>
                             <span>You need to enter the name of the city in the input at the top to start exploring.</span>
@@ -252,7 +283,6 @@ const MainLayout: React.FC = () => {
                         />}
                     {isLoading && <Loader />}
                     {error && <Modal
-                        headerText={`City "${inputCityValue}" not found`}
                         contentText={error}
                         isModalOpen={isModalOpen}
                         inputRef={inputRef}

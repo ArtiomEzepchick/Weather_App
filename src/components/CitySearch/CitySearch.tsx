@@ -1,8 +1,17 @@
 import React, { RefObject } from "react"
-import { Button, Input, InputRef, Space } from "antd"
+import { 
+    Button, 
+    Input, 
+    InputRef, 
+    Space 
+} from "antd"
 import { useDispatch } from 'react-redux'
 
-import { getCurrentWeather, setInputCityValue } from '../../model/weather/actions/actions'
+import { 
+    getCurrentWeather, 
+    setInputCityValue,
+    setError 
+} from '../../model/weather/actions/actions'
 
 import './index.scss'
 
@@ -10,12 +19,20 @@ type Props = {
     inputCityValue: string;
     isLoading: boolean;
     inputRef: RefObject<InputRef>;
+    dataLength: number;
 }
 
-const CitySearch: React.FC<Props> = ({ inputCityValue, isLoading, inputRef }) => {
+const CitySearch: React.FC<Props> = ({ inputCityValue, isLoading, inputRef, dataLength }) => {
     const dispatch = useDispatch()
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => dispatch(setInputCityValue(e.target.value))
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (dataLength === 10) {
+            dispatch(setError("You've exceeded the max number of saved cities (10). Delete data to add new ones"))
+            return
+        }
+
+        dispatch(setInputCityValue(e.target.value))
+    }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()

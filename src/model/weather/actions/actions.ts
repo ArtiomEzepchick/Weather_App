@@ -6,6 +6,7 @@ import {
   UPDATE_ALL_CITIES_WEATHER_DATA,
   SET_INPUT_CITY_VALUE,
   SET_ASIDE_COLLAPSED,
+  SET_ERROR,
   CLEAR_ERROR,
   SET_IS_LOADING,
   SET_IS_MODAL_OPEN
@@ -45,6 +46,11 @@ export const setInputCityValue = (payload: string): WeatherAction => ({
 
 export const setAsideCollapsed = (payload: boolean): WeatherAction => ({
   type: SET_ASIDE_COLLAPSED,
+  payload
+})
+
+export const setError = (payload: string): WeatherAction => ({
+  type: SET_ERROR,
   payload
 })
 

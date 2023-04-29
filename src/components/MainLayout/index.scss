@@ -26,113 +26,127 @@
             .ant-menu {
                 position: relative;
 
-                .ant-menu-item {
-                    .ant-menu-title-content {
-                        .menu-delete-btn {
-                            position: absolute;
-                            @include flex-all-centered;
-                            transition: all 0.1s ease-in-out;
-                            border-radius: 100%;
-                            width: 1.5rem;
-                            height: 1.5rem;
-                            right: 4%;
-                            top: 50%;
-                            color: $color-dark-blue;
-                            transform: translateY(-50%);
-                            border: none;
-                            cursor: pointer;
-                            z-index: 100;
-                            border: 1px solid $color-dark-blue;
-    
-                            &:hover {
-                                color: $color-red;
-                                border: 1px solid $color-red;
-                            }
+                .menu-delete-btn {
+                    visibility: hidden;
+                    opacity: 0;
+                }
 
-                            &:active {
-                                opacity: 0.8;
-                            }
+                &.ant-menu-inline-collapsed {
+                    .ant-menu-item, .ant-menu-item-selected {
+                        .menu-delete-btn {
+                            visibility: hidden;
+                            opacity: 0;
+                        }
+                    }
+                }
+
+                .ant-menu-item-selected {
+                    .menu-delete-btn {
+                        position: absolute;
+                        @include flex-all-centered;
+                        transition: all 0.1s ease-in-out;
+                        border-radius: 100%;
+                        width: 1.5rem;
+                        height: 1.5rem;
+                        right: 4%;
+                        top: 50%;
+                        color: $color-dark-blue;
+                        transform: translateY(-50%);
+                        visibility: visible;
+                        opacity: 1;
+                        border: none;
+                        cursor: pointer;
+                        z-index: 100;
+                        border: 1px solid $color-dark-blue;
+    
+                        &:hover {
+                            color: $color-red;
+                            border: 1px solid $color-red;
+                        }
+    
+                        &:active {
+                            opacity: 0.8;
+                        }
                     }
                 }
             }
         }
     }
-}
 
-.site-layout {
-    padding-left: $width-sider;
+    .site-layout {
+        padding-left: $width-sider;
 
-    .ant-layout-header {
-        height: 3rem;
-        background-color: transparent;
+        .ant-layout-header {
+            height: 3rem;
+            background-color: transparent;
 
-        @media (max-width: $size-xs) {
-            padding: 0;
-            margin: 0 auto;
-        }
-    }
-
-    .ant-layout-content {
-        @include flex-all-centered;
-        padding: 0 10rem 2rem;
-
-        @media (max-width: $size-l) {
-            padding: 0 2rem 2rem;
+            @media (max-width: $size-xs) {
+                padding: 0;
+                margin: 0 auto;
+            }
         }
 
-        &.flex-all-centered {
+        .ant-layout-content {
             @include flex-all-centered;
-        }
-
-        .welcome-block {
-            display: flex;
-            justify-content: space-between;
-            flex-direction: column;
-            gap: 0.5rem;
-            width: 30rem;
-            height: 15rem;
-            background-color: $color-white;
-            border-radius: $border-radius-weather-block;
-            padding: 2rem;
-            text-align: center;
+            padding: 0 10rem 2rem;
 
             @media (max-width: $size-l) {
-                height: max-content;
-                gap: 2rem;
+                padding: 0 2rem 2rem;
             }
 
-            h1 {
-                font-size: 2rem;
+            &.flex-all-centered {
+                @include flex-all-centered;
             }
 
-            span {
-                font-size: 1.2rem;
+            .welcome-block {
+                display: flex;
+                justify-content: space-between;
+                flex-direction: column;
+                gap: 0.5rem;
+                width: 30rem;
+                height: 15rem;
+                background-color: $color-white;
+                border-radius: $border-radius-weather-block;
+                padding: 2rem;
+                text-align: center;
+
+                @media (max-width: $size-l) {
+                    height: max-content;
+                    gap: 2rem;
+                }
+
+                h1 {
+                    font-size: 2rem;
+                }
+
+                span {
+                    font-size: 1.2rem;
+                }
             }
         }
-    }
 
-    .ant-layout-footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-direction: row;
-        color: $color-white;
-        background-color: $color-dark-blue;
-
-        .copyright-links {
+        .ant-layout-footer {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            justify-content: space-between;
+            flex-direction: row;
+            color: $color-white;
+            background-color: $color-dark-blue;
 
-            i {
-                font-size: 1.5rem;
-                color: $color-white
-            }
+            .copyright-links {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
 
-            i:hover {
-                opacity: 0.6;
+                i {
+                    font-size: 1.5rem;
+                    color: $color-white
+                }
+
+                i:hover {
+                    opacity: 0.6;
+                }
             }
         }
     }
-}
 }
