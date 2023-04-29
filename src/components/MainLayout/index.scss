@@ -22,12 +22,60 @@
 
         .ant-layout-sider-children {
             padding-top: 3rem;
+
+            .ant-menu {
+                position: relative;
+
+                .menu-delete-btn {
+                    visibility: hidden;
+                    opacity: 0;
+                }
+
+                &.ant-menu-inline-collapsed {
+                    .ant-menu-item, .ant-menu-item-selected {
+                        .menu-delete-btn {
+                            visibility: hidden;
+                            opacity: 0;
+                        }
+                    }
+                }
+
+                .ant-menu-item-selected {
+                    .menu-delete-btn {
+                        position: absolute;
+                        @include flex-all-centered;
+                        transition: all 0.1s ease-in-out;
+                        border-radius: 100%;
+                        width: 1.5rem;
+                        height: 1.5rem;
+                        right: 4%;
+                        top: 50%;
+                        color: $color-dark-blue;
+                        transform: translateY(-50%);
+                        visibility: visible;
+                        opacity: 1;
+                        border: none;
+                        cursor: pointer;
+                        z-index: 100;
+                        border: 1px solid $color-dark-blue;
+    
+                        &:hover {
+                            color: $color-red;
+                            border: 1px solid $color-red;
+                        }
+    
+                        &:active {
+                            opacity: 0.8;
+                        }
+                    }
+                }
+            }
         }
     }
 
     .site-layout {
         padding-left: $width-sider;
-    
+
         .ant-layout-header {
             height: 3rem;
             background-color: transparent;
@@ -37,7 +85,7 @@
                 margin: 0 auto;
             }
         }
-    
+
         .ant-layout-content {
             @include flex-all-centered;
             padding: 0 10rem 2rem;
@@ -76,7 +124,7 @@
                 }
             }
         }
-    
+
         .ant-layout-footer {
             display: flex;
             align-items: center;
@@ -84,17 +132,17 @@
             flex-direction: row;
             color: $color-white;
             background-color: $color-dark-blue;
-    
+
             .copyright-links {
                 display: flex;
                 align-items: center;
                 gap: 0.5rem;
-            
+
                 i {
                     font-size: 1.5rem;
                     color: $color-white
                 }
-            
+
                 i:hover {
                     opacity: 0.6;
                 }

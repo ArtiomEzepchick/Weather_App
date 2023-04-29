@@ -4,15 +4,19 @@ import React, {
     useCallback,
     useMemo
 } from 'react'
+import {
+    InputRef,
+    Layout,
+    Menu
+} from 'antd'
 import { CloudOutlined } from '@ant-design/icons'
-import { Layout, Menu } from 'antd'
 import { MenuInfo } from 'rc-menu/lib/interface'
 import { useDispatch, useSelector } from 'react-redux'
 import { animateScroll } from 'react-scroll'
 
 import CitySearch from '../CitySearch/CitySearch'
-import Error from '../Error/Error'
 import Loader from '../Loader/Loader'
+import Modal from '../Modal/Modal'
 import WeatherForecast from '../WeatherForecast/WeatherForecast'
 
 import { useScrollLock } from '../../hooks/useScrollLock'
@@ -23,11 +27,9 @@ import { getUserLocation } from '../../helpers/requests/requests'
 import { WEATHER_IMAGES_SRC, DEGREE_SYMBOL } from '../../helpers/weatherConstants/weatherConstants'
 import {
     setAsideCollapsed,
-    addAllCitiesWeatherData,
     setCurrentWeatherData,
     setInputCityValue,
     updateAllCitiesWeatherData,
-    clearError,
     setIsLoading
 } from '../../model/weather/actions/actions'
 
@@ -53,26 +55,74 @@ const MainLayout: React.FC = () => {
         currentWeatherData,
         error,
         isLoading,
+        isModalOpen,
+        inputCityValue,
         asideCollapsed,
     } = useSelector((state: WeatherState) => state)
 
     const dispatch = useDispatch()
-    const activeMenuItemKey = useRef<string>('')
+    const menuItemKeyRef = useRef<string>('')
     const siderRef = useRef<HTMLDivElement>(null)
-    const prevWeatherData = useRef<WeatherTransformedData | null>(currentWeatherData)
+    const savedWeatherDataRef = useRef<WeatherTransformedData | null>(currentWeatherData)
+    const inputRef = useRef<InputRef>(null)
     const { lockScroll, unlockScroll } = useScrollLock()
 
     const cities: string[] = useMemo(() => {
         return allCitiesWeatherData.map(item => item.city)
     }, [allCitiesWeatherData])
 
+    const handleDeleteBtnClick = useCallback(() => {
+        const newWeatherData = allCitiesWeatherData.filter((item, index) => index.toString() !== menuItemKeyRef.current)
+
+        dispatch(setIsLoading(true))
+        dispatch(updateAllCitiesWeatherData(newWeatherData))
+
+        setTimeout(() => {
+            dispatch(setIsLoading(false))
+        }, 200)
+
+        if (!newWeatherData.length) {
+            savedWeatherDataRef.current = null
+            dispatch(setAsideCollapsed(true))
+            dispatch(setCurrentWeatherData(null))
+            return
+        }
+
+        if (+menuItemKeyRef.current >= newWeatherData.length - 1) {
+            menuItemKeyRef.current = (newWeatherData.length - 1).toString()
+            dispatch(setCurrentWeatherData(newWeatherData[+menuItemKeyRef.current]))
+            savedWeatherDataRef.current = newWeatherData[+menuItemKeyRef.current]
+            return
+        } else {
+            dispatch(setCurrentWeatherData(newWeatherData[+menuItemKeyRef.current]))
+            savedWeatherDataRef.current = newWeatherData[+menuItemKeyRef.current]
+            return
+        }
+    }, [allCitiesWeatherData, dispatch])
+
     const menuItems = useMemo(() => {
         let key: number = 0
         const items: MenuItem[] = []
 
         for (let item of allCitiesWeatherData) {
+            const cityInfo = item.list[0].temp + DEGREE_SYMBOL + ' ' + item.city
+
+            const menuItem: React.ReactNode = (
+                <>
+                    <span>{cityInfo}</span>
+                    <button
+                        className='menu-delete-btn'
+                        onClick={handleDeleteBtnClick}
+                        title='Delete'
+                        style={{ pointerEvents: `${isLoading ? 'none' : 'auto'}` }}
+                    >
+                        X
+                    </button>
+                </>
+            )
+
             items.push(makeMenuItem(
-                `${item.city + ' ' + item.list[0].temp + DEGREE_SYMBOL}`,
+                menuItem,
                 key.toString(),
                 <CloudOutlined />
             ))
@@ -81,7 +131,11 @@ const MainLayout: React.FC = () => {
         }
 
         return items
-    }, [allCitiesWeatherData])
+    }, [
+        allCitiesWeatherData,
+        isLoading,
+        handleDeleteBtnClick
+    ])
 
     const fetchUserLocation = useCallback(async () => {
         try {
@@ -105,20 +159,18 @@ const MainLayout: React.FC = () => {
     }, [fetchUserLocation, dispatch])
 
     useEffect(() => {
-        if (currentWeatherData) {
-            prevWeatherData.current = currentWeatherData
-        }
-    }, [currentWeatherData])
-
-    useEffect(() => {
         isLoading ? lockScroll() : unlockScroll()
 
-        if (prevWeatherData.current && currentWeatherData?.id !== prevWeatherData.current?.id) {
-            dispatch(setCurrentWeatherData(prevWeatherData.current))
+        if (currentWeatherData) {
+            savedWeatherDataRef.current = currentWeatherData
+        }
+
+        if (error && savedWeatherDataRef.current) {
+            menuItemKeyRef.current = (allCitiesWeatherData.indexOf(savedWeatherDataRef.current)).toString()
         }
 
         if (currentWeatherData && !cities.includes(currentWeatherData.city)) {
-            dispatch(addAllCitiesWeatherData(currentWeatherData))
+            dispatch(updateAllCitiesWeatherData([...allCitiesWeatherData, currentWeatherData]))
             dispatch(setInputCityValue(''))
         }
 
@@ -135,36 +187,36 @@ const MainLayout: React.FC = () => {
             }
         }
     }, [
-        dispatch,
         lockScroll,
         unlockScroll,
         cities,
         currentWeatherData,
         allCitiesWeatherData,
         isLoading,
-        prevWeatherData
+        savedWeatherDataRef,
+        error,
+        dispatch,
     ])
 
     useEffect(() => {
-        if (!currentWeatherData || error) {
-            activeMenuItemKey.current = ''
+        if (!currentWeatherData) {
+            menuItemKeyRef.current = ''
             return
         }
 
         currentWeatherData && cities.includes(currentWeatherData.city)
-            ? activeMenuItemKey.current = cities.indexOf(currentWeatherData.city).toString()
-            : activeMenuItemKey.current = allCitiesWeatherData.length.toString()
+            ? menuItemKeyRef.current = cities.indexOf(currentWeatherData.city).toString()
+            : menuItemKeyRef.current = allCitiesWeatherData.length.toString()
     }, [
-        dispatch,
         cities,
-        activeMenuItemKey,
+        menuItemKeyRef,
         currentWeatherData,
         allCitiesWeatherData,
-        error
+        dispatch
     ])
 
     useEffect(() => {
-        const handleMouseOverOutsideSider = (e: MouseEvent): void => {
+        const handleMouseOverSider = (e: MouseEvent): void => {
             const target = e.target as HTMLDivElement
 
             siderRef.current && !siderRef.current.contains(target)
@@ -172,55 +224,69 @@ const MainLayout: React.FC = () => {
                 : dispatch(setAsideCollapsed(false))
         }
 
-        document.addEventListener("mouseover", handleMouseOverOutsideSider)
+        if (menuItems.length) document.addEventListener("mouseover", handleMouseOverSider)
 
-        return () => document.removeEventListener("mouseover", handleMouseOverOutsideSider)
-    }, [siderRef, dispatch])
+        return () => document.removeEventListener("mouseover", handleMouseOverSider)
+    }, [
+        siderRef,
+        menuItems,
+        dispatch
+    ])
 
-    const handleMenuItemClick = (e: MenuInfo): void => {
-        activeMenuItemKey.current = e.key
+    const handleMenuItemSelect = (menuInfo: MenuInfo): void => {
+        menuItemKeyRef.current = menuInfo.key
         animateScroll.scrollToTop({ duration: 500 })
-        dispatch(clearError(null))
-        prevWeatherData.current = allCitiesWeatherData[Number(e.key)]
+        dispatch(setCurrentWeatherData(allCitiesWeatherData[Number(menuInfo.key)]))
+        savedWeatherDataRef.current = allCitiesWeatherData[Number(menuInfo.key)]
     }
 
     return (
-        <Layout style={{ backgroundImage: `url(${WEATHER_IMAGES_SRC + (prevWeatherData.current?.iconId || '01d')}.jpg)` }}>
+        <Layout style={{
+            backgroundImage: `url(${WEATHER_IMAGES_SRC + (savedWeatherDataRef.current?.iconId || '01d')}.jpg)`,
+            backgroundColor: `${savedWeatherDataRef.current?.iconId ? 'none' : '#3badff'}`
+        }}>
             <Sider
                 ref={siderRef}
                 collapsible
                 collapsed={asideCollapsed}
-                onCollapse={(value) => dispatch(setAsideCollapsed(value))}
-                trigger={!asideCollapsed && null}
+                trigger={null}
             >
                 <Menu
                     selectable={!isLoading}
-                    selectedKeys={[activeMenuItemKey.current]}
+                    selectedKeys={[menuItemKeyRef.current]}
                     theme="dark"
-                    defaultSelectedKeys={['0']}
                     mode="inline"
                     items={menuItems}
-                    onClick={handleMenuItemClick}
+                    onSelect={handleMenuItemSelect}
                 />
             </Sider>
             <Layout className="site-layout">
                 <Header>
-                    <CitySearch />
+                    <CitySearch
+                        dataLength={allCitiesWeatherData.length}
+                        inputRef={inputRef}
+                        inputCityValue={inputCityValue}
+                        isLoading={isLoading}
+                    />
                 </Header>
                 <Content>
-                    {!currentWeatherData && !error && !isLoading &&
+                    {!savedWeatherDataRef.current && !error && !isLoading &&
                         <section className='welcome-block'>
                             <h1>Welcome to Weather App!</h1>
                             <span>You need to enter the name of the city in the input at the top to start exploring.</span>
                             <span>Hope you enjoy it!</span>
                         </section>}
-                    {!error && prevWeatherData.current &&
+                    {savedWeatherDataRef.current &&
                         <WeatherForecast
                             isLoading={isLoading}
-                            weatherData={prevWeatherData.current}
+                            weatherData={savedWeatherDataRef.current}
                         />}
                     {isLoading && <Loader />}
-                    {error && <Error error={error} isLoading={isLoading} />}
+                    {error && <Modal
+                        contentText={error}
+                        isModalOpen={isModalOpen}
+                        inputRef={inputRef}
+                    />}
                 </Content>
                 <Footer style={{ padding: '0 1rem', height: '3rem' }}>
                     <span>&#169; 2023 Made by Artsiom Ezepchik</span>

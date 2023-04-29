@@ -7,10 +7,17 @@
     height: 100%;
     margin-left: auto;
 
-    .ant-space-compact {
-        button:disabled {
+    .ant-space-compact {   
+        input:disabled, button:disabled {
             background-color: $color-white;
+        }
+        
+        input:disabled {
             opacity: 0.8;
+        }
+
+        button:disabled {
+            opacity: 0.7;
         }
     }
 }

@@ -29,8 +29,6 @@
             &.degree {
                 @include flex-all-centered;
                 width: max-content;
-                background-color: $color-white;
-                border-radius: $border-radius-weather-block;
                 padding: 0 0.5rem;
     
                 img {
@@ -122,7 +120,7 @@
             }
     
             @media (max-width: $size-xs) {
-                height: 11rem;
+                height: 13rem;
                 overflow-y: scroll;
             }
     

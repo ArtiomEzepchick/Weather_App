@@ -3,12 +3,13 @@ import {
   GET_CURRENT_WEATHER_SUCCESS,
   GET_CURRENT_WEATHER_FAILURE,
   SET_CURRENT_WEATHER_DATA,
-  ADD_ALL_CITIES_WEATHER_DATA,
   UPDATE_ALL_CITIES_WEATHER_DATA,
   SET_INPUT_CITY_VALUE,
   SET_ASIDE_COLLAPSED,
+  SET_ERROR,
   CLEAR_ERROR,
-  SET_IS_LOADING
+  SET_IS_LOADING,
+  SET_IS_MODAL_OPEN
 } from '../constants/constants'
 import { WeatherAction } from '../../../types/actions'
 import { WeatherTransformedData } from '../../../types/weather'
@@ -28,13 +29,8 @@ export const getCurrentWeatherFailure = (payload: string): WeatherAction  => ({
   payload
 })
 
-export const setCurrentWeatherData = (payload: WeatherTransformedData): WeatherAction  => ({
+export const setCurrentWeatherData = (payload: WeatherTransformedData | null): WeatherAction  => ({
   type: SET_CURRENT_WEATHER_DATA,
-  payload
-})
-
-export const addAllCitiesWeatherData = (payload: WeatherTransformedData): WeatherAction => ({
-  type: ADD_ALL_CITIES_WEATHER_DATA,
   payload
 })
 
@@ -53,6 +49,11 @@ export const setAsideCollapsed = (payload: boolean): WeatherAction => ({
   payload
 })
 
+export const setError = (payload: string): WeatherAction => ({
+  type: SET_ERROR,
+  payload
+})
+
 export const clearError = (payload: null): WeatherAction => ({
   type: CLEAR_ERROR,
   payload
@@ -60,5 +61,10 @@ export const clearError = (payload: null): WeatherAction => ({
 
 export const setIsLoading = (payload: boolean): WeatherAction => ({
   type: SET_IS_LOADING,
+  payload
+})
+
+export const setIsModalOpen = (payload: boolean): WeatherAction => ({
+  type: SET_IS_MODAL_OPEN,
   payload
 })

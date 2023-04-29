@@ -15,6 +15,7 @@ export interface WeatherPayload {
   message: number;
   city: {
     name: string;
+    timezone: number;
   }
   list: {
     dt: number;
@@ -60,6 +61,7 @@ export interface WeatherTransformedData {
   shortDescription: string;
   lastUpdate: Date;
   iconId: string;
+  timezone: number;
   list: WeatherList[]
 }
 
