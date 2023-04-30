@@ -25,4 +25,9 @@ $size-xxl: 1500px;
     &.opacity-low {
         opacity: 0.5;
     }
-}
+};
+
+@mixin hidden-element {
+    visibility: hidden;
+    opacity: 0;
+}   

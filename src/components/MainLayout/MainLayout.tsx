@@ -13,6 +13,7 @@ import { CloudOutlined } from '@ant-design/icons'
 import { MenuInfo } from 'rc-menu/lib/interface'
 import { useDispatch, useSelector } from 'react-redux'
 import { animateScroll } from 'react-scroll'
+import classNames from 'classnames'
 
 import CitySearch from '../CitySearch/CitySearch'
 import Loader from '../Loader/Loader'
@@ -27,7 +28,7 @@ import { getUserLocation } from '../../helpers/requests/requests'
 import {
     WEATHER_IMAGES_SRC,
     DEGREE_SYMBOL,
-    LOCAL_STORAGE_VARIABLES
+    LOCAL_STORAGE_ITEMS
 } from '../../helpers/weatherConstants/weatherConstants'
 import {
     setAsideCollapsed,
@@ -51,7 +52,7 @@ const {
     CURRENT_WEATHER_DATA,
     MENU_KEY_REF,
     SAVED_WEATHER_DATA_REF
-} = LOCAL_STORAGE_VARIABLES
+} = LOCAL_STORAGE_ITEMS
 
 const makeMenuItem = (
     label: React.ReactNode,
@@ -93,6 +94,7 @@ const MainLayout: React.FC = () => {
 
         dispatch(setIsLoading(true))
         dispatch(updateAllCitiesWeatherData(newWeatherData))
+
         localStorage.setItem(ALL_CITIES_WEATHER_DATA, JSON.stringify(newWeatherData))
 
         setTimeout(() => {
@@ -221,6 +223,10 @@ const MainLayout: React.FC = () => {
 
             localStorage.setItem(CURRENT_WEATHER_DATA, JSON.stringify(currentWeatherData))
             localStorage.setItem(SAVED_WEATHER_DATA_REF, JSON.stringify(currentWeatherData))
+        } else {
+            const lsMenuKeyRef = JSON.parse(localStorage.getItem(MENU_KEY_REF) || "")
+            menuKeyRef.current = lsMenuKeyRef
+            return
         }
 
         if (error && savedWeatherDataRef.current) {
@@ -229,17 +235,11 @@ const MainLayout: React.FC = () => {
             localStorage.setItem(MENU_KEY_REF, JSON.stringify(menuKeyRef.current))
         }
 
-        if (currentWeatherData && !cities.includes(currentWeatherData.city)) {
-            const newWeatherData = [...allCitiesWeatherData, currentWeatherData]
-
-            dispatch(updateAllCitiesWeatherData(newWeatherData))
-            dispatch(setInputCityValue(''))
-
-            localStorage.setItem(ALL_CITIES_WEATHER_DATA, JSON.stringify(newWeatherData))
-        }
-
         if (currentWeatherData && cities.includes(currentWeatherData.city)) {
             const isCityIdNotExist = allCitiesWeatherData.every(item => item.id !== currentWeatherData.id)
+            menuKeyRef.current = cities.indexOf(currentWeatherData.city).toString()
+            
+            localStorage.setItem(MENU_KEY_REF, JSON.stringify(menuKeyRef.current))
 
             if (isCityIdNotExist) {
                 const newWeatherData = allCitiesWeatherData.map(item => {
@@ -251,6 +251,15 @@ const MainLayout: React.FC = () => {
 
                 localStorage.setItem(ALL_CITIES_WEATHER_DATA, JSON.stringify(newWeatherData))
             }
+        } else {
+            const newWeatherData = [...allCitiesWeatherData, currentWeatherData]
+            menuKeyRef.current = allCitiesWeatherData.length.toString()
+
+            dispatch(updateAllCitiesWeatherData(newWeatherData))
+            dispatch(setInputCityValue(''))
+
+            localStorage.setItem(ALL_CITIES_WEATHER_DATA, JSON.stringify(newWeatherData))
+            localStorage.setItem(MENU_KEY_REF, JSON.stringify(menuKeyRef.current))
         }
     }, [
         lockScroll,
@@ -262,31 +271,6 @@ const MainLayout: React.FC = () => {
         savedWeatherDataRef,
         error,
         dispatch,
-    ])
-
-    useEffect(() => {
-        if (!currentWeatherData) {
-            const lsMenuKeyRef = JSON.parse(localStorage.getItem(MENU_KEY_REF) || "")
-            
-            menuKeyRef.current = lsMenuKeyRef
-            return
-        }
-
-        if (currentWeatherData && cities.includes(currentWeatherData.city)) {
-            menuKeyRef.current = cities.indexOf(currentWeatherData.city).toString()
-
-            localStorage.setItem(MENU_KEY_REF, JSON.stringify(menuKeyRef.current))
-        } else {
-            menuKeyRef.current = allCitiesWeatherData.length.toString()
-
-            localStorage.setItem(MENU_KEY_REF, JSON.stringify(menuKeyRef.current))
-        }
-    }, [
-        cities,
-        menuKeyRef,
-        currentWeatherData,
-        allCitiesWeatherData,
-        dispatch
     ])
 
     useEffect(() => {
@@ -344,8 +328,8 @@ const MainLayout: React.FC = () => {
                     />
                 </Header>
                 <Content>
-                    {!savedWeatherDataRef.current && !error && !isLoading &&
-                        <section className='welcome-block'>
+                    {!savedWeatherDataRef.current && !error &&
+                        <section className={classNames('welcome-block', isLoading && 'opacity-low')}>
                             <h1>Welcome to Weather App!</h1>
                             <span>You need to enter the name of the city in the input at the top to start exploring.</span>
                             <span>Hope you enjoy it!</span>

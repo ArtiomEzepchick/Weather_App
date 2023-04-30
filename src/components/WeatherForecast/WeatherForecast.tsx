@@ -12,7 +12,7 @@ import {
     transformForecastData,
     filterWeatherData,
     addUnitsBasedOnLabels,
-} from "../../helpers/transformForecastData/transformForecastData"
+} from "../../helpers/weatherHelpers/weatherHelpers"
 
 import './index.scss'
 

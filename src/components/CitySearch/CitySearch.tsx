@@ -1,16 +1,17 @@
 import React, { RefObject } from "react"
-import { 
-    Button, 
-    Input, 
-    InputRef, 
-    Space 
+import {
+    Button,
+    Input,
+    InputRef,
+    Space
 } from "antd"
 import { useDispatch } from 'react-redux'
 
-import { 
-    getCurrentWeather, 
+import {
+    getCurrentWeather,
     setInputCityValue,
-    setError 
+    setError,
+    setIsModalOpen
 } from '../../model/weather/actions/actions'
 
 import './index.scss'
@@ -22,12 +23,18 @@ type Props = {
     dataLength: number;
 }
 
-const CitySearch: React.FC<Props> = ({ inputCityValue, isLoading, inputRef, dataLength }) => {
+const CitySearch: React.FC<Props> = ({
+    inputCityValue,
+    isLoading,
+    inputRef,
+    dataLength
+}) => {
     const dispatch = useDispatch()
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (dataLength === 10) {
-            dispatch(setError("You've exceeded the max number of saved cities (10). Delete data to add new ones"))
+            dispatch(setError("You've exceeded the max number of saved cities (10). Delete any city to add new ones"))
+            dispatch(setIsModalOpen(true))
             return
         }
 
@@ -53,7 +60,7 @@ const CitySearch: React.FC<Props> = ({ inputCityValue, isLoading, inputRef, data
                 <Button
                     disabled={isLoading || !inputCityValue}
                     htmlType="submit">
-                        Find
+                    Find
                 </Button>
             </Space.Compact>
         </form>

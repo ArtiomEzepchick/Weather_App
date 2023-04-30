@@ -42,7 +42,7 @@ const weatherReducer = (
         ...state,
         currentWeatherData: action.payload,
         error: null,
-        isLoading: false,
+        isLoading: false
       }
     case GET_CURRENT_WEATHER_FAILURE:
       return {

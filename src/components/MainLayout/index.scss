@@ -27,15 +27,15 @@
                 position: relative;
 
                 .menu-delete-btn {
-                    visibility: hidden;
-                    opacity: 0;
+                    @include hidden-element;
                 }
 
                 &.ant-menu-inline-collapsed {
+                    pointer-events: none;
+
                     .ant-menu-item, .ant-menu-item-selected {
                         .menu-delete-btn {
-                            visibility: hidden;
-                            opacity: 0;
+                            @include hidden-element;
                         }
                     }
                 }
@@ -109,6 +109,7 @@
                 border-radius: $border-radius-weather-block;
                 padding: 2rem;
                 text-align: center;
+                @include opacity-low;
 
                 @media (max-width: $size-l) {
                     height: max-content;
