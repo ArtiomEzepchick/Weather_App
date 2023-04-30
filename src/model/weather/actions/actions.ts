@@ -54,9 +54,9 @@ export const setError = (payload: string): WeatherAction => ({
   payload
 })
 
-export const clearError = (payload: null): WeatherAction => ({
+export const clearError = (): WeatherAction => ({
   type: CLEAR_ERROR,
-  payload
+  payload: null
 })
 
 export const setIsLoading = (payload: boolean): WeatherAction => ({

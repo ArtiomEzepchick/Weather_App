@@ -32,7 +32,7 @@ const Modal: React.FC<Props> = ({
         unlockScroll()
 
         setTimeout(() => {
-            dispatch(clearError(null))
+            dispatch(clearError())
         }, 200)
     }, [dispatch, unlockScroll])
 
@@ -43,7 +43,7 @@ const Modal: React.FC<Props> = ({
         unlockScroll()
 
         setTimeout(() => {
-            dispatch(clearError(null))
+            dispatch(clearError())
             dispatch(setInputCityValue(''))
         }, 200)
     }, [dispatch, inputRef, unlockScroll])

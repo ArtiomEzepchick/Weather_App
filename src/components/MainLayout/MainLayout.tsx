@@ -24,7 +24,11 @@ import { WeatherState } from '../../types/states'
 import { MenuItem, WeatherTransformedData } from '../../types/weather'
 import { copyrightLinks } from '../../helpers/copyrightLinks/copyrightLinks'
 import { getUserLocation } from '../../helpers/requests/requests'
-import { WEATHER_IMAGES_SRC, DEGREE_SYMBOL } from '../../helpers/weatherConstants/weatherConstants'
+import {
+    WEATHER_IMAGES_SRC,
+    DEGREE_SYMBOL,
+    LOCAL_STORAGE_VARIABLES
+} from '../../helpers/weatherConstants/weatherConstants'
 import {
     setAsideCollapsed,
     setCurrentWeatherData,
@@ -35,7 +39,19 @@ import {
 
 import './index.scss'
 
-const { Header, Content, Footer, Sider } = Layout
+const {
+    Header,
+    Content,
+    Footer,
+    Sider
+} = Layout
+
+const {
+    ALL_CITIES_WEATHER_DATA,
+    CURRENT_WEATHER_DATA,
+    MENU_KEY_REF,
+    SAVED_WEATHER_DATA_REF
+} = LOCAL_STORAGE_VARIABLES
 
 const makeMenuItem = (
     label: React.ReactNode,
@@ -61,7 +77,7 @@ const MainLayout: React.FC = () => {
     } = useSelector((state: WeatherState) => state)
 
     const dispatch = useDispatch()
-    const menuItemKeyRef = useRef<string>('')
+    const menuKeyRef = useRef<string>('')
     const siderRef = useRef<HTMLDivElement>(null)
     const savedWeatherDataRef = useRef<WeatherTransformedData | null>(currentWeatherData)
     const inputRef = useRef<InputRef>(null)
@@ -72,10 +88,12 @@ const MainLayout: React.FC = () => {
     }, [allCitiesWeatherData])
 
     const handleDeleteBtnClick = useCallback(() => {
-        const newWeatherData = allCitiesWeatherData.filter((item, index) => index.toString() !== menuItemKeyRef.current)
+        let currentMenyKeyRef = menuKeyRef.current
+        const newWeatherData = allCitiesWeatherData.filter((item, index) => index.toString() !== currentMenyKeyRef)
 
         dispatch(setIsLoading(true))
         dispatch(updateAllCitiesWeatherData(newWeatherData))
+        localStorage.setItem(ALL_CITIES_WEATHER_DATA, JSON.stringify(newWeatherData))
 
         setTimeout(() => {
             dispatch(setIsLoading(false))
@@ -85,17 +103,27 @@ const MainLayout: React.FC = () => {
             savedWeatherDataRef.current = null
             dispatch(setAsideCollapsed(true))
             dispatch(setCurrentWeatherData(null))
+
+            localStorage.setItem(CURRENT_WEATHER_DATA, JSON.stringify({}))
+            localStorage.setItem(SAVED_WEATHER_DATA_REF, JSON.stringify({}))
             return
         }
 
-        if (+menuItemKeyRef.current >= newWeatherData.length - 1) {
-            menuItemKeyRef.current = (newWeatherData.length - 1).toString()
-            dispatch(setCurrentWeatherData(newWeatherData[+menuItemKeyRef.current]))
-            savedWeatherDataRef.current = newWeatherData[+menuItemKeyRef.current]
+        if (+currentMenyKeyRef >= newWeatherData.length - 1) {
+            currentMenyKeyRef = (newWeatherData.length - 1).toString()
+            savedWeatherDataRef.current = newWeatherData[+currentMenyKeyRef]
+            dispatch(setCurrentWeatherData(newWeatherData[+currentMenyKeyRef]))
+
+            localStorage.setItem(MENU_KEY_REF, JSON.stringify(currentMenyKeyRef))
+            localStorage.setItem(SAVED_WEATHER_DATA_REF, JSON.stringify(newWeatherData[+currentMenyKeyRef]))
+            localStorage.setItem(CURRENT_WEATHER_DATA, JSON.stringify(newWeatherData[+currentMenyKeyRef]))
             return
         } else {
-            dispatch(setCurrentWeatherData(newWeatherData[+menuItemKeyRef.current]))
-            savedWeatherDataRef.current = newWeatherData[+menuItemKeyRef.current]
+            dispatch(setCurrentWeatherData(newWeatherData[+currentMenyKeyRef]))
+            savedWeatherDataRef.current = newWeatherData[+currentMenyKeyRef]
+
+            localStorage.setItem(CURRENT_WEATHER_DATA, JSON.stringify(newWeatherData[+currentMenyKeyRef]))
+            localStorage.setItem(SAVED_WEATHER_DATA_REF, JSON.stringify(newWeatherData[+currentMenyKeyRef]))
             return
         }
     }, [allCitiesWeatherData, dispatch])
@@ -138,11 +166,15 @@ const MainLayout: React.FC = () => {
     ])
 
     const fetchUserLocation = useCallback(async () => {
+        const lsAllCitiesWeatherData = JSON.parse(localStorage.getItem(ALL_CITIES_WEATHER_DATA) || "[]")
+
         try {
-            dispatch(setIsLoading(true))
-            const userLocation = await getUserLocation()
-            dispatch(setInputCityValue(userLocation))
-            dispatch(setIsLoading(false))
+            if (!lsAllCitiesWeatherData.length) {
+                dispatch(setIsLoading(true))
+                const userLocation = await getUserLocation()
+                dispatch(setInputCityValue(userLocation))
+                dispatch(setIsLoading(false))
+            }
         } catch (error: any) {
             console.log(error)
         } finally {
@@ -159,19 +191,51 @@ const MainLayout: React.FC = () => {
     }, [fetchUserLocation, dispatch])
 
     useEffect(() => {
+        const lsAllCitiesWeatherData = JSON.parse(localStorage.getItem(ALL_CITIES_WEATHER_DATA) || "[]")
+        const lsCurrentWeatherData = JSON.parse(localStorage.getItem(CURRENT_WEATHER_DATA) || "[]")
+        const lsSavedWeatherDataRef = JSON.parse(localStorage.getItem(SAVED_WEATHER_DATA_REF) || "{}")
+        const lsMenuKeyRef = JSON.parse(localStorage.getItem(MENU_KEY_REF) || "")
+
+        if (lsAllCitiesWeatherData.length) {
+            dispatch(updateAllCitiesWeatherData(lsAllCitiesWeatherData))
+        }
+
+        if (lsCurrentWeatherData.length) {
+            dispatch(setCurrentWeatherData(lsCurrentWeatherData))
+        }
+
+        if (Object.keys(lsSavedWeatherDataRef).length) {
+            savedWeatherDataRef.current = lsSavedWeatherDataRef
+        }
+
+        if (lsMenuKeyRef) {
+            menuKeyRef.current = lsMenuKeyRef
+        }
+    }, [dispatch])
+
+    useEffect(() => {
         isLoading ? lockScroll() : unlockScroll()
 
         if (currentWeatherData) {
             savedWeatherDataRef.current = currentWeatherData
+
+            localStorage.setItem(CURRENT_WEATHER_DATA, JSON.stringify(currentWeatherData))
+            localStorage.setItem(SAVED_WEATHER_DATA_REF, JSON.stringify(currentWeatherData))
         }
 
         if (error && savedWeatherDataRef.current) {
-            menuItemKeyRef.current = (allCitiesWeatherData.indexOf(savedWeatherDataRef.current)).toString()
+            menuKeyRef.current = (allCitiesWeatherData.indexOf(savedWeatherDataRef.current)).toString()
+
+            localStorage.setItem(MENU_KEY_REF, JSON.stringify(menuKeyRef.current))
         }
 
         if (currentWeatherData && !cities.includes(currentWeatherData.city)) {
-            dispatch(updateAllCitiesWeatherData([...allCitiesWeatherData, currentWeatherData]))
+            const newWeatherData = [...allCitiesWeatherData, currentWeatherData]
+
+            dispatch(updateAllCitiesWeatherData(newWeatherData))
             dispatch(setInputCityValue(''))
+
+            localStorage.setItem(ALL_CITIES_WEATHER_DATA, JSON.stringify(newWeatherData))
         }
 
         if (currentWeatherData && cities.includes(currentWeatherData.city)) {
@@ -184,6 +248,8 @@ const MainLayout: React.FC = () => {
 
                 dispatch(updateAllCitiesWeatherData(newWeatherData))
                 dispatch(setInputCityValue(''))
+
+                localStorage.setItem(ALL_CITIES_WEATHER_DATA, JSON.stringify(newWeatherData))
             }
         }
     }, [
@@ -200,16 +266,24 @@ const MainLayout: React.FC = () => {
 
     useEffect(() => {
         if (!currentWeatherData) {
-            menuItemKeyRef.current = ''
+            const lsMenuKeyRef = JSON.parse(localStorage.getItem(MENU_KEY_REF) || "")
+            
+            menuKeyRef.current = lsMenuKeyRef
             return
         }
 
-        currentWeatherData && cities.includes(currentWeatherData.city)
-            ? menuItemKeyRef.current = cities.indexOf(currentWeatherData.city).toString()
-            : menuItemKeyRef.current = allCitiesWeatherData.length.toString()
+        if (currentWeatherData && cities.includes(currentWeatherData.city)) {
+            menuKeyRef.current = cities.indexOf(currentWeatherData.city).toString()
+
+            localStorage.setItem(MENU_KEY_REF, JSON.stringify(menuKeyRef.current))
+        } else {
+            menuKeyRef.current = allCitiesWeatherData.length.toString()
+
+            localStorage.setItem(MENU_KEY_REF, JSON.stringify(menuKeyRef.current))
+        }
     }, [
         cities,
-        menuItemKeyRef,
+        menuKeyRef,
         currentWeatherData,
         allCitiesWeatherData,
         dispatch
@@ -234,7 +308,7 @@ const MainLayout: React.FC = () => {
     ])
 
     const handleMenuItemSelect = (menuInfo: MenuInfo): void => {
-        menuItemKeyRef.current = menuInfo.key
+        menuKeyRef.current = menuInfo.key
         animateScroll.scrollToTop({ duration: 500 })
         dispatch(setCurrentWeatherData(allCitiesWeatherData[Number(menuInfo.key)]))
         savedWeatherDataRef.current = allCitiesWeatherData[Number(menuInfo.key)]
@@ -253,7 +327,7 @@ const MainLayout: React.FC = () => {
             >
                 <Menu
                     selectable={!isLoading}
-                    selectedKeys={[menuItemKeyRef.current]}
+                    selectedKeys={[menuKeyRef.current]}
                     theme="dark"
                     mode="inline"
                     items={menuItems}

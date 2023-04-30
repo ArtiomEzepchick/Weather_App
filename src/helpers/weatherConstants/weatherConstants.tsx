@@ -12,3 +12,10 @@ export const FORECAST_LABELS: ForecastLabels = {
     VISIBILITY: 'Visibility',
     WIND: 'Wind'
 }
+
+export const LOCAL_STORAGE_VARIABLES = {
+    ALL_CITIES_WEATHER_DATA: 'allCitiesWeatherData',
+    CURRENT_WEATHER_DATA: 'currentWeatherData',
+    SAVED_WEATHER_DATA_REF: 'savedWeatherDataRef',
+    MENU_KEY_REF: 'menuKeyRef',
+}
