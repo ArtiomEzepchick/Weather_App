@@ -2,7 +2,7 @@ import moment from 'moment'
 import { nanoid } from 'nanoid'
 
 import { WEATHER_ICON_URL } from '../weatherConstants/weatherConstants'
-import { getLocTime } from '../weatherHelpers/weatherHelpers'
+import { getLocTime } from '../weatherUtils/weatherUtils'
 import { WeatherPayload, WeatherTransformedData } from '../../types/weather'
 
 export const transformWeatherPayload = (payload: WeatherPayload): WeatherTransformedData => {

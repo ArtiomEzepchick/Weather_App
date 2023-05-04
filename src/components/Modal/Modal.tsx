@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useCallback, RefObject } from "react"
 import { Button, InputRef } from "antd"
 import { createPortal } from "react-dom"
 import { useDispatch } from "react-redux"
+import { Dispatch } from "redux"
 
 import Overlay from "../Overlay/Overlay"
 
@@ -25,9 +26,9 @@ const Modal: React.FC<Props> = ({
     const modalRef = useRef<HTMLDivElement>(null)
     const { lockScroll, unlockScroll } = useScrollLock()
     const modalRoot = document.getElementById('modal') as HTMLElement
-    const dispatch = useDispatch()
+    const dispatch: Dispatch = useDispatch()
 
-    const handleCloseModal = useCallback(() => {
+    const handleCloseModal = useCallback((): void => {
         closeModal()
         unlockScroll()
 
@@ -36,7 +37,7 @@ const Modal: React.FC<Props> = ({
         }, 200)
     }, [dispatch, unlockScroll])
 
-    const handleCloseModalAndEdit = useCallback(() => {
+    const handleCloseModalAndEdit = useCallback((): void => {
         if (inputRef.current) inputRef.current.focus()
 
         closeModal()
@@ -51,7 +52,7 @@ const Modal: React.FC<Props> = ({
     useEffect(() => {
         isModalOpen ? lockScroll() : unlockScroll()
 
-        const handleClickOutside = (e: MouseEvent) => {
+        const handleClickOutside = (e: MouseEvent): void => {
             const target = e.target as HTMLDivElement
             if (modalRef.current && !modalRef.current.contains(target)) {
                 handleCloseModal()

@@ -1,12 +1,13 @@
 import { transformWeatherPayload } from "../transformWeatherPayload/transformWeatherPayload"
+import { WeatherPayload, UserLocation } from "../../types/weather"
 
-export const getWeatherByCityName = async (city: string) => {
-    const API_URL = 'https://api.openweathermap.org/data/2.5/'
+export const getWeatherByCityName = async (city: string): Promise<any>  => {
+    const API_URL: string = 'https://api.openweathermap.org/data/2.5/'
     const API_KEY = process.env.REACT_APP_OPENWEATHER_API_KEY
 
     try {
-        const response = await fetch(`${API_URL}forecast?q=${city}&units=metric&appid=${API_KEY}`)
-        const data = await response.json()
+        const response: Response = await fetch(`${API_URL}forecast?q=${city}&units=metric&appid=${API_KEY}`)
+        const data: WeatherPayload = await response.json()
 
         return transformWeatherPayload(data)
     } catch (error: any) {
@@ -14,13 +15,13 @@ export const getWeatherByCityName = async (city: string) => {
     }
 }
 
-export const getUserLocation = async () => {
-    const API_URL = 'https://ipgeolocation.abstractapi.com/v1/'
+export const getUserLocation = async (): Promise<any> => {
+    const API_URL: string = 'https://ipgeolocation.abstractapi.com/v1/'
     const API_KEY = process.env.REACT_APP_ABSTRACT_API_KEY
 
     try {
-        const response = await fetch(`${API_URL}?api_key=${API_KEY}`)
-        const data = await response.json()
+        const response: Response = await fetch(`${API_URL}?api_key=${API_KEY}`)
+        const data: UserLocation = await response.json()
 
         return data.city
     } catch(error: any) {

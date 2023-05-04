@@ -31,7 +31,7 @@ const CitySearch: React.FC<Props> = ({
 }) => {
     const dispatch = useDispatch()
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         if (dataLength === 10) {
             dispatch(setError("You've exceeded the max number of saved cities (10). Delete any city to add new ones"))
             dispatch(setIsModalOpen(true))
@@ -41,7 +41,7 @@ const CitySearch: React.FC<Props> = ({
         dispatch(setInputCityValue(e.target.value))
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault()
 
         dispatch(getCurrentWeather(inputCityValue))

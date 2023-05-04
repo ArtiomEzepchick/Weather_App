@@ -1,6 +1,14 @@
-import { Forecast, ForecastData, WeatherList } from "../../types/weather"
 import { WeatherTransformedData } from "../../types/weather"
-import { FORECAST_LABELS, ICONS_SRC, DEGREE_SYMBOL } from "../weatherConstants/weatherConstants"
+import { 
+    Forecast, 
+    ForecastData, 
+    WeatherList 
+} from "../../types/weather"
+import { 
+    FORECAST_LABELS, 
+    ICONS_SRC, 
+    DEGREE_SYMBOL 
+} from "../weatherConstants/weatherConstants"
 
 export const addUnitsBasedOnLabels = (label: string): string | JSX.Element => {
     switch(label) {
@@ -53,9 +61,9 @@ export const transformForecastData = (data: WeatherTransformedData): ForecastDat
 }
 
 export const filterWeatherData = (data: WeatherTransformedData): WeatherList[] => {
-    let currentDay = data.list[0].day
-    let count = 0
-    const result = []
+    let currentDay: string = data.list[0].day
+    let count: number = 0
+    const result: WeatherList[] = []
 
     for (let item of data.list) {
         if (item.day !== currentDay) {
@@ -74,7 +82,7 @@ export const filterWeatherData = (data: WeatherTransformedData): WeatherList[] =
     return result
 }
 
-export const getLocTime = (locTime: string) => {
+export const getLocTime = (locTime: string): number | undefined => {
     const parsedLocTime = parseInt(locTime)
     const diviseResult = Math.floor(parsedLocTime / 3)
   
