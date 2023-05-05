@@ -2,17 +2,23 @@ import React from "react"
 import moment from "moment"
 import classNames from "classnames"
 import { useDispatch } from "react-redux"
+import { Dispatch } from "redux"
 
 import WeatherTemperatureItem from "../WeatherTemperatureItem/WeatherTemperatureItem"
 
-import { WeatherTransformedData } from "../../types/weather"
+
 import { DEGREE_SYMBOL } from "../../helpers/weatherConstants/weatherConstants"
 import { getCurrentWeather } from "../../model/weather/actions/actions"
+import { 
+    WeatherTransformedData, 
+    WeatherList,
+    ForecastData 
+} from "../../types/weather"
 import {
     transformForecastData,
     filterWeatherData,
     addUnitsBasedOnLabels,
-} from "../../helpers/transformForecastData/transformForecastData"
+} from "../../helpers/weatherUtils/weatherUtils"
 
 import './index.scss'
 
@@ -22,16 +28,16 @@ type Props = {
 }
 
 const WeatherForecast: React.FC<Props> = ({ weatherData, isLoading }) => {
-    const dispatch = useDispatch()
+    const dispatch: Dispatch = useDispatch()
 
-    const shortForecastData = weatherData.list[0]
-    const hourlyForecastData = weatherData.list.slice(0, 8)
-    const detailedForecastData = transformForecastData(weatherData)
-    const nextDaysForecastData = filterWeatherData(weatherData)
-    const lastWeatherUpdate = moment.utc(weatherData.lastUpdate).fromNow()
-    const currentLocationTime = moment().utcOffset(weatherData.timezone / 60).format("H:mm")
+    const shortForecastData: WeatherList = weatherData.list[0]
+    const hourlyForecastData: WeatherList[] = weatherData.list.slice(0, 8)
+    const detailedForecastData: ForecastData[] = transformForecastData(weatherData)
+    const nextDaysForecastData: WeatherList[] = filterWeatherData(weatherData)
+    const lastWeatherUpdate: string = moment.utc(weatherData.lastUpdate).fromNow()
+    const currentLocationTime: string = moment().utcOffset(weatherData.timezone / 60).format("H:mm")
 
-    const handleUpdateWeatherData = () => {
+    const handleUpdateWeatherData = (): void => {
         if (weatherData) dispatch(getCurrentWeather(weatherData.city))
     }
 

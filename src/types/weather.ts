@@ -2,12 +2,13 @@ import { MenuProps } from "antd"
 
 export type MenuItem = Required<MenuProps>['items'][number]
 
-export interface ForecastLabels {
-  FEELS_LIKE: string;
-  HUMIDITY: string;
-  PRESSURE: string;
-  VISIBILITY: string;
-  WIND: string;
+export interface UserLocation {
+  city: string;
+  county: string;
+  country_geoname_id: number;
+  ip_address: string;
+  latitude: number;
+  longitude: number;
 }
 
 export interface WeatherPayload {
