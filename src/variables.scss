@@ -4,7 +4,7 @@ $color-red: #ff6868;
 
 $width-sider: 5rem;
 
-$border-radius-weather-block: 0.5rem;
+$border-radius-common-block: 0.5rem;
 
 $size-xs: 540px;
 $size-s: 790px;
@@ -27,7 +27,11 @@ $size-xxl: 1500px;
     }
 };
 
+@mixin transition-standard {
+    transition: all 0.1s ease-in-out;
+};
+
 @mixin hidden-element {
     visibility: hidden;
     opacity: 0;
-}   
+};

@@ -1,7 +1,3 @@
-import { TokenResponse } from "@react-oauth/google"
-
-export type TokenPayload = Omit<TokenResponse, "error" | "error_description" | "error_uri">
-
 export interface UserTokenPayload {
   access_token: string;
   authuser?: string;

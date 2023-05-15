@@ -44,7 +44,7 @@
                     .menu-delete-btn {
                         position: absolute;
                         @include flex-all-centered;
-                        transition: all 0.1s ease-in-out;
+                        @include transition-standard;
                         border-radius: 100%;
                         width: 1.5rem;
                         height: 1.5rem;
@@ -79,10 +79,81 @@
         .ant-layout-header {
             height: 3rem;
             background-color: transparent;
+            display: flex;
+            align-items: center;
 
             @media (max-width: $size-xs) {
                 padding: 0;
                 margin: 0 auto;
+            }
+
+            #login-button {
+                height: 2rem;
+                width: 10rem;
+                background-color: $color-white;
+            }
+
+            #login-button,
+            #logout-button {
+                @include transition-standard;
+                padding: 0.5rem;
+                border: none;
+                border-radius: $border-radius-common-block;
+                opacity: 1;
+                cursor: pointer;
+            }
+
+            #login-button:hover,
+            #logout-button:hover {
+                opacity: 0.8;
+            }
+
+            .user-profile-container {
+                position: relative;
+
+                #user-profile-button {
+                    @include flex-all-centered;
+                    width: 2rem;
+                    height: 2rem;
+                    border-radius: 100%;
+                    border: none;
+                    cursor: pointer;
+
+                    img {
+                        width: 2rem;
+                        height: 2rem;
+                        border-radius: 100%;
+                    }
+                }
+
+                .user-profile-actions {
+                    display: none;
+
+                    &.show {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding: 0.5rem 0;
+                        flex-direction: column;
+                        position: absolute;
+                        top: 0;
+                        left: 120%;
+                        background-color: $color-white;
+                        border-radius: $border-radius-common-block;
+                        width: 10rem;
+                        min-height: 7rem;
+                        font-size: 1rem;
+                        line-height: normal;
+                        text-align: center;
+
+                        #logout-button {
+                            display: flex;
+                            gap: 0.5rem;
+                            width: 5rem;
+                            height: 2rem;
+                        }
+                    }
+                }
             }
         }
 
@@ -106,7 +177,7 @@
                 width: 30rem;
                 height: 15rem;
                 background-color: $color-white;
-                border-radius: $border-radius-weather-block;
+                border-radius: $border-radius-common-block;
                 padding: 2rem;
                 text-align: center;
                 @include opacity-low;

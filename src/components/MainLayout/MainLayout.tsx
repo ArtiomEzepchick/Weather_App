@@ -13,8 +13,9 @@ import {
 import { CloudOutlined } from '@ant-design/icons'
 import { MenuInfo } from 'rc-menu/lib/interface'
 import { useDispatch, useSelector } from 'react-redux'
-import { Dispatch } from "redux"
+import { Dispatch } from 'redux'
 import { animateScroll } from 'react-scroll'
+import { useGoogleLogin, googleLogout } from '@react-oauth/google'
 import classNames from 'classnames'
 
 import CitySearch from '../CitySearch/CitySearch'
@@ -30,6 +31,9 @@ import { copyrightLinks } from '../../helpers/copyrightLinks/copyrightLinks'
 import { getUserLocation } from '../../helpers/requests/requests'
 import { WEATHER_IMAGES_SRC, DEGREE_SYMBOL } from '../../helpers/constants/weatherConstants'
 import { LOCAL_STORAGE_ITEMS } from '../../helpers/localStorageItems/localStorageItems'
+import { setUserToken, setUserError } from '../../model/user/actions/actions'
+import { WeatherState } from '../../types/weather/states'
+import { UserState } from '../../types/user/states'
 import {
     setAsideCollapsed,
     setCurrentWeatherData,
@@ -39,7 +43,6 @@ import {
 } from '../../model/weather/actions/actions'
 
 import './index.scss'
-import { WeatherState } from '../../types/weather/states'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
@@ -70,6 +73,7 @@ const {
 } = LOCAL_STORAGE_ITEMS
 
 const MainLayout: React.FC = () => {
+    const { userData } = useSelector((state: State): UserState => state.userReducer)
     const {
         allCitiesWeatherData,
         currentWeatherData,
@@ -77,15 +81,15 @@ const MainLayout: React.FC = () => {
         isLoading,
         isModalOpen,
         inputCityValue,
-        asideCollapsed,
+        asideCollapsed
     } = useSelector((state: State): WeatherState => state.weatherReducer)
 
-    const dispatch: Dispatch = useDispatch()
     const menuKeyRef = useRef<string>('')
     const siderRef = useRef<HTMLDivElement>(null)
     const savedWeatherDataRef = useRef<WeatherTransformedData | null>(currentWeatherData)
     const inputRef = useRef<InputRef>(null)
     const { lockScroll, unlockScroll } = useScrollLock()
+    const dispatch: Dispatch = useDispatch()
 
     const cities = useMemo((): string[] => {
         return allCitiesWeatherData.map((item: any) => item.city)
@@ -171,7 +175,7 @@ const MainLayout: React.FC = () => {
     ])
 
     const fetchUserLocation = useCallback(async (): Promise<void> => {
-        const lsAllCitiesWeatherData = JSON.parse(localStorage.getItem(ALL_CITIES_WEATHER_DATA) || "[]")
+        const lsAllCitiesWeatherData = JSON.parse(localStorage.getItem(ALL_CITIES_WEATHER_DATA) || '[]')
 
         try {
             if (!lsAllCitiesWeatherData.length) {
@@ -187,6 +191,25 @@ const MainLayout: React.FC = () => {
         }
     }, [dispatch])
 
+    const handleMenuItemSelect = (menuInfo: MenuInfo): void => {
+        menuKeyRef.current = menuInfo.key
+        animateScroll.scrollToTop({ duration: 500 })
+        dispatch(setCurrentWeatherData(allCitiesWeatherData[Number(menuInfo.key)]))
+        savedWeatherDataRef.current = allCitiesWeatherData[Number(menuInfo.key)]
+    }
+
+    const handleLogin = useGoogleLogin({
+        onSuccess: (response) => {
+            dispatch(setUserToken(response))
+        },
+        onError: (error) => dispatch(setUserError(`Login Failed: ${error}`))
+    })
+
+    const handleLogout = () => {
+        googleLogout()
+        // dispatch(setUserToken(null))
+    }
+
     useEffect(() => {
         dispatch(setIsLoading(true))
 
@@ -196,10 +219,10 @@ const MainLayout: React.FC = () => {
     }, [fetchUserLocation, dispatch])
 
     useEffect(() => {
-        const lsAllCitiesWeatherData: WeatherTransformedData[] = JSON.parse(localStorage.getItem(ALL_CITIES_WEATHER_DATA) || "[]")
-        const lsCurrentWeatherData: WeatherTransformedData = JSON.parse(localStorage.getItem(CURRENT_WEATHER_DATA) || "[]")
-        const lsSavedWeatherDataRef: WeatherTransformedData = JSON.parse(localStorage.getItem(SAVED_WEATHER_DATA_REF) || "{}")
-        const lsMenuKeyRef: string = JSON.parse(localStorage.getItem(MENU_KEY_REF) || "")
+        const lsAllCitiesWeatherData: WeatherTransformedData[] = JSON.parse(localStorage.getItem(ALL_CITIES_WEATHER_DATA) || '[]')
+        const lsCurrentWeatherData: WeatherTransformedData = JSON.parse(localStorage.getItem(CURRENT_WEATHER_DATA) || '[]')
+        const lsSavedWeatherDataRef: WeatherTransformedData = JSON.parse(localStorage.getItem(SAVED_WEATHER_DATA_REF) || '{}')
+        const lsMenuKeyRef: string = JSON.parse(localStorage.getItem(MENU_KEY_REF) || '')
 
         if (lsAllCitiesWeatherData.length) {
             dispatch(updateAllCitiesWeatherData(lsAllCitiesWeatherData))
@@ -227,7 +250,7 @@ const MainLayout: React.FC = () => {
             localStorage.setItem(CURRENT_WEATHER_DATA, JSON.stringify(currentWeatherData))
             localStorage.setItem(SAVED_WEATHER_DATA_REF, JSON.stringify(currentWeatherData))
         } else {
-            const lsMenuKeyRef: string = JSON.parse(localStorage.getItem(MENU_KEY_REF) || "")
+            const lsMenuKeyRef: string = JSON.parse(localStorage.getItem(MENU_KEY_REF) || '')
             menuKeyRef.current = lsMenuKeyRef
             return
         }
@@ -241,7 +264,7 @@ const MainLayout: React.FC = () => {
         if (currentWeatherData && cities.includes(currentWeatherData.city)) {
             const isCityIdNotExist: boolean = allCitiesWeatherData.every((item: WeatherTransformedData) => item.id !== currentWeatherData.id)
             menuKeyRef.current = cities.indexOf(currentWeatherData.city).toString()
-            
+
             localStorage.setItem(MENU_KEY_REF, JSON.stringify(menuKeyRef.current))
 
             if (isCityIdNotExist) {
@@ -285,21 +308,36 @@ const MainLayout: React.FC = () => {
                 : dispatch(setAsideCollapsed(false))
         }
 
-        if (menuItems.length) document.addEventListener("mouseover", handleMouseOverSider)
+        if (menuItems.length) document.addEventListener('mouseover', handleMouseOverSider)
 
-        return () => document.removeEventListener("mouseover", handleMouseOverSider)
+        return () => document.removeEventListener('mouseover', handleMouseOverSider)
     }, [
         siderRef,
         menuItems,
         dispatch
     ])
 
-    const handleMenuItemSelect = (menuInfo: MenuInfo): void => {
-        menuKeyRef.current = menuInfo.key
-        animateScroll.scrollToTop({ duration: 500 })
-        dispatch(setCurrentWeatherData(allCitiesWeatherData[Number(menuInfo.key)]))
-        savedWeatherDataRef.current = allCitiesWeatherData[Number(menuInfo.key)]
-    }
+    useEffect(() => {
+        const handleOutsideUserProfileClick = (e: MouseEvent): void => {
+            const target = e.target as HTMLElement
+            const userProfileButton = document.querySelector('#user-profile-button')
+            const userProfileImg = document.querySelector('.user-profile-img')
+            const userIcon = document.querySelector('.fa-user')
+            const userProfileActions = document.querySelector('.user-profile-actions')
+
+            if (userProfileButton && userProfileActions) {
+                if (target === userProfileButton || target === userProfileImg || target === userIcon) {
+                    userProfileActions.classList.toggle('show')
+                } else if (!target.closest('.user-profile-actions')) {
+                    userProfileActions.classList.remove('show')
+                }
+            }
+        }
+
+        document.addEventListener('click', handleOutsideUserProfileClick)
+
+        return () => document.removeEventListener('click', handleOutsideUserProfileClick)
+    }, [])
 
     return (
         <Layout style={{
@@ -315,14 +353,45 @@ const MainLayout: React.FC = () => {
                 <Menu
                     selectable={!isLoading}
                     selectedKeys={[menuKeyRef.current]}
-                    theme="dark"
-                    mode="inline"
+                    theme='dark'
+                    mode='inline'
                     items={menuItems}
                     onSelect={handleMenuItemSelect}
                 />
             </Sider>
-            <Layout className="site-layout">
+            <Layout className='site-layout'>
                 <Header>
+                    {!userData &&
+                        <button
+                            id='login-button'
+                            onClick={() => handleLogin()}
+                        >
+                            Sign in with Google
+                        </button>}
+                    {userData &&
+                        <div className='user-profile-container'>
+                            <button id='user-profile-button'>
+                                {userData.picture
+                                    ? <img
+                                        className='user-profile-img'
+                                        src={userData.picture}
+                                        alt='User'
+                                    />
+                                    : <i className='fa-solid fa-user' />}
+                            </button>
+                            <div className='user-profile-actions'>
+                                <span>Hello, {userData.name}!</span>
+                                <button
+                                    id='logout-button'
+                                    onClick={handleLogout}
+                                >
+                                    Logout
+                                    <i className='fa-solid fa-user-pen' />
+                                </button>
+                            </div>
+                        </div>
+
+                    }
                     <CitySearch
                         dataLength={allCitiesWeatherData.length}
                         inputRef={inputRef}
@@ -332,7 +401,7 @@ const MainLayout: React.FC = () => {
                 </Header>
                 <Content>
                     <GoogleCalendar />
-                    {!savedWeatherDataRef.current && !error &&
+                    {!savedWeatherDataRef.current && !error && !userData &&
                         <section className={classNames('welcome-block', isLoading && 'opacity-low')}>
                             <h1>Welcome to Weather App!</h1>
                             <span>You need to enter the name of the city in the input at the top to start exploring.</span>
@@ -352,7 +421,7 @@ const MainLayout: React.FC = () => {
                 </Content>
                 <Footer style={{ padding: '0 1rem', height: '3rem' }}>
                     <span>&#169; 2023 Made by Artsiom Ezepchik</span>
-                    <section className="copyright-links">
+                    <section className='copyright-links'>
                         <span>Contact me:</span>
                         {copyrightLinks.map(({ href, iconClassName }) => (
                             <a key={href} target='blank' href={href}>

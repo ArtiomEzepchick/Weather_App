@@ -13,7 +13,7 @@
         padding: 1rem;
         flex-direction: column;
         background-color: $color-white;
-        border-radius: $border-radius-weather-block;
+        border-radius: $border-radius-common-block;
     
         @media (max-width: $size-xs) {
             width: 15rem;
@@ -98,7 +98,7 @@
         }
     
         & > section {
-            border-radius: $border-radius-weather-block;
+            border-radius: $border-radius-common-block;
         }
     
         .weather-hourly-forecast {
@@ -155,7 +155,7 @@
                 height: 8rem;
                 background-color: $color-white;
                 padding: 1rem;
-                border-radius: $border-radius-weather-block;
+                border-radius: $border-radius-common-block;
         
                 @media (max-width: $size-xs) {
                     width: 15rem;

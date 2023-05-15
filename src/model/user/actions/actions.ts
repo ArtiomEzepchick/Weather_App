@@ -9,50 +9,54 @@ import {
     SET_IS_LOADING_CALENDAR,
     SET_USER_ERROR
 } from '../constants/constants'
+import { 
+    FormattedEventsItem, 
+    UserDataPayload, 
+    UserTokenPayload 
+} from '../../../types/user/user'
 import { UserAction } from '../../../types/user/actions'
-import { TokenPayload } from '../../../types/user/user'
 
-export const setUserToken = (payload: TokenPayload): UserAction => ({
+export const setUserToken = (payload: UserTokenPayload): UserAction => ({
     type: SET_USER_TOKEN,
     payload
 })
 
-export const getUserData = (payload: any): UserAction => ({
+export const getUserData = (payload: string): UserAction => ({
     type: GET_USER_DATA_REQUEST,
     payload
 })
 
-export const getUserDataSuccess = (payload: any): UserAction => ({
+export const getUserDataSuccess = (payload: UserDataPayload): UserAction => ({
     type: GET_USER_DATA_SUCCESS,
     payload
 })
 
-export const getUserDataFailure = (payload: any): UserAction => ({
+export const getUserDataFailure = (payload: string): UserAction => ({
     type: GET_USER_DATA_FAILURE,
     payload
 })
 
-export const getCalendarEvents = (payload: any): UserAction => ({
+export const getCalendarEvents = (payload: string): UserAction => ({
     type: GET_CALENDAR_EVENTS_REQUEST,
     payload
 })
 
-export const getCalendarEventsSuccess = (payload: any): UserAction => ({
+export const getCalendarEventsSuccess = (payload: FormattedEventsItem[]): UserAction => ({
     type: GET_CALENDAR_EVENTS_SUCCESS,
     payload
 })
 
-export const getCalendarEventsFailure = (payload: any): UserAction => ({
+export const getCalendarEventsFailure = (payload: string): UserAction => ({
     type: GET_CALENDAR_EVENTS_FAILURE,
     payload
 })
 
-export const setIsLoadingCalendar = (payload: any): UserAction => ({
+export const setIsLoadingCalendar = (payload: boolean): UserAction => ({
     type: SET_IS_LOADING_CALENDAR,
     payload
 })
 
-export const setUserError = (payload: any): UserAction => ({
+export const setUserError = (payload: string): UserAction => ({
     type: SET_USER_ERROR,
     payload
 })
