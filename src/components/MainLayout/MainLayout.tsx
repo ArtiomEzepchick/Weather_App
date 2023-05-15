@@ -7,7 +7,8 @@ import React, {
 import {
     InputRef,
     Layout,
-    Menu
+    Menu,
+    MenuProps
 } from 'antd'
 import { CloudOutlined } from '@ant-design/icons'
 import { MenuInfo } from 'rc-menu/lib/interface'
@@ -23,11 +24,11 @@ import WeatherForecast from '../WeatherForecast/WeatherForecast'
 import GoogleCalendar from '../GoogleCalendar/GoogleCalendar'
 
 import { useScrollLock } from '../../hooks/useScrollLock'
-import { WeatherState } from '../../types/states'
-import { MenuItem, WeatherTransformedData } from '../../types/weather'
+import { State } from '../../types/commonTypes'
+import { WeatherTransformedData } from '../../types/weather/weather'
 import { copyrightLinks } from '../../helpers/copyrightLinks/copyrightLinks'
 import { getUserLocation } from '../../helpers/requests/requests'
-import { WEATHER_IMAGES_SRC, DEGREE_SYMBOL } from '../../helpers/weatherConstants/weatherConstants'
+import { WEATHER_IMAGES_SRC, DEGREE_SYMBOL } from '../../helpers/constants/weatherConstants'
 import { LOCAL_STORAGE_ITEMS } from '../../helpers/localStorageItems/localStorageItems'
 import {
     setAsideCollapsed,
@@ -38,6 +39,21 @@ import {
 } from '../../model/weather/actions/actions'
 
 import './index.scss'
+import { WeatherState } from '../../types/weather/states'
+
+type MenuItem = Required<MenuProps>['items'][number]
+
+const makeMenuItem = (
+    label: React.ReactNode,
+    key: React.Key,
+    icon?: React.ReactNode,
+): MenuItem => {
+    return {
+        label,
+        key,
+        icon
+    } as MenuItem
+}
 
 const {
     Header,
@@ -53,18 +69,6 @@ const {
     SAVED_WEATHER_DATA_REF
 } = LOCAL_STORAGE_ITEMS
 
-const makeMenuItem = (
-    label: React.ReactNode,
-    key: React.Key,
-    icon?: React.ReactNode,
-): MenuItem => {
-    return {
-        label,
-        key,
-        icon
-    } as MenuItem
-}
-
 const MainLayout: React.FC = () => {
     const {
         allCitiesWeatherData,
@@ -74,7 +78,7 @@ const MainLayout: React.FC = () => {
         isModalOpen,
         inputCityValue,
         asideCollapsed,
-    } = useSelector((state: WeatherState) => state)
+    } = useSelector((state: State): WeatherState => state.weatherReducer)
 
     const dispatch: Dispatch = useDispatch()
     const menuKeyRef = useRef<string>('')
@@ -84,12 +88,12 @@ const MainLayout: React.FC = () => {
     const { lockScroll, unlockScroll } = useScrollLock()
 
     const cities = useMemo((): string[] => {
-        return allCitiesWeatherData.map(item => item.city)
+        return allCitiesWeatherData.map((item: any) => item.city)
     }, [allCitiesWeatherData])
 
     const handleDeleteBtnClick = useCallback((): void => {
         let currentMenyKeyRef: string = menuKeyRef.current
-        const newWeatherData: WeatherTransformedData[] = allCitiesWeatherData.filter((item, index) => index.toString() !== currentMenyKeyRef)
+        const newWeatherData: WeatherTransformedData[] = allCitiesWeatherData.filter((item: WeatherTransformedData, index: number) => index.toString() !== currentMenyKeyRef)
 
         dispatch(setIsLoading(true))
         dispatch(updateAllCitiesWeatherData(newWeatherData))
@@ -166,7 +170,7 @@ const MainLayout: React.FC = () => {
         handleDeleteBtnClick
     ])
 
-    const fetchUserLocation = useCallback(async (): Promise<any> => {
+    const fetchUserLocation = useCallback(async (): Promise<void> => {
         const lsAllCitiesWeatherData = JSON.parse(localStorage.getItem(ALL_CITIES_WEATHER_DATA) || "[]")
 
         try {
@@ -235,13 +239,13 @@ const MainLayout: React.FC = () => {
         }
 
         if (currentWeatherData && cities.includes(currentWeatherData.city)) {
-            const isCityIdNotExist: boolean = allCitiesWeatherData.every(item => item.id !== currentWeatherData.id)
+            const isCityIdNotExist: boolean = allCitiesWeatherData.every((item: WeatherTransformedData) => item.id !== currentWeatherData.id)
             menuKeyRef.current = cities.indexOf(currentWeatherData.city).toString()
             
             localStorage.setItem(MENU_KEY_REF, JSON.stringify(menuKeyRef.current))
 
             if (isCityIdNotExist) {
-                const newWeatherData: WeatherTransformedData[] = allCitiesWeatherData.map(item => {
+                const newWeatherData: WeatherTransformedData[] = allCitiesWeatherData.map((item: WeatherTransformedData) => {
                     return item.city === currentWeatherData.city ? item = currentWeatherData : item
                 })
 
@@ -327,7 +331,7 @@ const MainLayout: React.FC = () => {
                     />
                 </Header>
                 <Content>
-                    <GoogleCalendar isLoading={isLoading} />
+                    <GoogleCalendar />
                     {!savedWeatherDataRef.current && !error &&
                         <section className={classNames('welcome-block', isLoading && 'opacity-low')}>
                             <h1>Welcome to Weather App!</h1>

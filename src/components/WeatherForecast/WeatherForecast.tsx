@@ -7,18 +7,18 @@ import { Dispatch } from "redux"
 import WeatherTemperatureItem from "../WeatherTemperatureItem/WeatherTemperatureItem"
 
 
-import { DEGREE_SYMBOL } from "../../helpers/weatherConstants/weatherConstants"
+import { DEGREE_SYMBOL } from "../../helpers/constants/weatherConstants"
 import { getCurrentWeather } from "../../model/weather/actions/actions"
 import { 
     WeatherTransformedData, 
     WeatherList,
     ForecastData 
-} from "../../types/weather"
+} from "../../types/weather/weather"
 import {
     transformForecastData,
     filterWeatherData,
     addUnitsBasedOnLabels,
-} from "../../helpers/weatherUtils/weatherUtils"
+} from "../../helpers/utils/weatherUtils"
 
 import './index.scss'
 

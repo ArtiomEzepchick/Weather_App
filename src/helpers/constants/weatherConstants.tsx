@@ -1,4 +1,4 @@
-import { StringValuesOnly } from "../../types/constants"
+import { StringValuesOnly } from "../../types/commonTypes"
 
 export const WEATHER_ICON_URL: string = 'https://openweathermap.org/img/wn/'
 export const WEATHER_IMAGES_SRC: string = `${process.env.PUBLIC_URL}/assets/weatherImages/`

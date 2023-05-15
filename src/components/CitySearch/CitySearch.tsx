@@ -32,13 +32,15 @@ const CitySearch: React.FC<Props> = ({
     const dispatch = useDispatch()
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        dispatch(setInputCityValue(e.target.value))
+    }
+
+    const handleInputFocus = (): void => {
         if (dataLength === 10) {
             dispatch(setError("You've exceeded the max number of saved cities (10). Delete any city to add new ones"))
             dispatch(setIsModalOpen(true))
             return
         }
-
-        dispatch(setInputCityValue(e.target.value))
     }
 
     const handleSubmit = (e: React.FormEvent): void => {
@@ -54,6 +56,7 @@ const CitySearch: React.FC<Props> = ({
                     ref={inputRef}
                     disabled={isLoading}
                     onChange={handleInputChange}
+                    onFocus={handleInputFocus}
                     value={inputCityValue}
                     placeholder="Enter city here"
                 />

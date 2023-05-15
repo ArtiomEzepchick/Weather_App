@@ -1,4 +1,4 @@
-import { InitAction, WeatherAction } from '../../../types/actions'
+import { InitAction, WeatherAction } from '../../../types/weather/actions'
 
 import {
   GET_CURRENT_WEATHER_REQUEST,
@@ -14,7 +14,7 @@ import {
   SET_IS_MODAL_OPEN
 } from '../constants/constants'
 
-import { WeatherState } from '../../../types/states'
+import { WeatherState } from '../../../types/weather/states'
 
 export const initialState: WeatherState = {
   asideCollapsed: true,

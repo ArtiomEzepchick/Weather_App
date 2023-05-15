@@ -30,10 +30,10 @@ const Modal: React.FC<Props> = ({
 
     const handleCloseModal = useCallback((): void => {
         closeModal()
-        unlockScroll()
 
         setTimeout(() => {
             dispatch(clearError())
+            unlockScroll()
         }, 200)
     }, [dispatch, unlockScroll])
 
@@ -41,11 +41,11 @@ const Modal: React.FC<Props> = ({
         if (inputRef.current) inputRef.current.focus()
 
         closeModal()
-        unlockScroll()
 
         setTimeout(() => {
             dispatch(clearError())
             dispatch(setInputCityValue(''))
+            unlockScroll()
         }, 200)
     }, [dispatch, inputRef, unlockScroll])
 
