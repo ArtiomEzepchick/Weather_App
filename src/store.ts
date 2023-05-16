@@ -1,16 +1,25 @@
-import { createStore, applyMiddleware, Store } from 'redux'
+import { 
+  createStore, 
+  combineReducers, 
+  applyMiddleware, 
+  Store 
+} from 'redux'
 import createSagaMiddleware from 'redux-saga'
 
+import userReducer from './model/user/reducers/reducers'
 import weatherReducer from './model/weather/reducers/reducers'
-import watchSaga from './sagas/sagas'
+import rootSaga from './sagas/sagas'
 
 const sagaMiddleware = createSagaMiddleware()
 
 const store: Store = createStore(
-  weatherReducer,
+  combineReducers({
+    userReducer,
+    weatherReducer
+  }),
   applyMiddleware(sagaMiddleware)
 )
 
-sagaMiddleware.run(watchSaga)
+sagaMiddleware.run(rootSaga)
 
 export default store

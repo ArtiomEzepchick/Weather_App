@@ -1,9 +1,9 @@
 import moment from 'moment'
 import { nanoid } from 'nanoid'
 
-import { WEATHER_ICON_URL } from '../weatherConstants/weatherConstants'
-import { getLocTime } from '../weatherUtils/weatherUtils'
-import { WeatherPayload, WeatherTransformedData } from '../../types/weather'
+import { WEATHER_ICON_URL } from '../constants/weatherConstants'
+import { getLocTime } from '../utils/weatherUtils'
+import { WeatherPayload, WeatherTransformedData } from '../../types/weather/weather'
 
 export const transformWeatherPayload = (payload: WeatherPayload): WeatherTransformedData => {
   const locHours: number | undefined = getLocTime(moment().utcOffset(payload.city.timezone / 60).format("H:mm"))

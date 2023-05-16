@@ -1,7 +1,3 @@
-import { MenuProps } from "antd"
-
-export type MenuItem = Required<MenuProps>['items'][number]
-
 export interface UserLocation {
   city: string;
   county: string;

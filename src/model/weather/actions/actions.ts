@@ -11,8 +11,8 @@ import {
   SET_IS_LOADING,
   SET_IS_MODAL_OPEN
 } from '../constants/constants'
-import { WeatherAction } from '../../../types/actions'
-import { WeatherTransformedData } from '../../../types/weather'
+import { WeatherAction } from '../../../types/weather/actions'
+import { WeatherTransformedData } from '../../../types/weather/weather'
 
 export const getCurrentWeather = (payload: string): WeatherAction  => ({
   type: GET_CURRENT_WEATHER_REQUEST,

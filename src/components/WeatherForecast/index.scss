@@ -3,72 +3,71 @@
 
 .weather-forecast-container {
     @include opacity-low;
-    
-    .weather-short-forecast {
+
+    .weather-short-forecast,
+    .weather-hourly-forecast,
+    .weather-days-forecast {
+        @include box-shadow-standard;
+    }
+
+    .weather-with-calendar-container {
         @include flex-all-centered;
-        position: relative;
-        gap: 0.5rem;
-        width: 18rem;
+        gap: 2rem;
         margin: 2rem auto 0;
-        padding: 1rem;
-        flex-direction: column;
-        background-color: $color-white;
-        border-radius: $border-radius-weather-block;
-    
-        @media (max-width: $size-xs) {
-            width: 15rem;
+
+        @media (max-width: $size-s) {
+            flex-wrap: wrap;
         }
-    
-        span {
-            font-size: 1.2rem;
-    
-            &.last-update {
-                font-size: 0.8rem;
+
+        .weather-short-forecast {
+            @include flex-all-centered;
+            position: relative;
+            gap: 0.5rem;
+            width: 18rem;
+            height: 17rem;
+            padding: 1rem;
+            flex-direction: column;
+            background-color: $color-white;
+            border-radius: $border-radius-common-block;
+        
+            @media (max-width: $size-xs) {
+                width: 15rem;
             }
-    
-            &.degree {
-                @include flex-all-centered;
-                width: max-content;
-                padding: 0 0.5rem;
-    
-                img {
-                    height: 4rem;
-                    width: 4rem;
+        
+            span {
+                font-size: 1.2rem;
+        
+                &.last-update {
+                    font-size: 0.8rem;
+                }
+        
+                &.degree {
+                    @include flex-all-centered;
+                    width: max-content;
+                    padding: 0 0.5rem;
+        
+                    img {
+                        height: 4rem;
+                        width: 4rem;
+                    }
                 }
             }
-        }
-    
-        h1 {
-            font-size: 1.8rem;
-            text-align: center;
-            word-wrap: break-word;
-        }
-    
-        .degree {
-            font-size: 2.8rem;
-        }
-    
-        button {
-            position: absolute;
-            top: -5%;
-            right: -5%;
-            background-image: url("../../../public/assets/icons/update.png");
-            background-size: contain;
-            background-color: $color-white;
-            cursor: pointer;
-            font-weight: bold;
-            height: 2rem;
-            width: 2rem;
-            border-radius: 100%;
-            border: 5px solid $color-white;
-            opacity: 1;
-            transition: opacity 0.1s ease-in;
-    
-            &:hover {
-                opacity: 0.8;
+        
+            h1 {
+                font-size: 1.8rem;
+                text-align: center;
+                word-wrap: break-word;
+            }
+        
+            .degree {
+                font-size: 2.8rem;
+            }
+        
+            button {
+                @include update-button;
             }
         }
-    }
+    }   
     
     .weather-main-forecast {
         display: grid;
@@ -84,12 +83,9 @@
         }
     
         @media (max-width: $size-s) {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    
-        @media (max-width: $size-xs) {
             display: flex;
             flex-wrap: wrap;
+            margin-top: 1rem;
         }
     
         @media (min-width: $size-xxl) {
@@ -98,7 +94,7 @@
         }
     
         & > section {
-            border-radius: $border-radius-weather-block;
+            border-radius: $border-radius-common-block;
         }
     
         .weather-hourly-forecast {
@@ -116,12 +112,14 @@
             }
         
             @media (max-width: $size-s) {
-                justify-self: end;
+                width: 18rem;
+                height: 17rem;
+                overflow-y: auto;
+                margin-top: 1rem;
             }
-    
+
             @media (max-width: $size-xs) {
-                height: 13rem;
-                overflow-y: scroll;
+                width: 15rem;
             }
     
             @media (min-width: $size-xxl) {
@@ -136,9 +134,13 @@
             gap: 0.5rem;
             width: 100%;
         
-            @media (max-width: $size-l) {
+            @media (max-width: $size-xl) {
                 flex-wrap: nowrap;
                 flex-direction: column;
+            }
+
+            @media (max-width: $size-s) {
+                margin-top: 1.5rem;
             }
     
             @media (min-width: $size-xxl) {
@@ -155,7 +157,12 @@
                 height: 8rem;
                 background-color: $color-white;
                 padding: 1rem;
-                border-radius: $border-radius-weather-block;
+                border-radius: $border-radius-common-block;
+
+
+                @media (max-width: $size-s) {
+                    width: 18rem;
+                }
         
                 @media (max-width: $size-xs) {
                     width: 15rem;
@@ -191,15 +198,16 @@
                 width: 15rem;
                 justify-self: center;
             }
-        
+
             @media (max-width: $size-s) {
-                grid-column: 1 / 3;
-                justify-self: center;
+                width: 18rem;
+                height: 17rem;
+                overflow-y: auto;
+                margin-top: 1.5rem;
             }
-    
+
             @media (max-width: $size-xs) {
-                height: 13rem;
-                overflow-y: scroll;
+                width: 15rem;
             }
         
             h2 {

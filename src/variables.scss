@@ -4,7 +4,7 @@ $color-red: #ff6868;
 
 $width-sider: 5rem;
 
-$border-radius-weather-block: 0.5rem;
+$border-radius-common-block: 0.5rem;
 
 $size-xs: 540px;
 $size-s: 790px;
@@ -17,7 +17,7 @@ $size-xxl: 1500px;
     display: flex;
     justify-content: center;
     align-items: center;
-};
+}
 
 @mixin opacity-low {
     transition: opacity 0.1s ease-in;
@@ -25,9 +25,38 @@ $size-xxl: 1500px;
     &.opacity-low {
         opacity: 0.5;
     }
-};
+}
+
+@mixin update-button {
+    position: absolute;
+    top: -5%;
+    right: -5%;
+    background-image: url("../public/assets/icons/update.png");
+    background-size: contain;
+    background-color: $color-white;
+    cursor: pointer;
+    font-weight: bold;
+    height: 2rem;
+    width: 2rem;
+    border-radius: 100%;
+    border: 5px solid $color-white;
+    opacity: 1;
+    transition: opacity 0.1s ease-in;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+@mixin transition-standard {
+    transition: all 0.1s ease-in-out;
+}
+
+@mixin box-shadow-standard {
+    box-shadow: 4px 4px 59px 0px rgba(34, 60, 80, 0.3);
+}
 
 @mixin hidden-element {
     visibility: hidden;
     opacity: 0;
-}   
+}

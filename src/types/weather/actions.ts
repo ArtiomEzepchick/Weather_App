@@ -11,8 +11,8 @@ import {
   CLEAR_ERROR,
   SET_IS_LOADING,
   SET_IS_MODAL_OPEN
-} from '../model/weather/constants/constants'
-import { WeatherTransformedData } from '../types/weather'
+} from '../../model/weather/constants/constants'
+import { WeatherTransformedData } from './weather'
 
 export interface InitAction {
   type: typeof INIT;

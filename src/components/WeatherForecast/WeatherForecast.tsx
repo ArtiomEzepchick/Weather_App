@@ -6,19 +6,19 @@ import { Dispatch } from "redux"
 
 import WeatherTemperatureItem from "../WeatherTemperatureItem/WeatherTemperatureItem"
 
-
-import { DEGREE_SYMBOL } from "../../helpers/weatherConstants/weatherConstants"
+import CalendarEvents from "../CalendarEvents/CalendarEvents"
+import { DEGREE_SYMBOL } from "../../helpers/constants/weatherConstants"
 import { getCurrentWeather } from "../../model/weather/actions/actions"
-import { 
-    WeatherTransformedData, 
+import {
+    WeatherTransformedData,
     WeatherList,
-    ForecastData 
-} from "../../types/weather"
+    ForecastData
+} from "../../types/weather/weather"
 import {
     transformForecastData,
     filterWeatherData,
     addUnitsBasedOnLabels,
-} from "../../helpers/weatherUtils/weatherUtils"
+} from "../../helpers/utils/weatherUtils"
 
 import './index.scss'
 
@@ -43,17 +43,20 @@ const WeatherForecast: React.FC<Props> = ({ weatherData, isLoading }) => {
 
     return (
         <section className={classNames("weather-forecast-container", isLoading && 'opacity-low')}>
-            <section className="weather-short-forecast">
-                <h1>{weatherData.city}</h1>
-                <span>Location time: {currentLocationTime}</span>
-                <span className="degree">
-                    {shortForecastData.temp}{DEGREE_SYMBOL}
-                    <img src={shortForecastData.icon} alt={shortForecastData.description}></img>
-                </span>
-                <span>{shortForecastData.description}</span>
-                <span>Max: {shortForecastData.temp_max}{DEGREE_SYMBOL}, min: {shortForecastData.temp_min}{DEGREE_SYMBOL}</span>
-                <span className='last-update'>Last updated: {lastWeatherUpdate}</span>
-                <button onClick={handleUpdateWeatherData} />
+            <section className="weather-with-calendar-container">
+                <section className="weather-short-forecast">
+                    <h1>{weatherData.city}</h1>
+                    <span>Location time: {currentLocationTime}</span>
+                    <span className="degree">
+                        {shortForecastData.temp}{DEGREE_SYMBOL}
+                        <img src={shortForecastData.icon} alt={shortForecastData.description}></img>
+                    </span>
+                    <span>{shortForecastData.description}</span>
+                    <span>Max: {shortForecastData.temp_max}{DEGREE_SYMBOL}, min: {shortForecastData.temp_min}{DEGREE_SYMBOL}</span>
+                    <span className='last-update'>Last updated: {lastWeatherUpdate}</span>
+                    <button onClick={handleUpdateWeatherData} />
+                </section>
+                <CalendarEvents />
             </section>
             <section className="weather-main-forecast">
                 <section className="weather-hourly-forecast">

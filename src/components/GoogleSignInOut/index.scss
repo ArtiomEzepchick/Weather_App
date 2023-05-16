@@ -1,0 +1,68 @@
+@import '../../variables.scss';
+
+#logout-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 6rem;
+    height: 2rem;
+}
+
+#login-button:disabled,
+#logout-button:disabled {
+    background-color: $color-white;
+    opacity: 0.7;
+}
+
+#login-button:hover,
+#logout-button:hover {
+    opacity: 0.9;
+}
+
+.user-profile-container {
+    position: relative;
+
+    #user-profile-button {
+        @include flex-all-centered;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 100%;
+        border: none;
+        cursor: pointer;
+
+        img {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 100%;
+        }
+    }
+
+    .user-profile-actions {
+        display: none;
+
+        &.show {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            flex-direction: column;
+            position: absolute;
+            top: 0;
+            left: 120%;
+            background-color: $color-white;
+            border-radius: $border-radius-common-block;
+            width: 14rem;
+            min-height: 8rem;
+            font-size: 0.9rem;
+            line-height: normal;
+            text-align: center;
+            z-index: 10;
+            box-shadow: 4px 4px 59px 0px rgba(34, 60, 80, 0.51);
+            word-wrap: break-word;
+
+            span:nth-child(2) {
+                font-size: 0.8rem;
+            }
+        }
+    }
+}
