@@ -15,14 +15,12 @@ import { MenuInfo } from 'rc-menu/lib/interface'
 import { useDispatch, useSelector } from 'react-redux'
 import { Dispatch } from 'redux'
 import { animateScroll } from 'react-scroll'
-import { useGoogleLogin, googleLogout } from '@react-oauth/google'
 import classNames from 'classnames'
 
 import CitySearch from '../CitySearch/CitySearch'
 import Loader from '../Loader/Loader'
 import Modal from '../Modal/Modal'
 import WeatherForecast from '../WeatherForecast/WeatherForecast'
-import GoogleCalendar from '../GoogleCalendar/GoogleCalendar'
 
 import { useScrollLock } from '../../hooks/useScrollLock'
 import { State } from '../../types/commonTypes'
@@ -31,7 +29,6 @@ import { copyrightLinks } from '../../helpers/copyrightLinks/copyrightLinks'
 import { getUserLocation } from '../../helpers/requests/requests'
 import { WEATHER_IMAGES_SRC, DEGREE_SYMBOL } from '../../helpers/constants/weatherConstants'
 import { LOCAL_STORAGE_ITEMS } from '../../helpers/localStorageItems/localStorageItems'
-import { setUserToken, setUserError } from '../../model/user/actions/actions'
 import { WeatherState } from '../../types/weather/states'
 import { UserState } from '../../types/user/states'
 import {
@@ -43,6 +40,8 @@ import {
 } from '../../model/weather/actions/actions'
 
 import './index.scss'
+import GoogleSignInOut from '../GoogleSignInOut/GoogleSignInOut'
+import { getCalendarEvents, getUserData } from '../../model/user/actions/actions'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
@@ -73,7 +72,7 @@ const {
 } = LOCAL_STORAGE_ITEMS
 
 const MainLayout: React.FC = () => {
-    const { userData } = useSelector((state: State): UserState => state.userReducer)
+    const { userData, userToken } = useSelector((state: State): UserState => state.userReducer)
     const {
         allCitiesWeatherData,
         currentWeatherData,
@@ -92,10 +91,11 @@ const MainLayout: React.FC = () => {
     const dispatch: Dispatch = useDispatch()
 
     const cities = useMemo((): string[] => {
-        return allCitiesWeatherData.map((item: any) => item.city)
+        return allCitiesWeatherData.map((item: WeatherTransformedData): string => item.city)
     }, [allCitiesWeatherData])
 
     const handleDeleteBtnClick = useCallback((): void => {
+        // Handle delete menu items
         let currentMenyKeyRef: string = menuKeyRef.current
         const newWeatherData: WeatherTransformedData[] = allCitiesWeatherData.filter((item: WeatherTransformedData, index: number) => index.toString() !== currentMenyKeyRef)
 
@@ -198,18 +198,6 @@ const MainLayout: React.FC = () => {
         savedWeatherDataRef.current = allCitiesWeatherData[Number(menuInfo.key)]
     }
 
-    const handleLogin = useGoogleLogin({
-        onSuccess: (response) => {
-            dispatch(setUserToken(response))
-        },
-        onError: (error) => dispatch(setUserError(`Login Failed: ${error}`))
-    })
-
-    const handleLogout = () => {
-        googleLogout()
-        // dispatch(setUserToken(null))
-    }
-
     useEffect(() => {
         dispatch(setIsLoading(true))
 
@@ -256,7 +244,7 @@ const MainLayout: React.FC = () => {
         }
 
         if (error && savedWeatherDataRef.current) {
-            menuKeyRef.current = (allCitiesWeatherData.indexOf(savedWeatherDataRef.current)).toString()
+            menuKeyRef.current = allCitiesWeatherData.indexOf(savedWeatherDataRef.current).toString()
 
             localStorage.setItem(MENU_KEY_REF, JSON.stringify(menuKeyRef.current))
         }
@@ -296,7 +284,7 @@ const MainLayout: React.FC = () => {
         isLoading,
         savedWeatherDataRef,
         error,
-        dispatch,
+        dispatch
     ])
 
     useEffect(() => {
@@ -318,26 +306,18 @@ const MainLayout: React.FC = () => {
     ])
 
     useEffect(() => {
-        const handleOutsideUserProfileClick = (e: MouseEvent): void => {
-            const target = e.target as HTMLElement
-            const userProfileButton = document.querySelector('#user-profile-button')
-            const userProfileImg = document.querySelector('.user-profile-img')
-            const userIcon = document.querySelector('.fa-user')
-            const userProfileActions = document.querySelector('.user-profile-actions')
-
-            if (userProfileButton && userProfileActions) {
-                if (target === userProfileButton || target === userProfileImg || target === userIcon) {
-                    userProfileActions.classList.toggle('show')
-                } else if (!target.closest('.user-profile-actions')) {
-                    userProfileActions.classList.remove('show')
-                }
-            }
+        if (userToken && userToken.access_token && !userData) {
+          dispatch(getUserData(userToken.access_token))
         }
-
-        document.addEventListener('click', handleOutsideUserProfileClick)
-
-        return () => document.removeEventListener('click', handleOutsideUserProfileClick)
-    }, [])
+    
+        if (userToken && userToken.access_token && userData) {
+          dispatch(getCalendarEvents(userToken.access_token))
+        }
+      }, [ 
+        userData, 
+        userToken,
+        dispatch
+    ])
 
     return (
         <Layout style={{
@@ -361,37 +341,10 @@ const MainLayout: React.FC = () => {
             </Sider>
             <Layout className='site-layout'>
                 <Header>
-                    {!userData &&
-                        <button
-                            id='login-button'
-                            onClick={() => handleLogin()}
-                        >
-                            Sign in with Google
-                        </button>}
-                    {userData &&
-                        <div className='user-profile-container'>
-                            <button id='user-profile-button'>
-                                {userData.picture
-                                    ? <img
-                                        className='user-profile-img'
-                                        src={userData.picture}
-                                        alt='User'
-                                    />
-                                    : <i className='fa-solid fa-user' />}
-                            </button>
-                            <div className='user-profile-actions'>
-                                <span>Hello, {userData.name}!</span>
-                                <button
-                                    id='logout-button'
-                                    onClick={handleLogout}
-                                >
-                                    Logout
-                                    <i className='fa-solid fa-user-pen' />
-                                </button>
-                            </div>
-                        </div>
-
-                    }
+                    <GoogleSignInOut
+                        isLoading={isLoading}
+                        userData={userData}
+                    />
                     <CitySearch
                         dataLength={allCitiesWeatherData.length}
                         inputRef={inputRef}
@@ -400,8 +353,7 @@ const MainLayout: React.FC = () => {
                     />
                 </Header>
                 <Content>
-                    <GoogleCalendar />
-                    {!savedWeatherDataRef.current && !error && !userData &&
+                    {!savedWeatherDataRef.current && !error &&
                         <section className={classNames('welcome-block', isLoading && 'opacity-low')}>
                             <h1>Welcome to Weather App!</h1>
                             <span>You need to enter the name of the city in the input at the top to start exploring.</span>

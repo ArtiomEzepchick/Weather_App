@@ -7,8 +7,8 @@ import {
     GET_CALENDAR_EVENTS_REQUEST,
     GET_CALENDAR_EVENTS_SUCCESS,
     GET_CALENDAR_EVENTS_FAILURE,
-    SET_IS_LOADING_CALENDAR,
-    SET_USER_ERROR
+    SET_USER_ERROR,
+    RESET_USER_STATE
 } from '../../model/user/constants/constants'
 import {
     UserTokenPayload,
@@ -55,14 +55,13 @@ interface GetCalendarEventsFailureAction {
     payload: string;
 }
 
-interface SetIsLoadingCalendarAction {
-    type: typeof SET_IS_LOADING_CALENDAR;
-    payload: boolean;
-}
-
 interface SetUserErrorAction {
     type: typeof SET_USER_ERROR;
     payload: string;
+}
+
+interface ResetUserState {
+    type: typeof RESET_USER_STATE;
 }
 
 export type UserAction =
@@ -74,5 +73,5 @@ export type UserAction =
     GetCalendarEventsAction |
     GetCalendarEventsSuccessAction |
     GetCalendarEventsFailureAction |
-    SetIsLoadingCalendarAction |
-    SetUserErrorAction
+    SetUserErrorAction |
+    ResetUserState

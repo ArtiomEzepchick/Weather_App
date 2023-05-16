@@ -9,8 +9,8 @@ import {
   GET_CALENDAR_EVENTS_REQUEST,
   GET_CALENDAR_EVENTS_SUCCESS,
   GET_CALENDAR_EVENTS_FAILURE,
-  SET_IS_LOADING_CALENDAR,
-  SET_USER_ERROR
+  SET_USER_ERROR,
+  RESET_USER_STATE
 } from '../constants/constants'
 
 export const initialState: UserState = {
@@ -18,7 +18,7 @@ export const initialState: UserState = {
   userData: null,
   calendarEvents: null,
   userError: null,
-  isLoadingCalendar: false
+  isCalendarLoading: false
 }
 
 const userReducer = (
@@ -34,14 +34,12 @@ const userReducer = (
     case GET_USER_DATA_REQUEST:
       return {
         ...state,
-        userData: null,
-        isLoadingCalendar: true
+        userData: null
       }
     case GET_USER_DATA_SUCCESS:
       return {
         ...state,
         userData: action.payload,
-        isLoadingCalendar: false
       }
     case GET_USER_DATA_FAILURE:
       return {
@@ -53,30 +51,28 @@ const userReducer = (
       return {
         ...state,
         calendarEvents: null,
-        isLoadingCalendar: true
+        isCalendarLoading: true
       }
     case GET_CALENDAR_EVENTS_SUCCESS:
       return {
         ...state,
         calendarEvents: action.payload,
-        isLoadingCalendar: false
+        isCalendarLoading: false
       }
     case GET_CALENDAR_EVENTS_FAILURE:
       return {
         ...state,
         calendarEvents: null,
-        userError: action.payload
-      }
-    case SET_IS_LOADING_CALENDAR:
-      return {
-        ...state,
-        isLoadingCalendar: action.payload
+        userError: action.payload,
+        isCalendarLoading: false
       }
     case SET_USER_ERROR:
       return {
         ...state,
         userError: action.payload
       }
+    case RESET_USER_STATE:
+      return initialState
     default:
       return state
   }

@@ -6,8 +6,8 @@ import {
     GET_CALENDAR_EVENTS_REQUEST,
     GET_CALENDAR_EVENTS_SUCCESS,
     GET_CALENDAR_EVENTS_FAILURE,
-    SET_IS_LOADING_CALENDAR,
-    SET_USER_ERROR
+    SET_USER_ERROR,
+    RESET_USER_STATE
 } from '../constants/constants'
 import { 
     FormattedEventsItem, 
@@ -51,9 +51,8 @@ export const getCalendarEventsFailure = (payload: string): UserAction => ({
     payload
 })
 
-export const setIsLoadingCalendar = (payload: boolean): UserAction => ({
-    type: SET_IS_LOADING_CALENDAR,
-    payload
+export const resetUserState = (): UserAction => ({
+    type: RESET_USER_STATE
 })
 
 export const setUserError = (payload: string): UserAction => ({

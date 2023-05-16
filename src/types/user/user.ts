@@ -21,6 +21,6 @@ export interface UserDataPayload {
 export interface FormattedEventsItem {
   id: string;
   title: string;
-  start?: string;
-  end?: string;
+  time?: string;
+  date?: string;
 }

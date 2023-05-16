@@ -9,5 +9,5 @@ export interface UserState {
     userData: UserDataPayload | null,
     calendarEvents: FormattedEventsItem[] | null,
     userError: string | null,
-    isLoadingCalendar: boolean
+    isCalendarLoading: boolean
 }

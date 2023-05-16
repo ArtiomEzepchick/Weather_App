@@ -13,7 +13,7 @@
         left: 0;
         top: 0;
         bottom: 0;
-        z-index: 10;
+        z-index: 100;
         opacity: 0.8;
 
         &:hover {
@@ -83,77 +83,8 @@
             align-items: center;
 
             @media (max-width: $size-xs) {
-                padding: 0;
-                margin: 0 auto;
-            }
-
-            #login-button {
-                height: 2rem;
-                width: 10rem;
-                background-color: $color-white;
-            }
-
-            #login-button,
-            #logout-button {
-                @include transition-standard;
-                padding: 0.5rem;
-                border: none;
-                border-radius: $border-radius-common-block;
-                opacity: 1;
-                cursor: pointer;
-            }
-
-            #login-button:hover,
-            #logout-button:hover {
-                opacity: 0.8;
-            }
-
-            .user-profile-container {
-                position: relative;
-
-                #user-profile-button {
-                    @include flex-all-centered;
-                    width: 2rem;
-                    height: 2rem;
-                    border-radius: 100%;
-                    border: none;
-                    cursor: pointer;
-
-                    img {
-                        width: 2rem;
-                        height: 2rem;
-                        border-radius: 100%;
-                    }
-                }
-
-                .user-profile-actions {
-                    display: none;
-
-                    &.show {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        padding: 0.5rem 0;
-                        flex-direction: column;
-                        position: absolute;
-                        top: 0;
-                        left: 120%;
-                        background-color: $color-white;
-                        border-radius: $border-radius-common-block;
-                        width: 10rem;
-                        min-height: 7rem;
-                        font-size: 1rem;
-                        line-height: normal;
-                        text-align: center;
-
-                        #logout-button {
-                            display: flex;
-                            gap: 0.5rem;
-                            width: 5rem;
-                            height: 2rem;
-                        }
-                    }
-                }
+                gap: 1rem;
+                padding: 1rem;
             }
         }
 
@@ -161,7 +92,7 @@
             @include flex-all-centered;
             padding: 0 10rem 2rem;
 
-            @media (max-width: $size-l) {
+            @media (max-width: $size-xl) {
                 padding: 0 2rem 2rem;
             }
 
@@ -180,6 +111,7 @@
                 border-radius: $border-radius-common-block;
                 padding: 2rem;
                 text-align: center;
+                @include box-shadow-standard;
                 @include opacity-low;
 
                 @media (max-width: $size-l) {
