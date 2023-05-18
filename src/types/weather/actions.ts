@@ -10,6 +10,11 @@ import {
   SET_ERROR,
   CLEAR_ERROR,
   SET_IS_LOADING,
+  SET_CHOSEN_WEATHER_API,
+  GET_SEARCH_OPTIONS_REQUEST,
+  GET_SEARCH_OPTIONS_SUCCESS,
+  GET_SEARCH_OPTIONS_FAILURE,
+  CLEAR_SEARCH_OPTIONS,
   SET_IS_MODAL_OPEN
 } from '../../model/weather/constants/constants'
 import { WeatherTransformedData } from './weather'
@@ -45,12 +50,37 @@ interface UpdateAllCitiesWeatherDataAction {
 
 interface SetInputCityValueAction {
   type: typeof SET_INPUT_CITY_VALUE;
-  payload: string;
+  payload: string | null;
 }
 
 interface SetAsideCollapsedAction {
   type: typeof SET_ASIDE_COLLAPSED;
   payload: boolean;
+}
+
+interface SetChosenWeatherAPIAction {
+  type: typeof SET_CHOSEN_WEATHER_API;
+  payload: string;
+}
+
+export interface GetSearchOptionsRequestAction {
+  type: typeof GET_SEARCH_OPTIONS_REQUEST;
+  payload: string;
+}
+
+interface GetSearchOptionsSuccessAction {
+  type: typeof GET_SEARCH_OPTIONS_SUCCESS;
+  payload: string[];
+}
+
+interface GetSearchOptionsFailureAction {
+  type: typeof GET_SEARCH_OPTIONS_FAILURE;
+  payload: string;
+}
+
+interface ClearSearchOptionsAction {
+  type: typeof CLEAR_SEARCH_OPTIONS;
+  payload: null;
 }
 
 interface SetErrorAction {
@@ -82,6 +112,11 @@ export type WeatherAction =
   UpdateAllCitiesWeatherDataAction |
   SetInputCityValueAction  |
   SetAsideCollapsedAction |
+  SetChosenWeatherAPIAction |
+  GetSearchOptionsRequestAction |
+  GetSearchOptionsSuccessAction |
+  GetSearchOptionsFailureAction |
+  ClearSearchOptionsAction |
   SetErrorAction|
   ClearErrorAction |
   SetIsLoadingAction |

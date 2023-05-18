@@ -1,14 +1,28 @@
-import { WeatherTransformedData } from "../../types/weather/weather"
+import { WeatherTransformedData } from "../../../types/weather/weather"
 import { 
     Forecast, 
     ForecastData, 
-    WeatherList 
-} from "../../types/weather/weather"
+    WeatherList,
+    SearchOption
+} from "../../../types/weather/weather"
 import { 
     FORECAST_LABELS, 
     ICONS_SRC, 
     DEGREE_SYMBOL 
-} from "../constants/weatherConstants"
+} from "../../constants/weatherConstants"
+
+
+export const transformSearchOptions = (payload: SearchOption[]): string[] => {
+    const result: string[] = []
+
+    payload.forEach((item: SearchOption) => {
+        const city = `${item.name}, ${item.country}`
+
+        if (!result.includes(city)) result.push(city)
+    })
+    
+    return result
+}
 
 export const addUnitsBasedOnLabels = (label: string): string | JSX.Element => {
     switch(label) {
@@ -22,7 +36,7 @@ export const addUnitsBasedOnLabels = (label: string): string | JSX.Element => {
     return ''
 }
 
-export const transformForecastData = (data: WeatherTransformedData): ForecastData[] => {
+export const transformDetailedForecast = (data: WeatherTransformedData): ForecastData[] => {
     const forecastBlocks: Forecast = {
         feels_like: {
             label: FORECAST_LABELS.FEELS_LIKE,
@@ -51,7 +65,7 @@ export const transformForecastData = (data: WeatherTransformedData): ForecastDat
         }
     }
 
-    Object.entries(data.list[0]).forEach(item => {
+    Object.entries(data).forEach(item => {
         for (let key in forecastBlocks) {
             if (key === item[0]) forecastBlocks[key as keyof Forecast].forecast = item[1] 
         }

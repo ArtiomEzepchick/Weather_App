@@ -15,10 +15,10 @@ import {
     ForecastData
 } from "../../types/weather/weather"
 import {
-    transformForecastData,
+    transformDetailedForecast,
     filterWeatherData,
     addUnitsBasedOnLabels,
-} from "../../helpers/utils/weatherUtils"
+} from "../../helpers/utils/weather/weatherUtils"
 
 import './index.scss'
 
@@ -30,9 +30,8 @@ type Props = {
 const WeatherForecast: React.FC<Props> = ({ weatherData, isLoading }) => {
     const dispatch: Dispatch = useDispatch()
 
-    const shortForecastData: WeatherList = weatherData.list[0]
     const hourlyForecastData: WeatherList[] = weatherData.list.slice(0, 8)
-    const detailedForecastData: ForecastData[] = transformForecastData(weatherData)
+    const detailedForecastData: ForecastData[] = transformDetailedForecast(weatherData)
     const nextDaysForecastData: WeatherList[] = filterWeatherData(weatherData)
     const lastWeatherUpdate: string = moment.utc(weatherData.lastUpdate).fromNow()
     const currentLocationTime: string = moment().utcOffset(weatherData.timezone / 60).format("H:mm")
@@ -46,14 +45,21 @@ const WeatherForecast: React.FC<Props> = ({ weatherData, isLoading }) => {
             <section className="weather-with-calendar-container">
                 <section className="weather-short-forecast">
                     <h1>{weatherData.city}</h1>
-                    <span>Location time: {currentLocationTime}</span>
-                    <span className="degree">
-                        {shortForecastData.temp}{DEGREE_SYMBOL}
-                        <img src={shortForecastData.icon} alt={shortForecastData.description}></img>
+                    <span>
+                        Location time: {currentLocationTime}
                     </span>
-                    <span>{shortForecastData.description}</span>
-                    <span>Max: {shortForecastData.temp_max}{DEGREE_SYMBOL}, min: {shortForecastData.temp_min}{DEGREE_SYMBOL}</span>
-                    <span className='last-update'>Last updated: {lastWeatherUpdate}</span>
+                    <span className="degree">
+                        {weatherData.temp}{DEGREE_SYMBOL}
+                        <img src={weatherData.icon} alt={weatherData.description}></img>
+                    </span>
+                    <span>{weatherData.description}</span>
+                    <span>
+                        Max: {weatherData.temp_max}{DEGREE_SYMBOL},
+                        min: {weatherData.temp_min}{DEGREE_SYMBOL}
+                    </span>
+                    <span className='last-update'>
+                        Last updated: {lastWeatherUpdate}
+                    </span>
                     <button onClick={handleUpdateWeatherData} />
                 </section>
                 <CalendarEvents />
@@ -73,12 +79,14 @@ const WeatherForecast: React.FC<Props> = ({ weatherData, isLoading }) => {
                         <section key={label + forecast} className="weather-detailed-forecast-item">
                             <h2>{label}</h2>
                             <img src={icon} alt={label} />
-                            <span>{forecast}{addUnitsBasedOnLabels(label)}</span>
+                            <span>
+                                {forecast}{addUnitsBasedOnLabels(label)}
+                            </span>
                         </section>
                     ))}
                 </section>
                 <section className="weather-days-forecast">
-                    <h2>4 days forecast</h2>
+                    <h2>{nextDaysForecastData.length} days forecast</h2>
                     <section>
                         {nextDaysForecastData.map(item => (
                             <WeatherTemperatureItem

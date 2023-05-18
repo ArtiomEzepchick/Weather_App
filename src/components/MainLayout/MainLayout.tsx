@@ -8,7 +8,9 @@ import {
     InputRef,
     Layout,
     Menu,
-    MenuProps
+    MenuProps,
+    Select,
+    Space
 } from 'antd'
 import { CloudOutlined } from '@ant-design/icons'
 import { MenuInfo } from 'rc-menu/lib/interface'
@@ -18,6 +20,7 @@ import { animateScroll } from 'react-scroll'
 import classNames from 'classnames'
 
 import CitySearch from '../CitySearch/CitySearch'
+import GoogleSignInOut from '../GoogleSignInOut/GoogleSignInOut'
 import Loader from '../Loader/Loader'
 import Modal from '../Modal/Modal'
 import WeatherForecast from '../WeatherForecast/WeatherForecast'
@@ -27,21 +30,26 @@ import { State } from '../../types/commonTypes'
 import { WeatherTransformedData } from '../../types/weather/weather'
 import { copyrightLinks } from '../../helpers/copyrightLinks/copyrightLinks'
 import { getUserLocation } from '../../helpers/requests/requests'
-import { WEATHER_IMAGES_SRC, DEGREE_SYMBOL } from '../../helpers/constants/weatherConstants'
 import { LOCAL_STORAGE_ITEMS } from '../../helpers/localStorageItems/localStorageItems'
 import { WeatherState } from '../../types/weather/states'
+import { getCalendarEvents, getUserData } from '../../model/user/actions/actions'
 import { UserState } from '../../types/user/states'
+import { 
+    WEATHER_IMAGES_SRC, 
+    DEGREE_SYMBOL,
+    API_NAMES 
+} from '../../helpers/constants/weatherConstants'
 import {
     setAsideCollapsed,
     setCurrentWeatherData,
     setInputCityValue,
     updateAllCitiesWeatherData,
-    setIsLoading
+    setIsLoading,
+    setChosenWeatherAPI
 } from '../../model/weather/actions/actions'
 
 import './index.scss'
-import GoogleSignInOut from '../GoogleSignInOut/GoogleSignInOut'
-import { getCalendarEvents, getUserData } from '../../model/user/actions/actions'
+import { transformWeatherAPIPayload } from '../../helpers/utils/weather/transformWeatherPayload'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
@@ -80,7 +88,8 @@ const MainLayout: React.FC = () => {
         isLoading,
         isModalOpen,
         inputCityValue,
-        asideCollapsed
+        asideCollapsed,
+        searchOptions
     } = useSelector((state: State): WeatherState => state.weatherReducer)
 
     const menuKeyRef = useRef<string>('')
@@ -307,17 +316,29 @@ const MainLayout: React.FC = () => {
 
     useEffect(() => {
         if (userToken && userToken.access_token && !userData) {
-          dispatch(getUserData(userToken.access_token))
+            dispatch(getUserData(userToken.access_token))
         }
-    
+
         if (userToken && userToken.access_token && userData) {
-          dispatch(getCalendarEvents(userToken.access_token))
+            dispatch(getCalendarEvents(userToken.access_token))
         }
-      }, [ 
-        userData, 
+    }, [
+        userData,
         userToken,
         dispatch
     ])
+
+    const handleSelectChange = (value: string): void => {
+        dispatch(setChosenWeatherAPI(value))
+    }
+
+    const getNewWeather = async () => {
+        const response = await fetch('http://api.weatherapi.com/v1/forecast.json?key=8d726129e8734daeb2182759231705&q=New York&days=3&aqi=no&alerts=no')
+        const data = await response.json()
+
+        console.log(data)
+        console.log(transformWeatherAPIPayload(data))
+    }
 
     return (
         <Layout style={{
@@ -345,7 +366,19 @@ const MainLayout: React.FC = () => {
                         isLoading={isLoading}
                         userData={userData}
                     />
+                    <Space wrap>
+                        <Select
+                            defaultValue={API_NAMES.openWeather}
+                            style={{ width: 120 }}
+                            onChange={handleSelectChange}
+                            options={[
+                                { value: API_NAMES.openWeather, label: 'OpenWeather' },
+                                { value: API_NAMES.weatherAPI, label: 'WeatherAPI' },
+                            ]}
+                        />
+                    </Space>
                     <CitySearch
+                        searchOptions={searchOptions}
                         dataLength={allCitiesWeatherData.length}
                         inputRef={inputRef}
                         inputCityValue={inputCityValue}
@@ -353,6 +386,9 @@ const MainLayout: React.FC = () => {
                     />
                 </Header>
                 <Content>
+                    <button onClick={getNewWeather}>
+                        Get data
+                    </button>
                     {!savedWeatherDataRef.current && !error &&
                         <section className={classNames('welcome-block', isLoading && 'opacity-low')}>
                             <h1>Welcome to Weather App!</h1>

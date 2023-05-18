@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useRef } from "react"
 import { Button } from "antd"
 import { useGoogleLogin, googleLogout } from "@react-oauth/google"
 import { useDispatch } from "react-redux"
@@ -10,6 +10,7 @@ import {
 } from "../../model/user/actions/actions"
 import { setIsLoading } from "../../model/weather/actions/actions"
 import { UserDataPayload } from "../../types/user/user"
+import { SCOPE } from "../../helpers/constants/googleConstants"
 
 import './index.scss'
 
@@ -19,13 +20,15 @@ type Props = {
 }
 
 const GoogleSignInOut: React.FC<Props> = ({ isLoading, userData }) => {
+    const profileActionsRef = useRef<HTMLDivElement>(null)
     const dispatch = useDispatch()
 
     const handleLogin = useGoogleLogin({
+        scope: SCOPE,
         onSuccess: (response) => {
             dispatch(setUserToken(response))
         },
-        onError: (error) => dispatch(setUserError(`Login Failed: ${error}`))
+        onError: (error) => dispatch(setUserError(`Login Failed: ${error}`)),
     })
 
     const handleLogout = () => {
@@ -41,23 +44,20 @@ const GoogleSignInOut: React.FC<Props> = ({ isLoading, userData }) => {
     useEffect(() => {
         const handleOutsideUserProfileClick = (e: MouseEvent): void => {
             const target = e.target as HTMLElement
-            const userProfileButton = document.querySelector('#user-profile-button')
-            const userProfileImg = document.querySelector('.user-profile-img')
-            const userIcon = document.querySelector('.fa-user')
-            const userProfileActions = document.querySelector('.user-profile-actions')
+            const userProfileContainer = document.querySelector('.user-profile-container')
 
-            if (userProfileButton && userProfileActions) {
-                if (target === userProfileButton || target === userProfileImg || target === userIcon) {
-                    userProfileActions.classList.toggle('show')
-                } else if (!target.closest('.user-profile-actions')) {
-                    userProfileActions.classList.remove('show')
+            if (profileActionsRef.current) {
+                if (userProfileContainer?.contains(target) && !profileActionsRef.current.contains(target)) {
+                    profileActionsRef.current.classList.toggle('show')
+                } else if (!profileActionsRef.current?.contains(target)) {
+                    profileActionsRef.current.classList.remove('show')
                 }
             }
         }
 
-        document.addEventListener('click', handleOutsideUserProfileClick)
+        document.addEventListener('mousedown', handleOutsideUserProfileClick)
 
-        return () => document.removeEventListener('click', handleOutsideUserProfileClick)
+        return () => document.removeEventListener('mousedown', handleOutsideUserProfileClick)
     }, [])
 
     return (
@@ -81,7 +81,10 @@ const GoogleSignInOut: React.FC<Props> = ({ isLoading, userData }) => {
                             />
                             : <i className='fa-solid fa-user' />}
                     </button>
-                    <div className='user-profile-actions'>
+                    <p
+                        className='user-profile-actions'
+                        ref={profileActionsRef}
+                    >
                         <span>{userData.name}</span>
                         <span>{userData.email}</span>
                         <Button
@@ -90,9 +93,9 @@ const GoogleSignInOut: React.FC<Props> = ({ isLoading, userData }) => {
                             disabled={isLoading}
                         >
                             Logout
-                            <i className='fa-solid fa-user-pen' />
+                            <i className="fa-solid fa-arrow-right-from-bracket"/>
                         </Button>
-                    </div>
+                    </p>
                 </div>}
         </>
     )

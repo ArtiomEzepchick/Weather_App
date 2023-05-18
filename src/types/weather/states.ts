@@ -5,7 +5,9 @@ export interface WeatherState {
   error: string | null;
   isLoading: boolean;
   isModalOpen: boolean;
-  inputCityValue: string;
+  inputCityValue: string | null;
   currentWeatherData: WeatherTransformedData | null;
   allCitiesWeatherData: WeatherTransformedData[];
+  chosenWeatherApi: string;
+  searchOptions: string[] | null;
 }

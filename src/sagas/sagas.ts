@@ -6,12 +6,22 @@ import {
   PutEffect 
 } from 'redux-saga/effects'
 
-import { GetCurrentWeatherAction, WeatherAction } from '../types/weather/actions'
-import { getCurrentWeatherSuccess, getCurrentWeatherFailure } from '../model/weather/actions/actions'
-import { GET_CURRENT_WEATHER_REQUEST } from '../model/weather/constants/constants'
+import { GET_CURRENT_WEATHER_REQUEST, GET_SEARCH_OPTIONS_REQUEST } from '../model/weather/constants/constants'
 import { WeatherTransformedData } from '../types/weather/weather'
 import { GET_USER_DATA_REQUEST, GET_CALENDAR_EVENTS_REQUEST } from '../model/user/constants/constants'
-import { formatEvents } from '../helpers/utils/calendarUtils'
+import { formatEvents } from '../helpers/utils/calendar/calendarUtils'
+import { FormattedEventsItem, UserDataPayload } from '../types/user/user'
+import { 
+  GetCurrentWeatherAction, 
+  GetSearchOptionsRequestAction, 
+  WeatherAction 
+} from '../types/weather/actions'
+import { 
+  getCurrentWeatherSuccess, 
+  getCurrentWeatherFailure, 
+  getSearchOptionsSuccess, 
+  getSearchOptionsFailure 
+} from '../model/weather/actions/actions'
 import {
   getUserDataSuccess,
   getUserDataFailure,
@@ -20,15 +30,28 @@ import {
 } from '../model/user/actions/actions'
 import { 
   getCalendarEvents, 
+  getSearchOptions, 
   getUserData, 
-  getWeatherByCityName 
+  getWeatherByCityName
 } from '../helpers/requests/requests'
 import { 
   GetCalendarEventsAction, 
   GetUserDataAction, 
   UserAction 
 } from '../types/user/actions'
-import { FormattedEventsItem, UserDataPayload } from '../types/user/user'
+
+export function* searchCitySaga(action: GetSearchOptionsRequestAction): Generator<
+  CallEffect<string[]> | PutEffect<WeatherAction>,
+  void,
+  string[]
+> {
+  try {
+    const response = yield call(getSearchOptions, action.payload)
+    yield put(getSearchOptionsSuccess(response))
+  } catch (error: any) {
+    yield put(getSearchOptionsFailure(error.message))
+  }
+}
 
 export function* weatherSaga(action: GetCurrentWeatherAction): Generator<
   CallEffect<WeatherTransformedData> | PutEffect<WeatherAction>,
@@ -72,6 +95,7 @@ export function* calendarEventsSaga(action: GetCalendarEventsAction): Generator<
 }
 
 export default function* rootSaga() {
+  yield takeLatest(GET_SEARCH_OPTIONS_REQUEST, searchCitySaga)
   yield takeLatest(GET_CURRENT_WEATHER_REQUEST, weatherSaga)
   yield takeLatest(GET_USER_DATA_REQUEST, userDataSaga)
   yield takeLatest(GET_CALENDAR_EVENTS_REQUEST, calendarEventsSaga)

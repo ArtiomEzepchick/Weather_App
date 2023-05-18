@@ -22,10 +22,10 @@ const CalendarEvents: React.FC = () => {
   const dispatch = useDispatch()
 
   const emptyEventsDescription = useMemo(() => {
+    if (userError) return `${userError}`
     if (!userData) return 'You need to sign in to see your calendar events'
     if (isCalendarLoading) return 'Loading events...'
     if (!calendarEvents?.length) return 'No upcoming events'
-    if (userError) return `${userError}`
   }, [
     userData,
     isCalendarLoading,
