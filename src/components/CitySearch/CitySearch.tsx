@@ -17,10 +17,12 @@ import {
     setError,
     setIsModalOpen,
     getSearchOptionsRequest,
-    clearSearchOptions
+    clearSearchOptions,
+    setChosenWeatherAPI
 } from '../../model/weather/actions/actions'
 
 import './index.scss'
+import { API_NAMES } from "../../helpers/constants/weatherConstants"
 
 type Props = {
     inputCityValue: string | null;
@@ -41,30 +43,26 @@ const CitySearch: React.FC<Props> = ({
     const dispatch = useDispatch()
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        const value = e.target.value
-
-        dispatch(setInputCityValue(value))
-
-        if (value) dispatch(getSearchOptionsRequest(value))
+        optionsRef.current?.classList.add('show')
+        dispatch(setInputCityValue(e.target.value))
     }
 
-    const handleInputFocus = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        const value = e.target.value
+    const handleInputFocus = (): void => {
+        optionsRef.current?.classList.add('show')
+        dispatch(clearSearchOptions())
 
         if (dataLength === 10) {
             dispatch(setError("You've exceeded the max number of saved cities (10). Delete any city to add new ones"))
             dispatch(setIsModalOpen(true))
             return
         }
-
-        if (value) dispatch(getSearchOptionsRequest(value))
     }
 
     const handleOptionClick = (e: React.FormEvent): void => {
         const target = e.currentTarget
-        dispatch(setInputCityValue(target.textContent))
 
         if (target.textContent) {
+            dispatch(setChosenWeatherAPI(API_NAMES.openWeatherApi))
             dispatch(getCurrentWeather(target.textContent))
             dispatch(clearSearchOptions())
         }
@@ -74,17 +72,31 @@ const CitySearch: React.FC<Props> = ({
         e.preventDefault()
 
         if (inputCityValue) {
+            dispatch(setChosenWeatherAPI(API_NAMES.openWeatherApi))
             dispatch(getCurrentWeather(inputCityValue.trim()))
             dispatch(clearSearchOptions())
         }
     }
 
     useEffect(() => {
+        if (!inputCityValue) {
+            dispatch(clearSearchOptions())
+            optionsRef.current?.classList.remove('show')
+        } else {
+            dispatch(getSearchOptionsRequest(inputCityValue))
+        }
+    }, [
+        dispatch,
+        inputRef,
+        inputCityValue
+    ])
+
+    useEffect(() => {
         const handleOutsideSearchClick = (e: MouseEvent): void => {
             const target = e.target as HTMLElement
 
             if (optionsRef.current && !optionsRef.current.contains(target)) {
-                dispatch(clearSearchOptions())
+                optionsRef.current?.classList.remove('show')
             }
         }
 
@@ -110,12 +122,12 @@ const CitySearch: React.FC<Props> = ({
                     Find
                 </Button>
             </Space.Compact>
-            {searchOptions?.length
-                ? <div
-                    className="search-options-container"
-                    ref={optionsRef}
-                >
-                    {searchOptions.map((item: string, index: number) => (
+            <div
+                className="search-options-container"
+                ref={optionsRef}
+            >
+                {searchOptions?.length
+                    ? searchOptions.map((item: string, index: number) => (
                         <Button
                             className="search-option-button"
                             key={index + item}
@@ -123,10 +135,10 @@ const CitySearch: React.FC<Props> = ({
                         >
                             {item}
                         </ Button>
-
-                    ))}
-                </div>
-                : null}
+                    ))
+                    : null
+                }
+            </div>
         </form>
     )
 }

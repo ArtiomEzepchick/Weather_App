@@ -81,20 +81,11 @@
             background-color: transparent;
             display: flex;
             align-items: center;
-
-            @media (max-width: $size-xs) {
-                gap: 1rem;
-                padding: 1rem;
-            }
         }
 
         .ant-layout-content {
             @include flex-all-centered;
             padding: 0 10rem 2rem;
-
-            @media (max-width: $size-xl) {
-                padding: 0 2rem 2rem;
-            }
 
             &.flex-all-centered {
                 @include flex-all-centered;
@@ -113,11 +104,6 @@
                 text-align: center;
                 @include box-shadow-standard;
                 @include opacity-low;
-
-                @media (max-width: $size-l) {
-                    height: max-content;
-                    gap: 2rem;
-                }
 
                 h1 {
                     font-size: 2rem;
@@ -151,6 +137,19 @@
                     opacity: 0.6;
                 }
             }
+        }
+
+        @media (max-width: $size-l) {
+            .ant-layout-content {
+                padding: 0 2rem 2rem;
+            }
+        }
+
+        @media (max-width: $size-xs) {
+            .ant-layout-header {
+                gap: 1rem;
+                padding: 1rem;
+            }   
         }
     }
 }

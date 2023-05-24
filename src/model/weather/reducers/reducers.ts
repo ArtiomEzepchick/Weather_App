@@ -30,7 +30,7 @@ export const initialState: WeatherState = {
   inputCityValue: '',
   currentWeatherData: null,
   allCitiesWeatherData: [],
-  chosenWeatherApi: API_NAMES.openWeather,
+  chosenWeatherApi: API_NAMES.openWeatherApi,
   searchOptions: null
 }
 

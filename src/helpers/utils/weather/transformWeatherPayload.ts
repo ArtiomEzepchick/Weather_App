@@ -1,12 +1,12 @@
 import moment from 'moment'
 import { nanoid } from 'nanoid'
 
-import { WEATHER_ICON_URL } from '../../constants/weatherConstants'
+import { API_NAMES, WEATHER_ICON_URL } from '../../constants/weatherConstants'
 import { getLocTime } from './weatherUtils'
-import { 
-  OpenWeatherCombinedPayload, 
-  WeatherApiPayload, 
-  WeatherTransformedData 
+import {
+  OpenWeatherCombinedPayload,
+  WeatherApiPayload,
+  WeatherTransformedData
 } from '../../../types/weather/weather'
 
 export const transformOpenWeatherAPIPayload = (payload: OpenWeatherCombinedPayload): WeatherTransformedData => {
@@ -21,14 +21,13 @@ export const transformOpenWeatherAPIPayload = (payload: OpenWeatherCombinedPaylo
   return {
     id: nanoid(),
     city: `${payload.city.name}, ${payload.city.country}`,
+    chosenWeatherApi: API_NAMES.openWeatherApi,
     description: `${payload.description.slice(0, 1).toUpperCase() + payload.description.slice(1)}`,
     lastUpdate: new Date(),
     icon: `${WEATHER_ICON_URL}${payload.icon}@2x.png`,
     iconId: payload.icon,
     timezone: payload.city.timezone,
     temp: `${Math.round(payload.temp)}`,
-    temp_max: `${Math.round(payload.temp_max)}`,
-    temp_min: `${Math.round(payload.temp_min)}`,
     humidity: payload.humidity,
     feels_like: `${Math.round(payload.feels_like)}`,
     pressure: payload.pressure,
@@ -50,53 +49,60 @@ export const transformOpenWeatherAPIPayload = (payload: OpenWeatherCombinedPaylo
       }
 
       return {
+        id: nanoid(),
         day: moment().day(forecastDay).format('dddd'),
+        calendarDay: moment().day(forecastDay).format('MMMM DD'),
         description: `${item.weather[0].description.slice(0, 1).toUpperCase() + item.weather[0].description.slice(1)}`,
         dt: item.dt,
         icon: `${WEATHER_ICON_URL}${item.weather[0].icon}@2x.png`,
-        main: item.weather[0].main,
-        temp: `${Math.round(item.main.temp)}`,
-        time: `${forecastHours}:00`,
+        temp: `${Math.round(item.main.temp_max)}`,
+        temp_min: `${Math.round(item.main.temp_min)}`
       }
     })
   }
 }
 
-export const transformWeatherAPIPayload = (payload: WeatherApiPayload): any => {
-  const currentLocHours = Number(moment(payload.location.localtime).format('HH'))
-  const currentLocDay = moment(payload.location.localtime).format('dddd')
+export const transformWeatherAPIPayload = (payload: WeatherApiPayload, city: string): any => {
+  const locHours = Number(moment(payload.location.localtime).format('HH'))
+  const locDay = moment(payload.location.localtime).format('dddd')
 
   return {
     id: nanoid(),
-    city: payload.location.name,
+    city,
+    chosenWeatherApi: API_NAMES.weatherApi,
     lastUpdate: new Date(),
+    description: payload.current.condition.text,
+    icon: payload.current.condition.icon,
     iconId: payload.current.condition.icon,
     loc_time: payload.location.localtime,
     feels_like: `${Math.round(payload.current.feelslike_c)}`,
     humidity: payload.current.humidity,
     pressure: payload.current.pressure_mb,
-    visibility: payload.current.vis_km,
+    visibility: payload.current.vis_km * 1000,
     wind: `${Math.round(payload.current.wind_kph)}`,
     temp: `${Math.round(payload.current.temp_c)}`,
-    temp_max: `${Math.round(payload.forecast.forecastday[0].day.maxtemp_c)}`,
-    temp_min: `${Math.round(payload.forecast.forecastday[0].day.mintemp_c)}`,
-    list: payload.forecast.forecastday.map(day => {
-      return day.hour.filter(hour => {
-        const day = moment(hour.time).format('dddd')
-        const hours = Number(moment(hour.time).format('HH'))
+    list: payload.forecast.forecastday
+      .map(day => {
+        return day.hour
+          .filter(hour => {
+            const day = moment(hour.time).format('dddd')
+            const hours = Number(moment(hour.time).format('HH'))
 
-        if ((currentLocHours <= hours && currentLocDay === day) || currentLocDay !== day) {
-          return hour
-        } else {
-          return null
-        }
-      }).map(hour => ({
-        day: moment(hour.time).format('dddd'),
-        time: moment(hour.time).format('HH:mm'),
-        description: hour.condition.text,
-        icon: hour.condition.icon,
-        temp: `${Math.round(hour.temp_c)}`,
-      }))
-    })
+            if ((locHours < hours && locDay === day) || locDay !== day) {
+              return hour
+            } else {
+              return null
+            }
+          })
+          .map(hour => ({
+            id: nanoid(),
+            time: moment(hour.time).format('HH:mm'),
+            description: hour.condition.text,
+            icon: hour.condition.icon,
+            temp: `${Math.round(hour.temp_c)}`,
+          }))
+      })
+      .flat()
+      .slice(0, 12)
   }
 }

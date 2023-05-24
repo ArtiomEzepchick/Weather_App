@@ -1,4 +1,4 @@
-import { transformOpenWeatherAPIPayload } from "../utils/weather/transformWeatherPayload"
+import { transformOpenWeatherAPIPayload, transformWeatherAPIPayload } from "../utils/weather/transformWeatherPayload"
 import { 
     OpenWeatherCombinedPayload,
     OpenWeatherCurrentDayPayload,
@@ -11,6 +11,7 @@ import { WeatherTransformedData } from "../../types/weather/weather"
 import { transformSearchOptions } from "../utils/weather/weatherUtils"
 
 const OPENWEATHER_API_KEY = process.env.REACT_APP_OPENWEATHER_API_KEY
+const WEATHER_API_KEY = process.env.REACT_APP_WEATHER_API_KEY
 const ABSTRACT_API_KEY = process.env.REACT_APP_ABSTRACT_API_KEY
 
 export const getSearchOptions = async (value: string): Promise<string[]> => {
@@ -22,12 +23,8 @@ export const getSearchOptions = async (value: string): Promise<string[]> => {
 }
 
 export const getWeatherByCityName = async (city: string): Promise<WeatherTransformedData> => {
-    const setApiUrl = (api: string): string => {
-        return `https://api.openweathermap.org/data/2.5/${api}?q=${city}&units=metric&appid=${OPENWEATHER_API_KEY}`
-    }
-
-    const DAYS_FORECAST_URL: string = setApiUrl('forecast')
-    const CURRENT_FORECAST_URL: string = setApiUrl('weather')
+    const DAYS_FORECAST_URL: string = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${OPENWEATHER_API_KEY}`
+    const CURRENT_FORECAST_URL: string = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${OPENWEATHER_API_KEY}`
 
     try {
         const daysResponse: Response = await fetch(DAYS_FORECAST_URL)
@@ -51,6 +48,19 @@ export const getWeatherByCityName = async (city: string): Promise<WeatherTransfo
         }
 
         return transformOpenWeatherAPIPayload(combinedData)
+    } catch (error: any) {
+        throw new Error(`City not found. Please enter correct city name`)
+    }
+}
+
+export const getWeatherFromWeatherApi = async (city: string): Promise<any> => {
+    const API_URL: string = `http://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${city}&days=2&aqi=no&alerts=no`
+
+    try {
+        const response = await fetch(API_URL)
+        const data = await response.json()
+
+        return transformWeatherAPIPayload(data, city)
     } catch (error: any) {
         throw new Error(`City not found. Please enter correct city name`)
     }

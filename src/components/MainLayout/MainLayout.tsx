@@ -8,9 +8,7 @@ import {
     InputRef,
     Layout,
     Menu,
-    MenuProps,
-    Select,
-    Space
+    MenuProps
 } from 'antd'
 import { CloudOutlined } from '@ant-design/icons'
 import { MenuInfo } from 'rc-menu/lib/interface'
@@ -34,22 +32,19 @@ import { LOCAL_STORAGE_ITEMS } from '../../helpers/localStorageItems/localStorag
 import { WeatherState } from '../../types/weather/states'
 import { getCalendarEvents, getUserData } from '../../model/user/actions/actions'
 import { UserState } from '../../types/user/states'
-import { 
-    WEATHER_IMAGES_SRC, 
-    DEGREE_SYMBOL,
-    API_NAMES 
+import {
+    WEATHER_IMAGES_SRC,
+    DEGREE_SYMBOL
 } from '../../helpers/constants/weatherConstants'
 import {
     setAsideCollapsed,
     setCurrentWeatherData,
     setInputCityValue,
     updateAllCitiesWeatherData,
-    setIsLoading,
-    setChosenWeatherAPI
+    setIsLoading
 } from '../../model/weather/actions/actions'
 
 import './index.scss'
-import { transformWeatherAPIPayload } from '../../helpers/utils/weather/transformWeatherPayload'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
@@ -151,7 +146,7 @@ const MainLayout: React.FC = () => {
         const items: MenuItem[] = []
 
         for (let item of allCitiesWeatherData) {
-            const cityInfo: string = item.list[0].temp + DEGREE_SYMBOL + ' ' + item.city
+            const cityInfo: string = item.temp + DEGREE_SYMBOL + ' ' + item.city
 
             const menuItem: React.ReactNode = (
                 <>
@@ -219,7 +214,7 @@ const MainLayout: React.FC = () => {
         const lsAllCitiesWeatherData: WeatherTransformedData[] = JSON.parse(localStorage.getItem(ALL_CITIES_WEATHER_DATA) || '[]')
         const lsCurrentWeatherData: WeatherTransformedData = JSON.parse(localStorage.getItem(CURRENT_WEATHER_DATA) || '[]')
         const lsSavedWeatherDataRef: WeatherTransformedData = JSON.parse(localStorage.getItem(SAVED_WEATHER_DATA_REF) || '{}')
-        const lsMenuKeyRef: string = JSON.parse(localStorage.getItem(MENU_KEY_REF) || '')
+        const lsMenuKeyRef: string = localStorage.getItem(MENU_KEY_REF) || ''
 
         if (lsAllCitiesWeatherData.length) {
             dispatch(updateAllCitiesWeatherData(lsAllCitiesWeatherData))
@@ -247,7 +242,7 @@ const MainLayout: React.FC = () => {
             localStorage.setItem(CURRENT_WEATHER_DATA, JSON.stringify(currentWeatherData))
             localStorage.setItem(SAVED_WEATHER_DATA_REF, JSON.stringify(currentWeatherData))
         } else {
-            const lsMenuKeyRef: string = JSON.parse(localStorage.getItem(MENU_KEY_REF) || '')
+            const lsMenuKeyRef: string = localStorage.getItem(MENU_KEY_REF) || ''
             menuKeyRef.current = lsMenuKeyRef
             return
         }
@@ -328,18 +323,6 @@ const MainLayout: React.FC = () => {
         dispatch
     ])
 
-    const handleSelectChange = (value: string): void => {
-        dispatch(setChosenWeatherAPI(value))
-    }
-
-    const getNewWeather = async () => {
-        const response = await fetch('http://api.weatherapi.com/v1/forecast.json?key=8d726129e8734daeb2182759231705&q=New York&days=3&aqi=no&alerts=no')
-        const data = await response.json()
-
-        console.log(data)
-        console.log(transformWeatherAPIPayload(data))
-    }
-
     return (
         <Layout style={{
             backgroundImage: `url(${WEATHER_IMAGES_SRC + (savedWeatherDataRef.current?.iconId || '01d')}.jpg)`,
@@ -366,17 +349,6 @@ const MainLayout: React.FC = () => {
                         isLoading={isLoading}
                         userData={userData}
                     />
-                    <Space wrap>
-                        <Select
-                            defaultValue={API_NAMES.openWeather}
-                            style={{ width: 120 }}
-                            onChange={handleSelectChange}
-                            options={[
-                                { value: API_NAMES.openWeather, label: 'OpenWeather' },
-                                { value: API_NAMES.weatherAPI, label: 'WeatherAPI' },
-                            ]}
-                        />
-                    </Space>
                     <CitySearch
                         searchOptions={searchOptions}
                         dataLength={allCitiesWeatherData.length}
@@ -386,14 +358,11 @@ const MainLayout: React.FC = () => {
                     />
                 </Header>
                 <Content>
-                    <button onClick={getNewWeather}>
-                        Get data
-                    </button>
                     {!savedWeatherDataRef.current && !error &&
                         <section className={classNames('welcome-block', isLoading && 'opacity-low')}>
                             <h1>Welcome to Weather App!</h1>
-                            <span>You need to enter the name of the city in the input at the top to start exploring.</span>
-                            <span>Hope you enjoy it!</span>
+                            <p>You need to enter the name of the city in the input at the top to start exploring.</p>
+                            <p>Hope you enjoy it!</p>
                         </section>}
                     {savedWeatherDataRef.current &&
                         <WeatherForecast
@@ -408,9 +377,9 @@ const MainLayout: React.FC = () => {
                     />}
                 </Content>
                 <Footer style={{ padding: '0 1rem', height: '3rem' }}>
-                    <span>&#169; 2023 Made by Artsiom Ezepchik</span>
+                    <p>&#169; 2023 Made by Artsiom Ezepchik</p>
                     <section className='copyright-links'>
-                        <span>Contact me:</span>
+                        <p>Contact me:</p>
                         {copyrightLinks.map(({ href, iconClassName }) => (
                             <a key={href} target='blank' href={href}>
                                 <i className={iconClassName} />

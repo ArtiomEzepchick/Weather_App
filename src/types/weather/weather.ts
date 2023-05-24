@@ -73,6 +73,7 @@ export interface WeatherApiPayload {
   location: {
     name: string;
     localtime: string;
+    country: string;
   };
   current: {
     temp_c: number;
@@ -116,31 +117,32 @@ export interface WeatherApiPayload {
 }
 
 export interface WeatherList {
+  id: string;
   day: string;
+  calendarDay: string;
   description: string;
   dt: number;
   icon: string;
-  time: string;
   temp: string;
+  temp_min?: string;
 }
 
 export interface WeatherTransformedData {
   id: string;
   city: string;
+  chosenWeatherApi: string;
   description: string;
   lastUpdate: Date;
   icon: string;
   iconId: string;
   timezone: number;
   temp: string;
-  temp_max: string;
-  temp_min: string;
   humidity: number,
   feels_like: string,
   pressure: number,
   wind: string,
   visibility: number,
-  list: WeatherList[]
+  list: WeatherList[],
 }
 
 export interface ForecastData {

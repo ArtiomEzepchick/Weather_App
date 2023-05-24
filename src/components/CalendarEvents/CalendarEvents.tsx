@@ -52,14 +52,14 @@ const CalendarEvents: React.FC = () => {
             <button onClick={handleUpdateCalendarEvents} />
           </section>
           {calendarEvents.map((item: FormattedEventsItem) => (
-            <section className='events-item' key={item.id}>
+            <p className='events-item' key={item.id}>
               <span>
                 <b>{item.time}</b>
                 <br />
                 {item.date}
               </span>
               <span className='event-title'>{item.title}</span>
-            </section>))}
+            </p>))}
         </>
         : ''}
     </section>

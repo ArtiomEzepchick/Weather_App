@@ -1,9 +1,12 @@
-import { 
-  put, 
-  call, 
-  takeLatest, 
-  CallEffect, 
-  PutEffect 
+import {
+  put,
+  call,
+  takeLatest,
+  CallEffect,
+  PutEffect,
+  delay,
+  select,
+  SelectEffect
 } from 'redux-saga/effects'
 
 import { GET_CURRENT_WEATHER_REQUEST, GET_SEARCH_OPTIONS_REQUEST } from '../model/weather/constants/constants'
@@ -11,16 +14,16 @@ import { WeatherTransformedData } from '../types/weather/weather'
 import { GET_USER_DATA_REQUEST, GET_CALENDAR_EVENTS_REQUEST } from '../model/user/constants/constants'
 import { formatEvents } from '../helpers/utils/calendar/calendarUtils'
 import { FormattedEventsItem, UserDataPayload } from '../types/user/user'
-import { 
-  GetCurrentWeatherAction, 
-  GetSearchOptionsRequestAction, 
-  WeatherAction 
+import {
+  GetCurrentWeatherAction,
+  GetSearchOptionsRequestAction,
+  WeatherAction
 } from '../types/weather/actions'
-import { 
-  getCurrentWeatherSuccess, 
-  getCurrentWeatherFailure, 
-  getSearchOptionsSuccess, 
-  getSearchOptionsFailure 
+import {
+  getCurrentWeatherSuccess,
+  getCurrentWeatherFailure,
+  getSearchOptionsSuccess,
+  getSearchOptionsFailure
 } from '../model/weather/actions/actions'
 import {
   getUserDataSuccess,
@@ -28,17 +31,19 @@ import {
   getCalendarEventsSuccess,
   getCalendarEventsFailure
 } from '../model/user/actions/actions'
-import { 
-  getCalendarEvents, 
-  getSearchOptions, 
-  getUserData, 
-  getWeatherByCityName
+import {
+  getCalendarEvents,
+  getSearchOptions,
+  getUserData,
+  getWeatherByCityName,
+  getWeatherFromWeatherApi
 } from '../helpers/requests/requests'
-import { 
-  GetCalendarEventsAction, 
-  GetUserDataAction, 
-  UserAction 
+import {
+  GetCalendarEventsAction,
+  GetUserDataAction,
+  UserAction
 } from '../types/user/actions'
+import { API_NAMES } from '../helpers/constants/weatherConstants'
 
 export function* searchCitySaga(action: GetSearchOptionsRequestAction): Generator<
   CallEffect<string[]> | PutEffect<WeatherAction>,
@@ -46,6 +51,7 @@ export function* searchCitySaga(action: GetSearchOptionsRequestAction): Generato
   string[]
 > {
   try {
+    yield delay(500)
     const response = yield call(getSearchOptions, action.payload)
     yield put(getSearchOptionsSuccess(response))
   } catch (error: any) {
@@ -54,13 +60,20 @@ export function* searchCitySaga(action: GetSearchOptionsRequestAction): Generato
 }
 
 export function* weatherSaga(action: GetCurrentWeatherAction): Generator<
-  CallEffect<WeatherTransformedData> | PutEffect<WeatherAction>,
+  CallEffect<WeatherTransformedData | any> | PutEffect<WeatherAction>,
   void,
-  WeatherTransformedData
-> {
+  WeatherTransformedData | any
+> | SelectEffect {
   try {
-    const response = yield call(getWeatherByCityName, action.payload)
-    yield put(getCurrentWeatherSuccess(response))
+    const chosenWeatherApi = yield select(state => state.weatherReducer.chosenWeatherApi)
+    
+    if (chosenWeatherApi === API_NAMES.openWeatherApi) {
+      const response = yield call(getWeatherByCityName, action.payload)
+      yield put(getCurrentWeatherSuccess(response))
+    } else {
+      const response = yield call(getWeatherFromWeatherApi, action.payload)
+      yield put(getCurrentWeatherSuccess(response))
+    }
   } catch (error: any) {
     yield put(getCurrentWeatherFailure(error.message))
   }
