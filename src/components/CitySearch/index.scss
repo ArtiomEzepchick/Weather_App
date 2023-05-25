@@ -2,16 +2,48 @@
 
 .city-search-container {
     display: flex;
+    position: relative;
     align-items: center;
     width: 15rem;
     height: 100%;
     margin-left: auto;
 
-    .ant-space-compact {   
-        input:disabled, button:disabled {
+    .search-options-container {
+        display: none;
+
+        &.show {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            z-index: 90;
+            top: 90%;
+            left: 0;
+            height: max-content;
+            @include box-shadow-light;
+
+            .search-option-button {
+                border-radius: 0;
+                width: 100%;
+                text-align: start;
+
+                span {
+                    text-align: start;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
+        }
+    }
+
+    .ant-space-compact {
+
+        input:disabled,
+        button:disabled {
             background-color: $color-white;
         }
-        
+
         input:disabled {
             opacity: 0.8;
         }

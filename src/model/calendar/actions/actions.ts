@@ -13,8 +13,8 @@ import {
     FormattedEventsItem, 
     UserDataPayload, 
     UserTokenPayload 
-} from '../../../types/user/user'
-import { UserAction } from '../../../types/user/actions'
+} from '../../../types/calendar/user'
+import { UserAction } from '../../../types/calendar/actions'
 
 export const setUserToken = (payload: UserTokenPayload): UserAction => ({
     type: SET_USER_TOKEN,

@@ -8,8 +8,13 @@ import {
   SET_ASIDE_COLLAPSED,
   SET_ERROR,
   CLEAR_ERROR,
+  SET_CHOSEN_WEATHER_API,
+  GET_SEARCH_OPTIONS_REQUEST,
+  GET_SEARCH_OPTIONS_SUCCESS,
+  GET_SEARCH_OPTIONS_FAILURE,
   SET_IS_LOADING,
-  SET_IS_MODAL_OPEN
+  SET_IS_MODAL_OPEN,
+  CLEAR_SEARCH_OPTIONS
 } from '../constants/constants'
 import { WeatherAction } from '../../../types/weather/actions'
 import { WeatherTransformedData } from '../../../types/weather/weather'
@@ -29,8 +34,33 @@ export const getCurrentWeatherFailure = (payload: string): WeatherAction  => ({
   payload
 })
 
+export const getSearchOptionsRequest = (payload: string): WeatherAction  => ({
+  type: GET_SEARCH_OPTIONS_REQUEST,
+  payload
+})
+
+export const getSearchOptionsSuccess = (payload: string[]): WeatherAction  => ({
+  type: GET_SEARCH_OPTIONS_SUCCESS,
+  payload
+})
+
+export const getSearchOptionsFailure = (payload: string): WeatherAction  => ({
+  type: GET_SEARCH_OPTIONS_FAILURE,
+  payload
+})
+
+export const clearSearchOptions = (): WeatherAction  => ({
+  type: CLEAR_SEARCH_OPTIONS,
+  payload: null
+})
+
 export const setCurrentWeatherData = (payload: WeatherTransformedData | null): WeatherAction  => ({
   type: SET_CURRENT_WEATHER_DATA,
+  payload
+})
+
+export const setChosenWeatherAPI = (payload: string): WeatherAction  => ({
+  type: SET_CHOSEN_WEATHER_API,
   payload
 })
 
@@ -39,7 +69,7 @@ export const updateAllCitiesWeatherData = (payload: WeatherTransformedData[]): W
   payload
 })
 
-export const setInputCityValue = (payload: string): WeatherAction => ({
+export const setInputCityValue = (payload: string | null): WeatherAction => ({
   type: SET_INPUT_CITY_VALUE,
   payload
 })

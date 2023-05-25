@@ -1,24 +1,23 @@
-import React from "react"
-import moment from "moment"
+import React, { useCallback } from "react"
+import moment from "moment-timezone"
 import classNames from "classnames"
 import { useDispatch } from "react-redux"
 import { Dispatch } from "redux"
-
-import WeatherTemperatureItem from "../WeatherTemperatureItem/WeatherTemperatureItem"
+import { Space, Select } from "antd"
 
 import CalendarEvents from "../CalendarEvents/CalendarEvents"
-import { DEGREE_SYMBOL } from "../../helpers/constants/weatherConstants"
-import { getCurrentWeather } from "../../model/weather/actions/actions"
+import { API_NAMES, DEGREE_SYMBOL } from "../../helpers/constants/weather/weatherConstants"
+import { getCurrentWeather, setChosenWeatherAPI } from "../../model/weather/actions/actions"
 import {
     WeatherTransformedData,
-    WeatherList,
-    ForecastData
+    ForecastData,
+    WeatherList
 } from "../../types/weather/weather"
 import {
-    transformForecastData,
+    transformDetailedForecast,
     filterWeatherData,
-    addUnitsBasedOnLabels,
-} from "../../helpers/utils/weatherUtils"
+    addUnitsBasedOnLabels
+} from "../../helpers/utils/weather/weatherUtils"
 
 import './index.scss'
 
@@ -30,63 +29,131 @@ type Props = {
 const WeatherForecast: React.FC<Props> = ({ weatherData, isLoading }) => {
     const dispatch: Dispatch = useDispatch()
 
-    const shortForecastData: WeatherList = weatherData.list[0]
-    const hourlyForecastData: WeatherList[] = weatherData.list.slice(0, 8)
-    const detailedForecastData: ForecastData[] = transformForecastData(weatherData)
-    const nextDaysForecastData: WeatherList[] = filterWeatherData(weatherData)
+    const getLocalTime = useCallback(() => {
+        const result = {
+            localTime: '',
+            localDate: '',
+            localDayOfTheWeek: ''
+        }
+
+        if (weatherData.timezone) {
+            result.localTime = moment().utcOffset(weatherData.timezone / 60).format("H:mm")
+            result.localDate = moment().utcOffset(weatherData.timezone / 60).format('MMMM DD')
+            result.localDayOfTheWeek = moment().utcOffset(weatherData.timezone / 60).format("dddd")
+        } else {
+            if (weatherData.tzId) {
+                result.localTime = moment().tz(weatherData.tzId).format('H:mm')
+                result.localDate = moment().tz(weatherData.tzId).format('MMMM DD')
+                result.localDayOfTheWeek = moment().tz(weatherData.tzId).format("dddd")
+            }
+        }
+
+        return result
+    }, [weatherData.timezone, weatherData.tzId])
+
+    const { localTime, localDate, localDayOfTheWeek } = getLocalTime()
+
+    const detailedForecastData: ForecastData[] = transformDetailedForecast(weatherData)
+    const nextDaysForecastData: WeatherList[] = filterWeatherData(weatherData.list)
     const lastWeatherUpdate: string = moment.utc(weatherData.lastUpdate).fromNow()
-    const currentLocationTime: string = moment().utcOffset(weatherData.timezone / 60).format("H:mm")
 
     const handleUpdateWeatherData = (): void => {
-        if (weatherData) dispatch(getCurrentWeather(weatherData.city))
+        if (weatherData) {
+            dispatch(setChosenWeatherAPI(weatherData.chosenWeatherApi))
+            dispatch(getCurrentWeather(weatherData.city))
+        }
+    }
+
+    const handleSelectChange = (value: string): void => {
+        dispatch(setChosenWeatherAPI(value))
+
+        if (weatherData?.city) {
+            dispatch(getCurrentWeather(weatherData?.city))
+        }
     }
 
     return (
         <section className={classNames("weather-forecast-container", isLoading && 'opacity-low')}>
             <section className="weather-with-calendar-container">
                 <section className="weather-short-forecast">
+                    <Space wrap>
+                        <Select
+                            value={weatherData.chosenWeatherApi}
+                            style={{ width: 180 }}
+                            onChange={handleSelectChange}
+                            options={[
+                                { value: API_NAMES.OPEN_WEATHER_API, label: 'OpenWeatherApi' },
+                                { value: API_NAMES.WEATHER_API, label: 'WeatherApi' },
+                            ]}
+                        />
+                    </Space>
                     <h1>{weatherData.city}</h1>
-                    <span>Location time: {currentLocationTime}</span>
-                    <span className="degree">
-                        {shortForecastData.temp}{DEGREE_SYMBOL}
-                        <img src={shortForecastData.icon} alt={shortForecastData.description}></img>
-                    </span>
-                    <span>{shortForecastData.description}</span>
-                    <span>Max: {shortForecastData.temp_max}{DEGREE_SYMBOL}, min: {shortForecastData.temp_min}{DEGREE_SYMBOL}</span>
-                    <span className='last-update'>Last updated: {lastWeatherUpdate}</span>
+                    <p>{localTime}</p>
+                    <p>{localDayOfTheWeek}, {localDate}</p>
+                    <p className="degree">
+                        {weatherData.temp}{DEGREE_SYMBOL}
+                        <img src={weatherData.icon} alt={weatherData.description}></img>
+                    </p>
+                    <p>{weatherData.description}</p>
+                    <p className='last-update'>
+                        Last updated: {lastWeatherUpdate}
+                    </p>
                     <button onClick={handleUpdateWeatherData} />
                 </section>
                 <CalendarEvents />
             </section>
             <section className="weather-main-forecast">
-                <section className="weather-hourly-forecast">
-                    {hourlyForecastData.map(item =>
-                        <WeatherTemperatureItem
-                            data={item}
-                            key={item.dt}
-                            isTime={true}
-                        />
-                    )}
-                </section>
+                {weatherData.list.length && weatherData.chosenWeatherApi === API_NAMES.WEATHER_API
+                    ? <section className="weather-hourly-forecast">
+                        <h2>Hourly forecast</h2>
+                        <section className="weather-hourly-forecast-items">
+                            {weatherData.list.map(item => (
+                                <section className="weather-hourly-forecast-item" key={item.id}>
+                                    <span>{item.time}</span>
+                                    <p>
+                                        <img src={item.icon} alt={item.description} />
+                                        <span>{item.temp}{DEGREE_SYMBOL}</span>
+                                    </p>
+                                </section>
+                            ))}
+                        </section>
+                    </section>
+                    : null}
+                {nextDaysForecastData.length && weatherData.chosenWeatherApi === API_NAMES.OPEN_WEATHER_API
+                    ? <section className="weather-days-forecast">
+                        <h2>{nextDaysForecastData.length}-day forecast</h2>
+                        <section className="weather-days-forecast-items">
+                            {nextDaysForecastData.map(item => (
+                                <section className="weather-days-forecast-item" key={item.id}>
+                                    <p className="weather-days-forecast-item-date">
+                                        <span>{item.day},</span>
+                                        <span>{item.calendarDay}</span>
+                                    </p>
+                                    <p>
+                                        <img
+                                            src={item.icon}
+                                            alt={item.description}
+                                            title={item.description}
+                                        />
+                                        <span className="weather-days-forecast-item-temp">
+                                            {item.temp}{DEGREE_SYMBOL} / {item.tempMin}{DEGREE_SYMBOL}
+                                        </span>
+                                    </p>
+                                </section>
+                            ))}
+                        </section>
+                    </section>
+                    : null}
                 <section className="weather-detailed-forecast">
                     {detailedForecastData.map(({ label, icon, forecast }) => (
                         <section key={label + forecast} className="weather-detailed-forecast-item">
                             <h2>{label}</h2>
                             <img src={icon} alt={label} />
-                            <span>{forecast}{addUnitsBasedOnLabels(label)}</span>
+                            <p>
+                                {forecast}{addUnitsBasedOnLabels(label)}
+                            </p>
                         </section>
                     ))}
-                </section>
-                <section className="weather-days-forecast">
-                    <h2>4 days forecast</h2>
-                    <section>
-                        {nextDaysForecastData.map(item => (
-                            <WeatherTemperatureItem
-                                data={item}
-                                key={item.dt}
-                            />
-                        ))}
-                    </section>
                 </section>
             </section>
         </section>

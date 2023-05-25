@@ -1,5 +1,6 @@
 import { InitAction, WeatherAction } from '../../../types/weather/actions'
 
+import { API_NAMES } from '../../../helpers/constants/weather/weatherConstants'
 import {
   GET_CURRENT_WEATHER_REQUEST,
   GET_CURRENT_WEATHER_SUCCESS,
@@ -10,7 +11,12 @@ import {
   SET_CURRENT_WEATHER_DATA,
   SET_ERROR,
   CLEAR_ERROR,
+  SET_CHOSEN_WEATHER_API,
   SET_IS_LOADING,
+  GET_SEARCH_OPTIONS_REQUEST,
+  GET_SEARCH_OPTIONS_SUCCESS,
+  GET_SEARCH_OPTIONS_FAILURE,
+  CLEAR_SEARCH_OPTIONS,
   SET_IS_MODAL_OPEN
 } from '../constants/constants'
 
@@ -23,7 +29,9 @@ export const initialState: WeatherState = {
   isModalOpen: false,
   inputCityValue: '',
   currentWeatherData: null,
-  allCitiesWeatherData: []
+  allCitiesWeatherData: [],
+  chosenWeatherApi: API_NAMES.OPEN_WEATHER_API,
+  searchOptions: null
 }
 
 const weatherReducer = (
@@ -67,10 +75,36 @@ const weatherReducer = (
         ...state,
         inputCityValue: action.payload
       }
+    case SET_CHOSEN_WEATHER_API:
+      return {
+        ...state,
+        chosenWeatherApi: action.payload
+      }
     case SET_ASIDE_COLLAPSED:
       return {
         ...state,
         asideCollapsed: action.payload
+      }
+    case GET_SEARCH_OPTIONS_REQUEST:
+      return {
+        ...state,
+        searchOptions: null,
+      }
+    case GET_SEARCH_OPTIONS_SUCCESS:
+      return {
+        ...state,
+        searchOptions: action.payload
+      }
+    case GET_SEARCH_OPTIONS_FAILURE:
+      return {
+        ...state,
+        searchOptions: null,
+        error: action.payload
+      }
+    case CLEAR_SEARCH_OPTIONS:
+      return {
+        ...state,
+        searchOptions: null
       }
     case SET_ERROR:
       return {

@@ -9,9 +9,8 @@ $border-radius-common-block: 0.5rem;
 $size-xs: 540px;
 $size-s: 790px;
 $size-m: 960px;
-$size-l: 1040px;
-$size-xl: 1180px;
-$size-xxl: 1500px;
+$size-l: 1180px;
+$size-xl: 1500px;
 
 @mixin flex-all-centered {
     display: flex;
@@ -25,6 +24,10 @@ $size-xxl: 1500px;
     &.opacity-low {
         opacity: 0.5;
     }
+}
+
+@mixin border-grey {
+    border: 1px solid #b6b6b6;
 }
 
 @mixin update-button {
@@ -54,6 +57,10 @@ $size-xxl: 1500px;
 
 @mixin box-shadow-standard {
     box-shadow: 4px 4px 59px 0px rgba(34, 60, 80, 0.3);
+}
+
+@mixin box-shadow-light {
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 }
 
 @mixin hidden-element {

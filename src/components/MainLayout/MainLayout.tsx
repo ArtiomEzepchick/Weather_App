@@ -18,6 +18,7 @@ import { animateScroll } from 'react-scroll'
 import classNames from 'classnames'
 
 import CitySearch from '../CitySearch/CitySearch'
+import GoogleSignInOut from '../GoogleSignInOut/GoogleSignInOut'
 import Loader from '../Loader/Loader'
 import Modal from '../Modal/Modal'
 import WeatherForecast from '../WeatherForecast/WeatherForecast'
@@ -26,11 +27,15 @@ import { useScrollLock } from '../../hooks/useScrollLock'
 import { State } from '../../types/commonTypes'
 import { WeatherTransformedData } from '../../types/weather/weather'
 import { copyrightLinks } from '../../helpers/copyrightLinks/copyrightLinks'
-import { getUserLocation } from '../../helpers/requests/requests'
-import { WEATHER_IMAGES_SRC, DEGREE_SYMBOL } from '../../helpers/constants/weatherConstants'
+import { getUserLocation } from '../../helpers/requests/weather/weatherRequests'
 import { LOCAL_STORAGE_ITEMS } from '../../helpers/localStorageItems/localStorageItems'
 import { WeatherState } from '../../types/weather/states'
-import { UserState } from '../../types/user/states'
+import { getCalendarEvents, getUserData } from '../../model/calendar/actions/actions'
+import { UserState } from '../../types/calendar/states'
+import {
+    WEATHER_IMAGES_SRC,
+    DEGREE_SYMBOL
+} from '../../helpers/constants/weather/weatherConstants'
 import {
     setAsideCollapsed,
     setCurrentWeatherData,
@@ -40,8 +45,7 @@ import {
 } from '../../model/weather/actions/actions'
 
 import './index.scss'
-import GoogleSignInOut from '../GoogleSignInOut/GoogleSignInOut'
-import { getCalendarEvents, getUserData } from '../../model/user/actions/actions'
+import { setBackgroundImage } from '../../helpers/utils/weather/weatherUtils'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
@@ -80,7 +84,8 @@ const MainLayout: React.FC = () => {
         isLoading,
         isModalOpen,
         inputCityValue,
-        asideCollapsed
+        asideCollapsed,
+        searchOptions
     } = useSelector((state: State): WeatherState => state.weatherReducer)
 
     const menuKeyRef = useRef<string>('')
@@ -91,13 +96,13 @@ const MainLayout: React.FC = () => {
     const dispatch: Dispatch = useDispatch()
 
     const cities = useMemo((): string[] => {
-        return allCitiesWeatherData.map((item: WeatherTransformedData): string => item.city)
+        return allCitiesWeatherData.map((item): string => item.city)
     }, [allCitiesWeatherData])
 
     const handleDeleteBtnClick = useCallback((): void => {
         // Handle delete menu items
         let currentMenyKeyRef: string = menuKeyRef.current
-        const newWeatherData: WeatherTransformedData[] = allCitiesWeatherData.filter((item: WeatherTransformedData, index: number) => index.toString() !== currentMenyKeyRef)
+        const newWeatherData: WeatherTransformedData[] = allCitiesWeatherData.filter((_, index: number) => index.toString() !== currentMenyKeyRef)
 
         dispatch(setIsLoading(true))
         dispatch(updateAllCitiesWeatherData(newWeatherData))
@@ -142,7 +147,7 @@ const MainLayout: React.FC = () => {
         const items: MenuItem[] = []
 
         for (let item of allCitiesWeatherData) {
-            const cityInfo: string = item.list[0].temp + DEGREE_SYMBOL + ' ' + item.city
+            const cityInfo: string = item.temp + DEGREE_SYMBOL + ' ' + item.city
 
             const menuItem: React.ReactNode = (
                 <>
@@ -210,7 +215,7 @@ const MainLayout: React.FC = () => {
         const lsAllCitiesWeatherData: WeatherTransformedData[] = JSON.parse(localStorage.getItem(ALL_CITIES_WEATHER_DATA) || '[]')
         const lsCurrentWeatherData: WeatherTransformedData = JSON.parse(localStorage.getItem(CURRENT_WEATHER_DATA) || '[]')
         const lsSavedWeatherDataRef: WeatherTransformedData = JSON.parse(localStorage.getItem(SAVED_WEATHER_DATA_REF) || '{}')
-        const lsMenuKeyRef: string = JSON.parse(localStorage.getItem(MENU_KEY_REF) || '')
+        const lsMenuKeyRef: string = localStorage.getItem(MENU_KEY_REF) || ''
 
         if (lsAllCitiesWeatherData.length) {
             dispatch(updateAllCitiesWeatherData(lsAllCitiesWeatherData))
@@ -238,7 +243,7 @@ const MainLayout: React.FC = () => {
             localStorage.setItem(CURRENT_WEATHER_DATA, JSON.stringify(currentWeatherData))
             localStorage.setItem(SAVED_WEATHER_DATA_REF, JSON.stringify(currentWeatherData))
         } else {
-            const lsMenuKeyRef: string = JSON.parse(localStorage.getItem(MENU_KEY_REF) || '')
+            const lsMenuKeyRef: string = localStorage.getItem(MENU_KEY_REF) || ''
             menuKeyRef.current = lsMenuKeyRef
             return
         }
@@ -256,7 +261,7 @@ const MainLayout: React.FC = () => {
             localStorage.setItem(MENU_KEY_REF, JSON.stringify(menuKeyRef.current))
 
             if (isCityIdNotExist) {
-                const newWeatherData: WeatherTransformedData[] = allCitiesWeatherData.map((item: WeatherTransformedData) => {
+                const newWeatherData: WeatherTransformedData[] = allCitiesWeatherData.map((item) => {
                     return item.city === currentWeatherData.city ? item = currentWeatherData : item
                 })
 
@@ -307,21 +312,23 @@ const MainLayout: React.FC = () => {
 
     useEffect(() => {
         if (userToken && userToken.access_token && !userData) {
-          dispatch(getUserData(userToken.access_token))
+            dispatch(getUserData(userToken.access_token))
         }
-    
+
         if (userToken && userToken.access_token && userData) {
-          dispatch(getCalendarEvents(userToken.access_token))
+            dispatch(getCalendarEvents(userToken.access_token))
         }
-      }, [ 
-        userData, 
+    }, [
+        userData,
         userToken,
         dispatch
     ])
 
     return (
         <Layout style={{
-            backgroundImage: `url(${WEATHER_IMAGES_SRC + (savedWeatherDataRef.current?.iconId || '01d')}.jpg)`,
+            backgroundImage: `url(${WEATHER_IMAGES_SRC + 
+                (savedWeatherDataRef.current ? setBackgroundImage(savedWeatherDataRef.current?.iconId) : '01d')
+            }.jpg)`,
             backgroundColor: `${savedWeatherDataRef.current?.iconId ? 'none' : '#3badff'}`
         }}>
             <Sider
@@ -346,6 +353,7 @@ const MainLayout: React.FC = () => {
                         userData={userData}
                     />
                     <CitySearch
+                        searchOptions={searchOptions}
                         dataLength={allCitiesWeatherData.length}
                         inputRef={inputRef}
                         inputCityValue={inputCityValue}
@@ -356,8 +364,8 @@ const MainLayout: React.FC = () => {
                     {!savedWeatherDataRef.current && !error &&
                         <section className={classNames('welcome-block', isLoading && 'opacity-low')}>
                             <h1>Welcome to Weather App!</h1>
-                            <span>You need to enter the name of the city in the input at the top to start exploring.</span>
-                            <span>Hope you enjoy it!</span>
+                            <p>You need to enter the name of the city in the input at the top to start exploring.</p>
+                            <p>Hope you enjoy it!</p>
                         </section>}
                     {savedWeatherDataRef.current &&
                         <WeatherForecast
@@ -372,9 +380,9 @@ const MainLayout: React.FC = () => {
                     />}
                 </Content>
                 <Footer style={{ padding: '0 1rem', height: '3rem' }}>
-                    <span>&#169; 2023 Made by Artsiom Ezepchik</span>
+                    <p>&#169; 2023 Made by Artsiom Ezepchik</p>
                     <section className='copyright-links'>
-                        <span>Contact me:</span>
+                        <p>Contact me:</p>
                         {copyrightLinks.map(({ href, iconClassName }) => (
                             <a key={href} target='blank' href={href}>
                                 <i className={iconClassName} />

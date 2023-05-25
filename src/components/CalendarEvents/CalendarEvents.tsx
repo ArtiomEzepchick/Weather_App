@@ -3,10 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Empty } from 'antd'
 import classNames from 'classnames'
 
-import { getCalendarEvents } from '../../model/user/actions/actions'
-import { FormattedEventsItem } from '../../types/user/user'
+import { getCalendarEvents } from '../../model/calendar/actions/actions'
 import { State } from '../../types/commonTypes'
-import { UserState } from '../../types/user/states'
+import { UserState } from '../../types/calendar/states'
 
 import './index.scss'
 
@@ -22,10 +21,10 @@ const CalendarEvents: React.FC = () => {
   const dispatch = useDispatch()
 
   const emptyEventsDescription = useMemo(() => {
+    if (userError) return `${userError}`
     if (!userData) return 'You need to sign in to see your calendar events'
     if (isCalendarLoading) return 'Loading events...'
     if (!calendarEvents?.length) return 'No upcoming events'
-    if (userError) return `${userError}`
   }, [
     userData,
     isCalendarLoading,
@@ -51,15 +50,15 @@ const CalendarEvents: React.FC = () => {
             </h3>
             <button onClick={handleUpdateCalendarEvents} />
           </section>
-          {calendarEvents.map((item: FormattedEventsItem) => (
-            <section className='events-item' key={item.id}>
+          {calendarEvents.map(item => (
+            <p className='events-item' key={item.id}>
               <span>
                 <b>{item.time}</b>
                 <br />
                 {item.date}
               </span>
               <span className='event-title'>{item.title}</span>
-            </section>))}
+            </p>))}
         </>
         : ''}
     </section>

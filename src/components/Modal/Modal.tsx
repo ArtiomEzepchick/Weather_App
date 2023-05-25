@@ -80,7 +80,7 @@ const Modal: React.FC<Props> = ({
                     >
                         <section className="modal-content">
                             <h2>An error has occurred</h2>
-                            <span>{contentText}</span>
+                            <p>{contentText}</p>
                         </section>
                         <section className="modal-buttons">
                             <Button onClick={handleCloseModal}>Ok</Button>
