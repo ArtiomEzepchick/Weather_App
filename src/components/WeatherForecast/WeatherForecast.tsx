@@ -1,5 +1,5 @@
 import React, { useCallback } from "react"
-import moment from "moment"
+import moment from "moment-timezone"
 import classNames from "classnames"
 import { useDispatch } from "react-redux"
 import { Dispatch } from "redux"
@@ -10,13 +10,13 @@ import { API_NAMES, DEGREE_SYMBOL } from "../../helpers/constants/weatherConstan
 import { getCurrentWeather, setChosenWeatherAPI } from "../../model/weather/actions/actions"
 import {
     WeatherTransformedData,
-    WeatherList,
-    ForecastData
+    ForecastData,
+    WeatherList
 } from "../../types/weather/weather"
 import {
     transformDetailedForecast,
     filterWeatherData,
-    addUnitsBasedOnLabels,
+    addUnitsBasedOnLabels
 } from "../../helpers/utils/weather/weatherUtils"
 
 import './index.scss'
@@ -29,32 +29,39 @@ type Props = {
 const WeatherForecast: React.FC<Props> = ({ weatherData, isLoading }) => {
     const dispatch: Dispatch = useDispatch()
 
-    const getLocalTime = useCallback((weatherData: any): any => {
+    const getLocalTime = useCallback(() => {
         const result = {
             localTime: '',
-            localDay: ''
+            localDate: '',
+            localDayOfTheWeek: ''
         }
 
         if (weatherData.timezone) {
             result.localTime = moment().utcOffset(weatherData.timezone / 60).format("H:mm")
-            result.localDay = moment().utcOffset(weatherData.timezone / 60).format('MMMM DD')
+            result.localDate = moment().utcOffset(weatherData.timezone / 60).format('MMMM DD')
+            result.localDayOfTheWeek = moment().utcOffset(weatherData.timezone / 60).format("dddd")
         } else {
-            result.localTime = moment(weatherData.loc_time).format('HH:mm')
-            result.localDay = moment(weatherData.loc_time).format('MMMM DD')
+            if (weatherData.tzId) {
+                result.localTime = moment().tz(weatherData.tzId).format('H:mm')
+                result.localDate = moment().tz(weatherData.tzId).format('MMMM DD')
+                result.localDayOfTheWeek = moment().tz(weatherData.tzId).format("dddd")
+            }
         }
 
         return result
-    }, [])
+    }, [weatherData.timezone, weatherData.tzId])
 
-    const { localTime, localDay } = getLocalTime(weatherData)
+    const { localTime, localDate, localDayOfTheWeek } = getLocalTime()
 
     const detailedForecastData: ForecastData[] = transformDetailedForecast(weatherData)
     const nextDaysForecastData: WeatherList[] = filterWeatherData(weatherData.list)
     const lastWeatherUpdate: string = moment.utc(weatherData.lastUpdate).fromNow()
-    const localDayOfTheWeek: string = moment().utcOffset(weatherData.timezone / 60).format("dddd")
 
     const handleUpdateWeatherData = (): void => {
-        if (weatherData) dispatch(getCurrentWeather(weatherData.city))
+        if (weatherData) {
+            dispatch(setChosenWeatherAPI(weatherData.chosenWeatherApi))
+            dispatch(getCurrentWeather(weatherData.city))
+        }
     }
 
     const handleSelectChange = (value: string): void => {
@@ -82,7 +89,7 @@ const WeatherForecast: React.FC<Props> = ({ weatherData, isLoading }) => {
                     </Space>
                     <h1>{weatherData.city}</h1>
                     <p>{localTime}</p>
-                    <p>{localDayOfTheWeek}, {localDay}</p>
+                    <p>{localDayOfTheWeek}, {localDate}</p>
                     <p className="degree">
                         {weatherData.temp}{DEGREE_SYMBOL}
                         <img src={weatherData.icon} alt={weatherData.description}></img>
@@ -100,7 +107,7 @@ const WeatherForecast: React.FC<Props> = ({ weatherData, isLoading }) => {
                     ? <section className="weather-hourly-forecast">
                         <h2>Hourly forecast</h2>
                         <section className="weather-hourly-forecast-items">
-                            {weatherData.list.map((item: any) => (
+                            {weatherData.list.map(item => (
                                 <section className="weather-hourly-forecast-item" key={item.id}>
                                     <span>{item.time}</span>
                                     <p>
@@ -117,7 +124,7 @@ const WeatherForecast: React.FC<Props> = ({ weatherData, isLoading }) => {
                         <h2>{nextDaysForecastData.length}-day forecast</h2>
                         <section className="weather-days-forecast-items">
                             {nextDaysForecastData.map(item => (
-                                <section className="weather-days-forecast-item" key={item.dt}>
+                                <section className="weather-days-forecast-item" key={item.id}>
                                     <p className="weather-days-forecast-item-date">
                                         <span>{item.day},</span>
                                         <span>{item.calendarDay}</span>
@@ -129,7 +136,7 @@ const WeatherForecast: React.FC<Props> = ({ weatherData, isLoading }) => {
                                             title={item.description}
                                         />
                                         <span className="weather-days-forecast-item-temp">
-                                            {item.temp}{DEGREE_SYMBOL} / {item.temp_min}{DEGREE_SYMBOL}
+                                            {item.temp}{DEGREE_SYMBOL} / {item.tempMin}{DEGREE_SYMBOL}
                                         </span>
                                     </p>
                                 </section>

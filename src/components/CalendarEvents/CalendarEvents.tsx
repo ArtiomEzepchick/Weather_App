@@ -4,7 +4,6 @@ import { Empty } from 'antd'
 import classNames from 'classnames'
 
 import { getCalendarEvents } from '../../model/user/actions/actions'
-import { FormattedEventsItem } from '../../types/user/user'
 import { State } from '../../types/commonTypes'
 import { UserState } from '../../types/user/states'
 
@@ -51,7 +50,7 @@ const CalendarEvents: React.FC = () => {
             </h3>
             <button onClick={handleUpdateCalendarEvents} />
           </section>
-          {calendarEvents.map((item: FormattedEventsItem) => (
+          {calendarEvents.map(item => (
             <p className='events-item' key={item.id}>
               <span>
                 <b>{item.time}</b>

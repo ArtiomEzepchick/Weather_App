@@ -27,7 +27,8 @@ export interface OpenWeatherDaysPayload {
   list: {
     dt: number;
     main: {
-      temp: number;
+      temp_max: number;
+      temp_min: number;
     };
     weather: {
       main: string;
@@ -60,20 +61,17 @@ export interface OpenWeatherCombinedPayload extends OpenWeatherDaysPayload {
   description: string;
   icon: string;
   temp: number;
-  temp_max: number;
-  temp_min: number;
-  humidity: number,
-  feels_like: number,
-  pressure: number,
-  wind: number,
-  visibility: number,
+  humidity: number;
+  feels_like: number;
+  pressure: number;
+  wind: number;
+  visibility: number;
 }
 
 export interface WeatherApiPayload {
   location: {
-    name: string;
     localtime: string;
-    country: string;
+    tz_id: string;
   };
   current: {
     temp_c: number;
@@ -91,18 +89,6 @@ export interface WeatherApiPayload {
   forecast: {
     forecastday: {
       date: string;
-      day: {
-        avghumidity: number;
-        avgvis_km: number;
-        maxtemp_c: number;
-        mintemp_c: number;
-        maxwind_kph: number;
-        condition: {
-          text: string;
-          icon: string;
-          code: number;
-        };
-      };
       hour: {
         time: string;
         temp_c: number;
@@ -118,13 +104,13 @@ export interface WeatherApiPayload {
 
 export interface WeatherList {
   id: string;
-  day: string;
-  calendarDay: string;
-  description: string;
-  dt: number;
   icon: string;
   temp: string;
-  temp_min?: string;
+  description: string;
+  day?: string;
+  calendarDay?: string;
+  tempMin?: string;
+  time?: string;
 }
 
 export interface WeatherTransformedData {
@@ -135,14 +121,15 @@ export interface WeatherTransformedData {
   lastUpdate: Date;
   icon: string;
   iconId: string;
-  timezone: number;
+  timezone?: number;
+  tzId?: string;
   temp: string;
-  humidity: number,
-  feels_like: string,
-  pressure: number,
-  wind: string,
-  visibility: number,
-  list: WeatherList[],
+  humidity: number;
+  feelsLike: string;
+  pressure: number;
+  wind: string;
+  visibility: number;
+  list: WeatherList[];
 }
 
 export interface ForecastData {
@@ -152,7 +139,7 @@ export interface ForecastData {
 }
 
 export interface Forecast {
-  feels_like: ForecastData;
+  feelsLike: ForecastData;
   humidity: ForecastData;
   pressure: ForecastData;
   visibility: ForecastData;

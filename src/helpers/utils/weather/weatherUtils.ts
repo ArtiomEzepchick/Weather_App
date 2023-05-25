@@ -8,21 +8,9 @@ import {
 import {
     FORECAST_LABELS,
     ICONS_SRC,
-    DEGREE_SYMBOL
+    DEGREE_SYMBOL,
+    WEATHER_CODES
 } from "../../constants/weatherConstants"
-
-
-export const transformSearchOptions = (payload: SearchOption[]): string[] => {
-    const result: string[] = []
-
-    payload.forEach((item: SearchOption) => {
-        const city = `${item.name}, ${item.country}`
-
-        if (!result.includes(city)) result.push(city)
-    })
-
-    return result
-}
 
 export const addUnitsBasedOnLabels = (label: string): string | JSX.Element => {
     switch (label) {
@@ -31,14 +19,14 @@ export const addUnitsBasedOnLabels = (label: string): string | JSX.Element => {
         case FORECAST_LABELS.PRESSURE: return ' hPa'
         case FORECAST_LABELS.VISIBILITY: return ' m'
         case FORECAST_LABELS.WIND: return ' km/h'
-    }
 
-    return ''
+        default: return ''
+    }
 }
 
 export const transformDetailedForecast = (data: WeatherTransformedData): ForecastData[] => {
     const forecastBlocks: Forecast = {
-        feels_like: {
+        feelsLike: {
             label: FORECAST_LABELS.FEELS_LIKE,
             icon: `${ICONS_SRC}thermometer.png`,
             forecast: ''
@@ -74,18 +62,30 @@ export const transformDetailedForecast = (data: WeatherTransformedData): Forecas
     return Object.values(forecastBlocks)
 }
 
+export const filterSearchOptions = (payload: SearchOption[]): string[] => {
+    const filteredOptions: string[] = []
+
+    payload.forEach((item: SearchOption) => {
+        const city = `${item.name}, ${item.country}`
+
+        if (!filteredOptions.includes(city)) filteredOptions.push(city)
+    })
+
+    return filteredOptions
+}
+
 export const filterWeatherData = (list: WeatherList[]): WeatherList[] => {
-    let currentDay: string = list[0].day
+    let currentDay: string = list[0].day ? list[0].day : ''
     let count: number = 0
     let index: number = 0
-    const result: WeatherList[] = []
+    const filteredData: WeatherList[] = []
 
     for (let item of list) {
-        if (item.day !== currentDay) {
+        if (item.day && item.day !== currentDay) {
             ++count
 
             if (count === 5) {
-                result.push(item)
+                filteredData.push(item)
             }
 
             if (count === 8) {
@@ -93,20 +93,20 @@ export const filterWeatherData = (list: WeatherList[]): WeatherList[] => {
             }
 
             if (count === 9) {
-                result[index] = {
-                    ...result[index],
-                    temp_min: item.temp_min
+                filteredData[index] = {
+                    ...filteredData[index],
+                    tempMin: item.tempMin
                 }
 
                 count = 1
                 ++index
 
-                if (result.length === 4) break
+                if (filteredData.length === 4) break
             }
         }
     }
 
-    return result
+    return filteredData
 }
 
 export const getLocTime = (locTime: string): number | undefined => {
@@ -120,4 +120,14 @@ export const getLocTime = (locTime: string): number | undefined => {
             if ((parsedLocTime - i) / 3 === diviseResult) return parsedLocTime - i
         }
     }
+}
+
+export const setBackgroundImage = (url: string): string | null => {
+    const result: string[] = []
+
+    Object.entries(WEATHER_CODES)
+    .forEach(([_, source]) => source
+    .forEach((code) => url.includes(code) ? result.push(source[0]) : null))
+
+    return result[0]
 }

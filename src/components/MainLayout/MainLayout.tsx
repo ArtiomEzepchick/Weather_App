@@ -45,6 +45,7 @@ import {
 } from '../../model/weather/actions/actions'
 
 import './index.scss'
+import { setBackgroundImage } from '../../helpers/utils/weather/weatherUtils'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
@@ -95,13 +96,13 @@ const MainLayout: React.FC = () => {
     const dispatch: Dispatch = useDispatch()
 
     const cities = useMemo((): string[] => {
-        return allCitiesWeatherData.map((item: WeatherTransformedData): string => item.city)
+        return allCitiesWeatherData.map((item): string => item.city)
     }, [allCitiesWeatherData])
 
     const handleDeleteBtnClick = useCallback((): void => {
         // Handle delete menu items
         let currentMenyKeyRef: string = menuKeyRef.current
-        const newWeatherData: WeatherTransformedData[] = allCitiesWeatherData.filter((item: WeatherTransformedData, index: number) => index.toString() !== currentMenyKeyRef)
+        const newWeatherData: WeatherTransformedData[] = allCitiesWeatherData.filter((_, index: number) => index.toString() !== currentMenyKeyRef)
 
         dispatch(setIsLoading(true))
         dispatch(updateAllCitiesWeatherData(newWeatherData))
@@ -260,7 +261,7 @@ const MainLayout: React.FC = () => {
             localStorage.setItem(MENU_KEY_REF, JSON.stringify(menuKeyRef.current))
 
             if (isCityIdNotExist) {
-                const newWeatherData: WeatherTransformedData[] = allCitiesWeatherData.map((item: WeatherTransformedData) => {
+                const newWeatherData: WeatherTransformedData[] = allCitiesWeatherData.map((item) => {
                     return item.city === currentWeatherData.city ? item = currentWeatherData : item
                 })
 
@@ -325,7 +326,9 @@ const MainLayout: React.FC = () => {
 
     return (
         <Layout style={{
-            backgroundImage: `url(${WEATHER_IMAGES_SRC + (savedWeatherDataRef.current?.iconId || '01d')}.jpg)`,
+            backgroundImage: `url(${WEATHER_IMAGES_SRC + 
+                (savedWeatherDataRef.current ? setBackgroundImage(savedWeatherDataRef.current?.iconId) : '01d')
+            }.jpg)`,
             backgroundColor: `${savedWeatherDataRef.current?.iconId ? 'none' : '#3badff'}`
         }}>
             <Sider

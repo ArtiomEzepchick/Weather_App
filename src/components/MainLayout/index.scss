@@ -148,7 +148,7 @@
         @media (max-width: $size-xs) {
             .ant-layout-header {
                 gap: 1rem;
-                padding: 1rem;
+                padding: 0 0.5rem;
             }   
         }
     }

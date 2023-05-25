@@ -20,14 +20,15 @@
             top: 90%;
             left: 0;
             height: max-content;
+            @include box-shadow-light;
 
             .search-option-button {
                 border-radius: 0;
-                width: 15rem;
+                width: 100%;
+                text-align: start;
 
                 span {
                     text-align: start;
-                    width: 13rem;
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;

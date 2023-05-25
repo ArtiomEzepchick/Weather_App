@@ -18,6 +18,8 @@ export const transformOpenWeatherAPIPayload = (payload: OpenWeatherCombinedPaylo
   let forecastHours: number | undefined = 0
   let forecastDay: number = 0
 
+  console.log(payload)
+
   return {
     id: nanoid(),
     city: `${payload.city.name}, ${payload.city.country}`,
@@ -29,11 +31,11 @@ export const transformOpenWeatherAPIPayload = (payload: OpenWeatherCombinedPaylo
     timezone: payload.city.timezone,
     temp: `${Math.round(payload.temp)}`,
     humidity: payload.humidity,
-    feels_like: `${Math.round(payload.feels_like)}`,
+    feelsLike: `${Math.round(payload.feels_like)}`,
     pressure: payload.pressure,
     wind: `${Math.round(payload.wind)}`,
     visibility: payload.visibility,
-    list: payload.list.map((item: any, index: number) => {
+    list: payload.list.map((item, index) => {
       if (forecastHours || forecastHours === 0) {
         forecastHours += hoursStep
 
@@ -53,16 +55,15 @@ export const transformOpenWeatherAPIPayload = (payload: OpenWeatherCombinedPaylo
         day: moment().day(forecastDay).format('dddd'),
         calendarDay: moment().day(forecastDay).format('MMMM DD'),
         description: `${item.weather[0].description.slice(0, 1).toUpperCase() + item.weather[0].description.slice(1)}`,
-        dt: item.dt,
         icon: `${WEATHER_ICON_URL}${item.weather[0].icon}@2x.png`,
         temp: `${Math.round(item.main.temp_max)}`,
-        temp_min: `${Math.round(item.main.temp_min)}`
+        tempMin: `${Math.round(item.main.temp_min)}`
       }
     })
   }
 }
 
-export const transformWeatherAPIPayload = (payload: WeatherApiPayload, city: string): any => {
+export const transformWeatherAPIPayload = (payload: WeatherApiPayload, city: string): WeatherTransformedData => {
   const locHours = Number(moment(payload.location.localtime).format('HH'))
   const locDay = moment(payload.location.localtime).format('dddd')
 
@@ -74,8 +75,8 @@ export const transformWeatherAPIPayload = (payload: WeatherApiPayload, city: str
     description: payload.current.condition.text,
     icon: payload.current.condition.icon,
     iconId: payload.current.condition.icon,
-    loc_time: payload.location.localtime,
-    feels_like: `${Math.round(payload.current.feelslike_c)}`,
+    tzId: payload.location.tz_id,
+    feelsLike: `${Math.round(payload.current.feelslike_c)}`,
     humidity: payload.current.humidity,
     pressure: payload.current.pressure_mb,
     visibility: payload.current.vis_km * 1000,
@@ -88,11 +89,7 @@ export const transformWeatherAPIPayload = (payload: WeatherApiPayload, city: str
             const day = moment(hour.time).format('dddd')
             const hours = Number(moment(hour.time).format('HH'))
 
-            if ((locHours < hours && locDay === day) || locDay !== day) {
-              return hour
-            } else {
-              return null
-            }
+            return ((locHours < hours && locDay === day) || locDay !== day) ? hour : null
           })
           .map(hour => ({
             id: nanoid(),

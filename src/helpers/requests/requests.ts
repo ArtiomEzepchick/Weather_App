@@ -3,12 +3,13 @@ import {
     OpenWeatherCombinedPayload,
     OpenWeatherCurrentDayPayload,
     OpenWeatherDaysPayload, 
-    UserLocation
+    UserLocation,
+    WeatherApiPayload
 } from "../../types/weather/weather"
 import { UserDataPayload } from '../../types/user/user'
 import { CALENDAR_URL } from "../constants/googleConstants"
 import { WeatherTransformedData } from "../../types/weather/weather"
-import { transformSearchOptions } from "../utils/weather/weatherUtils"
+import { filterSearchOptions } from "../utils/weather/weatherUtils"
 
 const OPENWEATHER_API_KEY = process.env.REACT_APP_OPENWEATHER_API_KEY
 const WEATHER_API_KEY = process.env.REACT_APP_WEATHER_API_KEY
@@ -19,10 +20,10 @@ export const getSearchOptions = async (value: string): Promise<string[]> => {
 
     const response: Response = await fetch(API_URL)
 
-    return transformSearchOptions(await response.json())
+    return filterSearchOptions(await response.json())
 }
 
-export const getWeatherByCityName = async (city: string): Promise<WeatherTransformedData> => {
+export const getWeatherFromOpenWeatherApi = async (city: string): Promise<WeatherTransformedData> => {
     const DAYS_FORECAST_URL: string = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${OPENWEATHER_API_KEY}`
     const CURRENT_FORECAST_URL: string = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${OPENWEATHER_API_KEY}`
 
@@ -38,8 +39,6 @@ export const getWeatherByCityName = async (city: string): Promise<WeatherTransfo
             description: currentDayData.weather[0].description,
             icon: currentDayData.weather[0].icon,
             temp: currentDayData.main.temp,
-            temp_max: currentDayData.main.temp_max,
-            temp_min: currentDayData.main.temp_min,
             humidity: currentDayData.main.humidity,
             feels_like: currentDayData.main.feels_like,
             pressure: currentDayData.main.pressure,
@@ -53,12 +52,12 @@ export const getWeatherByCityName = async (city: string): Promise<WeatherTransfo
     }
 }
 
-export const getWeatherFromWeatherApi = async (city: string): Promise<any> => {
+export const getWeatherFromWeatherApi = async (city: string): Promise<WeatherTransformedData> => {
     const API_URL: string = `http://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${city}&days=2&aqi=no&alerts=no`
 
     try {
-        const response = await fetch(API_URL)
-        const data = await response.json()
+        const response: Response = await fetch(API_URL)
+        const data: WeatherApiPayload = await response.json()
 
         return transformWeatherAPIPayload(data, city)
     } catch (error: any) {

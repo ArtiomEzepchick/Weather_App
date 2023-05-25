@@ -132,7 +132,7 @@
                     gap: 2rem;
                     padding: 0.5rem;
                     border-radius: $border-radius-common-block;
-                    @include box-shadow-temperature-item;
+                    @include box-shadow-light;
                     @include border-grey;
 
                     .weather-days-forecast-item-date {
@@ -233,7 +233,7 @@
                         justify-content: space-between;
                         border-radius: $border-radius-common-block;
                         @include border-grey;
-                        @include box-shadow-temperature-item;
+                        @include box-shadow-light;
 
                         p {
                             flex-direction: row;
@@ -325,6 +325,7 @@
         .weather-with-calendar-container {
             .weather-short-forecast {
                 width: 15rem;
+                height: max-content;
             }
         }
 

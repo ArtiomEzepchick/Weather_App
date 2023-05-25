@@ -127,7 +127,7 @@ const CitySearch: React.FC<Props> = ({
                 ref={optionsRef}
             >
                 {searchOptions?.length
-                    ? searchOptions.map((item: string, index: number) => (
+                    ? searchOptions.map((item, index) => (
                         <Button
                             className="search-option-button"
                             key={index + item}

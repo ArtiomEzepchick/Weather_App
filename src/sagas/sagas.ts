@@ -35,7 +35,7 @@ import {
   getCalendarEvents,
   getSearchOptions,
   getUserData,
-  getWeatherByCityName,
+  getWeatherFromOpenWeatherApi,
   getWeatherFromWeatherApi
 } from '../helpers/requests/requests'
 import {
@@ -60,15 +60,15 @@ export function* searchCitySaga(action: GetSearchOptionsRequestAction): Generato
 }
 
 export function* weatherSaga(action: GetCurrentWeatherAction): Generator<
-  CallEffect<WeatherTransformedData | any> | PutEffect<WeatherAction>,
+  CallEffect<WeatherTransformedData> | PutEffect<WeatherAction>,
   void,
-  WeatherTransformedData | any
+  WeatherTransformedData
 > | SelectEffect {
   try {
     const chosenWeatherApi = yield select(state => state.weatherReducer.chosenWeatherApi)
     
     if (chosenWeatherApi === API_NAMES.openWeatherApi) {
-      const response = yield call(getWeatherByCityName, action.payload)
+      const response = yield call(getWeatherFromOpenWeatherApi, action.payload)
       yield put(getCurrentWeatherSuccess(response))
     } else {
       const response = yield call(getWeatherFromWeatherApi, action.payload)
