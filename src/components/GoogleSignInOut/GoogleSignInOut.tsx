@@ -7,10 +7,10 @@ import {
     setUserToken,
     setUserError,
     resetUserState
-} from "../../model/user/actions/actions"
+} from "../../model/calendar/actions/actions"
 import { setIsLoading } from "../../model/weather/actions/actions"
-import { UserDataPayload } from "../../types/user/user"
-import { SCOPE } from "../../helpers/constants/googleConstants"
+import { UserDataPayload } from "../../types/calendar/user"
+import { SCOPE } from "../../helpers/constants/calendar/calendarConstants"
 
 import './index.scss'
 

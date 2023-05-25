@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { nanoid } from 'nanoid'
 
-import { API_NAMES, WEATHER_ICON_URL } from '../../constants/weatherConstants'
+import { API_NAMES, WEATHER_ICON_URL } from '../../constants/weather/weatherConstants'
 import { getLocTime } from './weatherUtils'
 import {
   OpenWeatherCombinedPayload,
@@ -18,12 +18,10 @@ export const transformOpenWeatherAPIPayload = (payload: OpenWeatherCombinedPaylo
   let forecastHours: number | undefined = 0
   let forecastDay: number = 0
 
-  console.log(payload)
-
   return {
     id: nanoid(),
     city: `${payload.city.name}, ${payload.city.country}`,
-    chosenWeatherApi: API_NAMES.openWeatherApi,
+    chosenWeatherApi: API_NAMES.OPEN_WEATHER_API,
     description: `${payload.description.slice(0, 1).toUpperCase() + payload.description.slice(1)}`,
     lastUpdate: new Date(),
     icon: `${WEATHER_ICON_URL}${payload.icon}@2x.png`,
@@ -70,7 +68,7 @@ export const transformWeatherAPIPayload = (payload: WeatherApiPayload, city: str
   return {
     id: nanoid(),
     city,
-    chosenWeatherApi: API_NAMES.weatherApi,
+    chosenWeatherApi: API_NAMES.WEATHER_API,
     lastUpdate: new Date(),
     description: payload.current.condition.text,
     icon: payload.current.condition.icon,

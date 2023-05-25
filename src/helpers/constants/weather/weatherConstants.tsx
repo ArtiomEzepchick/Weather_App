@@ -1,4 +1,4 @@
-import { StringValuesOnly } from "../../types/commonTypes"
+import { StringValuesOnly } from "../../../types/commonTypes"
 
 export const WEATHER_ICON_URL: string = 'https://openweathermap.org/img/wn/'
 export const WEATHER_IMAGES_SRC: string = `${process.env.PUBLIC_URL}/assets/weatherImages/`
@@ -57,8 +57,8 @@ export const WEATHER_CODES: {
 }
 
 export const API_NAMES: StringValuesOnly = {
-    openWeatherApi: 'openWeatherApi',
-    weatherApi: 'weatherApi'
+    OPEN_WEATHER_API: 'openWeatherApi',
+    WEATHER_API: 'weatherApi'
 }
 
 export const FORECAST_LABELS: StringValuesOnly = {

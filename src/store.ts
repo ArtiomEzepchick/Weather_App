@@ -6,7 +6,7 @@ import {
 } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 
-import userReducer from './model/user/reducers/reducers'
+import userReducer from './model/calendar/reducers/reducers'
 import weatherReducer from './model/weather/reducers/reducers'
 import rootSaga from './sagas/sagas'
 

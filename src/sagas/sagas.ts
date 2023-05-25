@@ -11,9 +11,9 @@ import {
 
 import { GET_CURRENT_WEATHER_REQUEST, GET_SEARCH_OPTIONS_REQUEST } from '../model/weather/constants/constants'
 import { WeatherTransformedData } from '../types/weather/weather'
-import { GET_USER_DATA_REQUEST, GET_CALENDAR_EVENTS_REQUEST } from '../model/user/constants/constants'
+import { GET_USER_DATA_REQUEST, GET_CALENDAR_EVENTS_REQUEST } from '../model/calendar/constants/constants'
 import { formatEvents } from '../helpers/utils/calendar/calendarUtils'
-import { FormattedEventsItem, UserDataPayload } from '../types/user/user'
+import { FormattedEventsItem, UserDataPayload } from '../types/calendar/user'
 import {
   GetCurrentWeatherAction,
   GetSearchOptionsRequestAction,
@@ -30,20 +30,19 @@ import {
   getUserDataFailure,
   getCalendarEventsSuccess,
   getCalendarEventsFailure
-} from '../model/user/actions/actions'
-import {
-  getCalendarEvents,
+} from '../model/calendar/actions/actions'
+import { getUserData, getCalendarEvents } from '../helpers/requests/calendar/calendarRequests'
+import { 
   getSearchOptions,
-  getUserData,
   getWeatherFromOpenWeatherApi,
-  getWeatherFromWeatherApi
-} from '../helpers/requests/requests'
+  getWeatherFromWeatherApi 
+} from '../helpers/requests/weather/weatherRequests'
 import {
   GetCalendarEventsAction,
   GetUserDataAction,
   UserAction
-} from '../types/user/actions'
-import { API_NAMES } from '../helpers/constants/weatherConstants'
+} from '../types/calendar/actions'
+import { API_NAMES } from '../helpers/constants/weather/weatherConstants'
 
 export function* searchCitySaga(action: GetSearchOptionsRequestAction): Generator<
   CallEffect<string[]> | PutEffect<WeatherAction>,
@@ -67,7 +66,7 @@ export function* weatherSaga(action: GetCurrentWeatherAction): Generator<
   try {
     const chosenWeatherApi = yield select(state => state.weatherReducer.chosenWeatherApi)
     
-    if (chosenWeatherApi === API_NAMES.openWeatherApi) {
+    if (chosenWeatherApi === API_NAMES.OPEN_WEATHER_API) {
       const response = yield call(getWeatherFromOpenWeatherApi, action.payload)
       yield put(getCurrentWeatherSuccess(response))
     } else {

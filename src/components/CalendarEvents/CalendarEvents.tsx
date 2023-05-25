@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Empty } from 'antd'
 import classNames from 'classnames'
 
-import { getCalendarEvents } from '../../model/user/actions/actions'
+import { getCalendarEvents } from '../../model/calendar/actions/actions'
 import { State } from '../../types/commonTypes'
-import { UserState } from '../../types/user/states'
+import { UserState } from '../../types/calendar/states'
 
 import './index.scss'
 

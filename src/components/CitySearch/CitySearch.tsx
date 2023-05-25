@@ -22,7 +22,7 @@ import {
 } from '../../model/weather/actions/actions'
 
 import './index.scss'
-import { API_NAMES } from "../../helpers/constants/weatherConstants"
+import { API_NAMES } from "../../helpers/constants/weather/weatherConstants"
 
 type Props = {
     inputCityValue: string | null;
@@ -62,7 +62,7 @@ const CitySearch: React.FC<Props> = ({
         const target = e.currentTarget
 
         if (target.textContent) {
-            dispatch(setChosenWeatherAPI(API_NAMES.openWeatherApi))
+            dispatch(setChosenWeatherAPI(API_NAMES.OPEN_WEATHER_API))
             dispatch(getCurrentWeather(target.textContent))
             dispatch(clearSearchOptions())
         }
@@ -72,7 +72,7 @@ const CitySearch: React.FC<Props> = ({
         e.preventDefault()
 
         if (inputCityValue) {
-            dispatch(setChosenWeatherAPI(API_NAMES.openWeatherApi))
+            dispatch(setChosenWeatherAPI(API_NAMES.OPEN_WEATHER_API))
             dispatch(getCurrentWeather(inputCityValue.trim()))
             dispatch(clearSearchOptions())
         }

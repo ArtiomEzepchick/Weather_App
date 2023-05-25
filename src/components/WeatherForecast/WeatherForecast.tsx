@@ -6,7 +6,7 @@ import { Dispatch } from "redux"
 import { Space, Select } from "antd"
 
 import CalendarEvents from "../CalendarEvents/CalendarEvents"
-import { API_NAMES, DEGREE_SYMBOL } from "../../helpers/constants/weatherConstants"
+import { API_NAMES, DEGREE_SYMBOL } from "../../helpers/constants/weather/weatherConstants"
 import { getCurrentWeather, setChosenWeatherAPI } from "../../model/weather/actions/actions"
 import {
     WeatherTransformedData,
@@ -82,8 +82,8 @@ const WeatherForecast: React.FC<Props> = ({ weatherData, isLoading }) => {
                             style={{ width: 180 }}
                             onChange={handleSelectChange}
                             options={[
-                                { value: API_NAMES.openWeatherApi, label: 'OpenWeatherApi' },
-                                { value: API_NAMES.weatherApi, label: 'WeatherApi' },
+                                { value: API_NAMES.OPEN_WEATHER_API, label: 'OpenWeatherApi' },
+                                { value: API_NAMES.WEATHER_API, label: 'WeatherApi' },
                             ]}
                         />
                     </Space>
@@ -103,7 +103,7 @@ const WeatherForecast: React.FC<Props> = ({ weatherData, isLoading }) => {
                 <CalendarEvents />
             </section>
             <section className="weather-main-forecast">
-                {weatherData.list.length && weatherData.chosenWeatherApi === API_NAMES.weatherApi
+                {weatherData.list.length && weatherData.chosenWeatherApi === API_NAMES.WEATHER_API
                     ? <section className="weather-hourly-forecast">
                         <h2>Hourly forecast</h2>
                         <section className="weather-hourly-forecast-items">
@@ -119,7 +119,7 @@ const WeatherForecast: React.FC<Props> = ({ weatherData, isLoading }) => {
                         </section>
                     </section>
                     : null}
-                {nextDaysForecastData.length && weatherData.chosenWeatherApi === API_NAMES.openWeatherApi
+                {nextDaysForecastData.length && weatherData.chosenWeatherApi === API_NAMES.OPEN_WEATHER_API
                     ? <section className="weather-days-forecast">
                         <h2>{nextDaysForecastData.length}-day forecast</h2>
                         <section className="weather-days-forecast-items">

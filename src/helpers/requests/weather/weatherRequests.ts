@@ -1,15 +1,13 @@
-import { transformOpenWeatherAPIPayload, transformWeatherAPIPayload } from "../utils/weather/transformWeatherPayload"
+import { transformOpenWeatherAPIPayload, transformWeatherAPIPayload } from "../../utils/weather/transformWeatherPayload"
+import { WeatherTransformedData } from "../../../types/weather/weather"
+import { filterSearchOptions } from "../../utils/weather/weatherUtils"
 import { 
     OpenWeatherCombinedPayload,
     OpenWeatherCurrentDayPayload,
     OpenWeatherDaysPayload, 
     UserLocation,
     WeatherApiPayload
-} from "../../types/weather/weather"
-import { UserDataPayload } from '../../types/user/user'
-import { CALENDAR_URL } from "../constants/googleConstants"
-import { WeatherTransformedData } from "../../types/weather/weather"
-import { filterSearchOptions } from "../utils/weather/weatherUtils"
+} from "../../../types/weather/weather"
 
 const OPENWEATHER_API_KEY = process.env.REACT_APP_OPENWEATHER_API_KEY
 const WEATHER_API_KEY = process.env.REACT_APP_WEATHER_API_KEY
@@ -75,41 +73,5 @@ export const getUserLocation = async (): Promise<string> => {
         return `${data.city}, ${data.country_code}`
     } catch (error: any) {
         throw new Error("Can't get user's ip address")
-    }
-}
-
-export const getUserData = async (token: string): Promise<UserDataPayload> => {
-    try {
-        const AUTH_URL: string = `https://www.googleapis.com/oauth2/v2/userinfo?access_token=${token}`
-
-        const response: Response = await fetch(AUTH_URL, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                Accept: 'application/json',
-            }
-        })
-
-        return await response.json()
-    } catch (error: any) {
-        throw new Error("Can't get user's data")
-    }
-}
-
-export const getCalendarEvents = async (token: string): Promise<gapi.client.calendar.Event[]> => {
-    try {
-        const response: Response = await fetch(CALENDAR_URL, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                Accept: 'application/json',
-            }
-        })
-
-       if (response.status === 401) {
-        throw new Error('You need to sign up again')
-       }
-
-        return await response.json()
-    } catch (error: any) {
-        throw new Error("Can't get calendar events")
     }
 }

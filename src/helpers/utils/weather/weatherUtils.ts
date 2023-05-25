@@ -10,7 +10,7 @@ import {
     ICONS_SRC,
     DEGREE_SYMBOL,
     WEATHER_CODES
-} from "../../constants/weatherConstants"
+} from "../../constants/weather/weatherConstants"
 
 export const addUnitsBasedOnLabels = (label: string): string | JSX.Element => {
     switch (label) {

@@ -1,6 +1,6 @@
 import { InitAction, WeatherAction } from '../../../types/weather/actions'
 
-import { API_NAMES } from '../../../helpers/constants/weatherConstants'
+import { API_NAMES } from '../../../helpers/constants/weather/weatherConstants'
 import {
   GET_CURRENT_WEATHER_REQUEST,
   GET_CURRENT_WEATHER_SUCCESS,
@@ -30,7 +30,7 @@ export const initialState: WeatherState = {
   inputCityValue: '',
   currentWeatherData: null,
   allCitiesWeatherData: [],
-  chosenWeatherApi: API_NAMES.openWeatherApi,
+  chosenWeatherApi: API_NAMES.OPEN_WEATHER_API,
   searchOptions: null
 }
 

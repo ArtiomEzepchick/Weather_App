@@ -27,15 +27,15 @@ import { useScrollLock } from '../../hooks/useScrollLock'
 import { State } from '../../types/commonTypes'
 import { WeatherTransformedData } from '../../types/weather/weather'
 import { copyrightLinks } from '../../helpers/copyrightLinks/copyrightLinks'
-import { getUserLocation } from '../../helpers/requests/requests'
+import { getUserLocation } from '../../helpers/requests/weather/weatherRequests'
 import { LOCAL_STORAGE_ITEMS } from '../../helpers/localStorageItems/localStorageItems'
 import { WeatherState } from '../../types/weather/states'
-import { getCalendarEvents, getUserData } from '../../model/user/actions/actions'
-import { UserState } from '../../types/user/states'
+import { getCalendarEvents, getUserData } from '../../model/calendar/actions/actions'
+import { UserState } from '../../types/calendar/states'
 import {
     WEATHER_IMAGES_SRC,
     DEGREE_SYMBOL
-} from '../../helpers/constants/weatherConstants'
+} from '../../helpers/constants/weather/weatherConstants'
 import {
     setAsideCollapsed,
     setCurrentWeatherData,
