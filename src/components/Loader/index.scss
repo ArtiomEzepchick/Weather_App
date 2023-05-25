@@ -13,7 +13,7 @@
     height: 3rem;
     animation: rotate 2s linear infinite;
     margin-top: -3rem;
-    margin-left: 1.5rem;
+    margin-left: 1rem;
     z-index: 500;
 
     @keyframes rotate {
@@ -24,5 +24,9 @@
         100% {
             transform: rotate(360deg);
         }
+    }
+
+    @media (max-width: $width-window-xs) {
+        margin-left: 0;
     }
 }

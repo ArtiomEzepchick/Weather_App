@@ -72,16 +72,16 @@
         }
     }
 
-    @media (max-width: $size-m) {
-        width: 20rem;
+    @media (max-width: $width-window-m) {
+        width: $width-container-l;
     }
     
-    @media (max-width: $size-s) {
-        width: 18rem;
+    @media (max-width: $width-window-s) {
+        width: $width-container-m;
     }
 
-    @media (max-width: $size-xs) {
-        width: 15rem;
+    @media (max-width: $width-window-xs) {
+        width: $width-container-s;
         overflow-x: hidden;
 
         .events-item span {

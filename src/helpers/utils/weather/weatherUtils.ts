@@ -1,3 +1,5 @@
+import moment from 'moment-timezone'
+
 import { WeatherTransformedData } from "../../../types/weather/weather"
 import {
     Forecast,
@@ -11,6 +13,7 @@ import {
     DEGREE_SYMBOL,
     WEATHER_CODES
 } from "../../constants/weather/weatherConstants"
+import { StringValuesOnly } from '../../../types/commonTypes'
 
 export const addUnitsBasedOnLabels = (label: string): string | JSX.Element => {
     switch (label) {
@@ -74,7 +77,7 @@ export const filterSearchOptions = (payload: SearchOption[]): string[] => {
     return filteredOptions
 }
 
-export const filterWeatherData = (list: WeatherList[]): WeatherList[] => {
+export const filterWeatherDataDays = (list: WeatherList[]): WeatherList[] => {
     let currentDay: string = list[0].day ? list[0].day : ''
     let count: number = 0
     let index: number = 0
@@ -130,4 +133,26 @@ export const setBackgroundImage = (url: string): string | null => {
     .forEach((code) => url.includes(code) ? result.push(source[0]) : null))
 
     return result[0]
+}
+
+export const setLocalDateAndTime = (weatherData: WeatherTransformedData): StringValuesOnly => {
+    const result = {
+        localTime: '',
+        localDate: '',
+        localDayOfTheWeek: ''
+    }
+
+    if (weatherData.timezone) {
+        result.localTime = moment().utcOffset(weatherData.timezone / 60).format("H:mm")
+        result.localDate = moment().utcOffset(weatherData.timezone / 60).format('MMMM DD')
+        result.localDayOfTheWeek = moment().utcOffset(weatherData.timezone / 60).format("dddd")
+    } else {
+        if (weatherData.tzId) {
+            result.localTime = moment().tz(weatherData.tzId).format('H:mm')
+            result.localDate = moment().tz(weatherData.tzId).format('MMMM DD')
+            result.localDayOfTheWeek = moment().tz(weatherData.tzId).format("dddd")
+        }
+    }
+
+    return result
 }

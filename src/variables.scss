@@ -6,11 +6,15 @@ $width-sider: 5rem;
 
 $border-radius-common-block: 0.5rem;
 
-$size-xs: 540px;
-$size-s: 790px;
-$size-m: 960px;
-$size-l: 1180px;
-$size-xl: 1500px;
+$width-container-l: 20rem;
+$width-container-m: 18rem;
+$width-container-s: 15rem;
+
+$width-window-xs: 540px;
+$width-window-s: 790px;
+$width-window-m: 960px;
+$width-window-l: 1180px;
+$width-window-xl: 1500px;
 
 @mixin flex-all-centered {
     display: flex;

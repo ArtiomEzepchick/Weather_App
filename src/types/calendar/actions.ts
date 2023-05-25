@@ -10,11 +10,7 @@ import {
     SET_USER_ERROR,
     RESET_USER_STATE
 } from '../../model/calendar/constants/constants'
-import {
-    UserTokenPayload,
-    UserDataPayload,
-    FormattedEventsItem
-} from './user'
+import { UserDataPayload, FormattedEventsItem } from './user'
 
 export interface InitAction {
     type: typeof INIT;
@@ -22,7 +18,7 @@ export interface InitAction {
 
 interface SetUserTokenAction {
     type: typeof SET_USER_TOKEN;
-    payload: UserTokenPayload;
+    payload: string | null;
 }
 
 export interface GetUserDataAction {

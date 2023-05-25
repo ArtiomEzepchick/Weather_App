@@ -13,13 +13,13 @@
     .weather-with-calendar-container {
         @include flex-all-centered;
         gap: 2rem;
-        margin: 2rem auto 0;
+        margin-top: 2rem;
 
         .weather-short-forecast {
             @include flex-all-centered;
             position: relative;
             gap: 0.5rem;
-            width: 18rem;
+            width: $width-container-m;
             height: 19rem;
             padding: 1rem;
             flex-direction: column;
@@ -204,7 +204,7 @@
         }
     }
 
-    @media (max-width: $size-l) {
+    @media (max-width: $width-window-l) {
         .weather-with-calendar-container {
             justify-content: space-between;
         }
@@ -214,8 +214,8 @@
 
             .weather-hourly-forecast,
             .weather-days-forecast {
-                width: 18rem;
-                height: 31rem;
+                width: $width-container-m;
+                height: 28rem;
             }
 
             .weather-hourly-forecast {
@@ -247,8 +247,6 @@
             }
 
             .weather-days-forecast {
-                justify-self: center;
-
                 .weather-days-forecast-items {
                     margin-top: 1rem;
 
@@ -265,22 +263,22 @@
             }
 
             .weather-detailed-forecast {
-                width: 20rem;
-                align-items: flex-start;
+                width: $width-container-l;
+                justify-content: space-between;
 
                 .weather-detailed-forecast-item {
                     width: 9rem;
                     height: 9rem;
 
                     &:last-child {
-                        margin: auto auto 0;
+                        margin: 0 auto;
                     }
                 }
             }
         }
     }
 
-    @media (max-width: $size-s) {
+    @media (max-width: $width-window-s) {
         @include flex-all-centered;
         flex-direction: column;
         gap: 1rem;
@@ -293,36 +291,47 @@
         .weather-main-forecast {
             flex-wrap: wrap;
             margin-top: 1rem;
-        }
 
-        .weather-detailed-forecast {
-            width: 18rem;
-            justify-content: space-between;
+            .weather-hourly-forecast,
+            .weather-days-forecast {
+                height: 25rem;
+            }
 
-            .weather-detailed-forecast-item {
-                width: 8rem;
-                height: 8rem;
-
-                &:last-child {
-                    margin: auto auto 0;
+            .weather-days-forecast {
+                .weather-days-forecast-items {
+                    gap: 0;
                 }
+            }
 
-                img {
-                    width: 3rem;
-                    height: 3rem;
-                }
-
-                h2, p {
-                    font-size: 0.9rem;
+            .weather-detailed-forecast {
+                width: $width-container-m;
+                justify-content: space-between;
+    
+                .weather-detailed-forecast-item {
+                    width: 8rem;
+                    height: 8rem;
+    
+                    &:last-child {
+                        margin: auto auto 0;
+                    }
+    
+                    img {
+                        width: 3rem;
+                        height: 3rem;
+                    }
+    
+                    h2, p {
+                        font-size: 0.9rem;
+                    }
                 }
             }
         }
     }
 
-    @media (max-width: $size-xs) {
+    @media (max-width: $width-window-xs) {
         .weather-with-calendar-container {
             .weather-short-forecast {
-                width: 15rem;
+                width: $width-container-s;
                 height: max-content;
             }
         }
@@ -331,8 +340,9 @@
             gap: 0.5rem;
 
             .weather-hourly-forecast,
-            .weather-days-forecast {
-                width: 15rem;
+            .weather-days-forecast,
+            .weather-detailed-forecast {
+                width: $width-container-s;
             }
 
             .weather-days-forecast {
@@ -349,7 +359,6 @@
 
             .weather-detailed-forecast {
                 margin-top: 1.5rem;
-                width: 15rem;
     
                 .weather-detailed-forecast-item {
                     width: 7rem;

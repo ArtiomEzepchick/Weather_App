@@ -30,12 +30,9 @@ import { copyrightLinks } from '../../helpers/copyrightLinks/copyrightLinks'
 import { getUserLocation } from '../../helpers/requests/weather/weatherRequests'
 import { LOCAL_STORAGE_ITEMS } from '../../helpers/localStorageItems/localStorageItems'
 import { WeatherState } from '../../types/weather/states'
-import { getCalendarEvents, getUserData } from '../../model/calendar/actions/actions'
 import { UserState } from '../../types/calendar/states'
-import {
-    WEATHER_IMAGES_SRC,
-    DEGREE_SYMBOL
-} from '../../helpers/constants/weather/weatherConstants'
+import { WEATHER_IMAGES_SRC, DEGREE_SYMBOL } from '../../helpers/constants/weather/weatherConstants'
+import { setBackgroundImage } from '../../helpers/utils/weather/weatherUtils'
 import {
     setAsideCollapsed,
     setCurrentWeatherData,
@@ -45,7 +42,6 @@ import {
 } from '../../model/weather/actions/actions'
 
 import './index.scss'
-import { setBackgroundImage } from '../../helpers/utils/weather/weatherUtils'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
@@ -61,12 +57,7 @@ const makeMenuItem = (
     } as MenuItem
 }
 
-const {
-    Header,
-    Content,
-    Footer,
-    Sider
-} = Layout
+const { Header, Content, Footer, Sider } = Layout
 
 const {
     ALL_CITIES_WEATHER_DATA,
@@ -76,7 +67,8 @@ const {
 } = LOCAL_STORAGE_ITEMS
 
 const MainLayout: React.FC = () => {
-    const { userData, userToken } = useSelector((state: State): UserState => state.userReducer)
+    const { userData, userToken, userError } = useSelector((state: State): UserState => state.userReducer)
+
     const {
         allCitiesWeatherData,
         currentWeatherData,
@@ -100,7 +92,7 @@ const MainLayout: React.FC = () => {
     }, [allCitiesWeatherData])
 
     const handleDeleteBtnClick = useCallback((): void => {
-        // Handle delete menu items
+        // Handle delete menu items and set local storage items after deleting
         let currentMenyKeyRef: string = menuKeyRef.current
         const newWeatherData: WeatherTransformedData[] = allCitiesWeatherData.filter((_, index: number) => index.toString() !== currentMenyKeyRef)
 
@@ -143,6 +135,7 @@ const MainLayout: React.FC = () => {
     }, [allCitiesWeatherData, dispatch])
 
     const menuItems = useMemo((): MenuItem[] => {
+        // Create menu items for Menu component
         let key: number = 0
         const items: MenuItem[] = []
 
@@ -208,6 +201,7 @@ const MainLayout: React.FC = () => {
     }, [fetchUserLocation, dispatch])
 
     useEffect(() => {
+        // Set state depending on local storage items
         const lsAllCitiesWeatherData: WeatherTransformedData[] = JSON.parse(localStorage.getItem(ALL_CITIES_WEATHER_DATA) || '[]')
         const lsCurrentWeatherData: WeatherTransformedData = JSON.parse(localStorage.getItem(CURRENT_WEATHER_DATA) || '[]')
         const lsSavedWeatherDataRef: WeatherTransformedData = JSON.parse(localStorage.getItem(SAVED_WEATHER_DATA_REF) || '{}')
@@ -306,20 +300,6 @@ const MainLayout: React.FC = () => {
         dispatch
     ])
 
-    useEffect(() => {
-        if (userToken && userToken.access_token && !userData) {
-            dispatch(getUserData(userToken.access_token))
-        }
-
-        if (userToken && userToken.access_token && userData) {
-            dispatch(getCalendarEvents(userToken.access_token))
-        }
-    }, [
-        userData,
-        userToken,
-        dispatch
-    ])
-
     return (
         <Layout style={{
             backgroundImage: `url(${WEATHER_IMAGES_SRC +
@@ -346,6 +326,8 @@ const MainLayout: React.FC = () => {
                 <Header>
                     <GoogleSignInOut
                         isLoading={isLoading}
+                        userError={userError}
+                        userToken={userToken}
                         userData={userData}
                     />
                     <CitySearch

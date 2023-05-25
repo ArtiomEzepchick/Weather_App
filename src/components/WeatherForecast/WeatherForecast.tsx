@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React from "react"
 import moment from "moment-timezone"
 import classNames from "classnames"
 import { useDispatch } from "react-redux"
@@ -6,6 +6,7 @@ import { Dispatch } from "redux"
 import { Space, Select } from "antd"
 
 import CalendarEvents from "../CalendarEvents/CalendarEvents"
+
 import { API_NAMES, DEGREE_SYMBOL } from "../../helpers/constants/weather/weatherConstants"
 import { getCurrentWeather, setChosenWeatherAPI } from "../../model/weather/actions/actions"
 import {
@@ -15,8 +16,9 @@ import {
 } from "../../types/weather/weather"
 import {
     transformDetailedForecast,
-    filterWeatherData,
-    addUnitsBasedOnLabels
+    filterWeatherDataDays,
+    addUnitsBasedOnLabels,
+    setLocalDateAndTime
 } from "../../helpers/utils/weather/weatherUtils"
 
 import './index.scss'
@@ -28,33 +30,9 @@ type Props = {
 
 const WeatherForecast: React.FC<Props> = ({ weatherData, isLoading }) => {
     const dispatch: Dispatch = useDispatch()
-
-    const getLocalTime = useCallback(() => {
-        const result = {
-            localTime: '',
-            localDate: '',
-            localDayOfTheWeek: ''
-        }
-
-        if (weatherData.timezone) {
-            result.localTime = moment().utcOffset(weatherData.timezone / 60).format("H:mm")
-            result.localDate = moment().utcOffset(weatherData.timezone / 60).format('MMMM DD')
-            result.localDayOfTheWeek = moment().utcOffset(weatherData.timezone / 60).format("dddd")
-        } else {
-            if (weatherData.tzId) {
-                result.localTime = moment().tz(weatherData.tzId).format('H:mm')
-                result.localDate = moment().tz(weatherData.tzId).format('MMMM DD')
-                result.localDayOfTheWeek = moment().tz(weatherData.tzId).format("dddd")
-            }
-        }
-
-        return result
-    }, [weatherData.timezone, weatherData.tzId])
-
-    const { localTime, localDate, localDayOfTheWeek } = getLocalTime()
-
+    const { localTime, localDate, localDayOfTheWeek } = setLocalDateAndTime(weatherData)
     const detailedForecastData: ForecastData[] = transformDetailedForecast(weatherData)
-    const nextDaysForecastData: WeatherList[] = filterWeatherData(weatherData.list)
+    const nextDaysForecastData: WeatherList[] = filterWeatherDataDays(weatherData.list)
     const lastWeatherUpdate: string = moment.utc(weatherData.lastUpdate).fromNow()
 
     const handleUpdateWeatherData = (): void => {
