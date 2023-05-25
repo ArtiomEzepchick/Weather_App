@@ -13,7 +13,7 @@ export const copyrightLinks: Link[] = [
         iconClassName: "fab fa-instagram",
     },
     {
-        href: "https://t.me/ArtiomEzepchik",
+        href: "https://t.me/ArtsiomEzepchik",
         iconClassName: "fab fa-telegram",
     }
 ]
