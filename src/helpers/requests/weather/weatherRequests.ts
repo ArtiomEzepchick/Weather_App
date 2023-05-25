@@ -14,7 +14,7 @@ const WEATHER_API_KEY = process.env.REACT_APP_WEATHER_API_KEY
 const ABSTRACT_API_KEY = process.env.REACT_APP_ABSTRACT_API_KEY
 
 export const getSearchOptions = async (value: string): Promise<string[]> => {
-    const API_URL: string = `http://api.openweathermap.org/geo/1.0/direct?q=${value}&limit=5&appid=${OPENWEATHER_API_KEY}`
+    const API_URL: string = `https://api.openweathermap.org/geo/1.0/direct?q=${value}&limit=5&appid=${OPENWEATHER_API_KEY}`
 
     const response: Response = await fetch(API_URL)
 
