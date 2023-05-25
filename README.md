@@ -2,16 +2,16 @@
 
 Currently working on this project.
 
-- The project is written in TypeScript.\
-- Redux is used as a state manager. And Redux Saga used as Middleware.\
-- The application determines the location of the user (using Abstract API) and prefills the city search field.\
-- Possible city options will be displayed when entering data in the city search field. Data entry is delayed (using Redux Saga delay effect) to avoid frequent API requests.\
-- Two weather APIs are integrated. One gets the weather forecast for several days and the other one gets the hourly forecast. The user can quickly switch between them and get the information he needs.\
-- Integrated Google OAuth API and Google Calendar API to receive user data, as well as receiving user's calendar events and displaying them on UI.\
-- Weather data is stored in local storage and available after page reload.\
-- Background images change depending on the weather forecast.\
-- The project is fully responsive.\
-- 3rd-party libraries used: Ant Design, moment.js, nano-id, classnames, etc.\
+- The project is written in TypeScript.
+- Redux is used as a state manager. And Redux Saga used as Middleware.
+- The application determines the location of the user (using Abstract API) and prefills the city search field.
+- Possible city options will be displayed when entering data in the city search field. Data entry is delayed (using Redux Saga delay effect) to avoid frequent API requests.
+- Two weather APIs are integrated. One gets the weather forecast for several days and the other one gets the hourly forecast. The user can quickly switch between them and get the information he needs.
+- Integrated Google OAuth API and Google Calendar API to receive user data, as well as receiving user's calendar events and displaying them on UI.
+- Weather data is stored in local storage and available after page reload.
+- Background images change depending on the weather forecast.
+- The project is fully responsive.
+- 3rd-party libraries used: Ant Design, moment.js, nano-id, classnames, etc.
 
 In the project directory, you can run:
 
