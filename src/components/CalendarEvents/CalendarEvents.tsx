@@ -34,7 +34,7 @@ const CalendarEvents: React.FC = () => {
 
   const handleUpdateCalendarEvents = (): void => {
     if (userToken) {
-      dispatch(getCalendarEvents(userToken?.access_token))
+      dispatch(getCalendarEvents(userToken))
     }
   }
 

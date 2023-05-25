@@ -12,9 +12,13 @@ export const getUserData = async (token: string): Promise<UserDataPayload> => {
             }
         })
 
+        if (response.status !== 200) {
+            throw new Error(`${response.status}`)
+        }
+
         return await response.json()
     } catch (error: any) {
-        throw new Error("Can't get user's data")
+        throw new Error(error.message)
     }
 }
 
@@ -27,12 +31,27 @@ export const getCalendarEvents = async (token: string): Promise<gapi.client.cale
             }
         })
 
-       if (response.status === 401) {
-        throw new Error('You need to sign up again')
-       }
+        if (response.status !== 200) {
+            throw new Error(`${response.status}`)
+        }
 
         return await response.json()
     } catch (error: any) {
-        throw new Error("Can't get calendar events")
+        throw new Error(error.message)
+    }
+}
+
+export const logOutUser = async (token: string): Promise<void> => {
+    const REVOKE_URL = `https://oauth2.googleapis.com/revoke?token=${token}`
+
+    try {
+        await fetch(REVOKE_URL, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded'
+            }
+        })
+    } catch (error: any) {
+        throw new Error("Can't logout current user")
     }
 }

@@ -17,7 +17,7 @@ export const initialState: UserState = {
   userToken: null,
   userData: null,
   calendarEvents: null,
-  userError: null,
+  userError: '',
   isCalendarLoading: false
 }
 
@@ -34,7 +34,8 @@ const userReducer = (
     case GET_USER_DATA_REQUEST:
       return {
         ...state,
-        userData: null
+        userData: null,
+        userError: ''
       }
     case GET_USER_DATA_SUCCESS:
       return {
@@ -51,7 +52,8 @@ const userReducer = (
       return {
         ...state,
         calendarEvents: null,
-        isCalendarLoading: true
+        isCalendarLoading: true,
+        userError: ''
       }
     case GET_CALENDAR_EVENTS_SUCCESS:
       return {

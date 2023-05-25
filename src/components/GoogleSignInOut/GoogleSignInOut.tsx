@@ -6,40 +6,88 @@ import { useDispatch } from "react-redux"
 import {
     setUserToken,
     setUserError,
-    resetUserState
+    resetUserState,
+    getUserData,
+    getCalendarEvents
 } from "../../model/calendar/actions/actions"
 import { setIsLoading } from "../../model/weather/actions/actions"
 import { UserDataPayload } from "../../types/calendar/user"
 import { SCOPE } from "../../helpers/constants/calendar/calendarConstants"
+import { LOCAL_STORAGE_ITEMS } from "../../helpers/localStorageItems/localStorageItems"
+import { logOutUser } from "../../helpers/requests/calendar/calendarRequests"
 
 import './index.scss'
 
 type Props = {
     isLoading: boolean;
+    userToken: string | null;
     userData: UserDataPayload | null;
+    userError: string | null;
 }
 
-const GoogleSignInOut: React.FC<Props> = ({ isLoading, userData }) => {
+const GoogleSignInOut: React.FC<Props> = ({ 
+    isLoading, 
+    userData,
+    userToken,
+    userError 
+}) => {
     const profileActionsRef = useRef<HTMLDivElement>(null)
     const dispatch = useDispatch()
 
     const handleLogin = useGoogleLogin({
         scope: SCOPE,
         onSuccess: (response) => {
-            dispatch(setUserToken(response))
+            dispatch(setUserToken(response.access_token))
+            localStorage.setItem(LOCAL_STORAGE_ITEMS.USER_TOKEN, response.access_token)
         },
         onError: (error) => dispatch(setUserError(`Login Failed: ${error}`)),
     })
 
-    const handleLogout = () => {
-        googleLogout()
-        dispatch(setIsLoading(true))
+    const handleLogout = async () => {
+        try {
+            dispatch(setIsLoading(true))
+            googleLogout()
+            
+            if (userToken) await logOutUser(userToken)
 
-        setTimeout(() => {
+            localStorage.removeItem(LOCAL_STORAGE_ITEMS.USER_TOKEN)
             dispatch(resetUserState())
             dispatch(setIsLoading(false))
-        }, 200)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            dispatch(setIsLoading(false))
+        }
     }
+
+    useEffect(() => {
+        const lsUserToken = localStorage.getItem(LOCAL_STORAGE_ITEMS.USER_TOKEN)
+
+        if (lsUserToken) {
+            dispatch(setUserToken(lsUserToken))
+        }
+
+        if (userToken && !userData) {
+            dispatch(getUserData(userToken))
+        }
+
+        if (userToken && userData) {
+            dispatch(getCalendarEvents(userToken))
+        }
+
+        if (userError) {
+            localStorage.removeItem(LOCAL_STORAGE_ITEMS.USER_TOKEN)
+            dispatch(setUserToken(null))
+            dispatch(resetUserState())
+            handleLogin()
+        }
+    }, [
+        userData,
+        userToken,
+        userError,
+        handleLogin,
+        dispatch
+    ])
 
     useEffect(() => {
         const handleOutsideUserProfileClick = (e: MouseEvent): void => {

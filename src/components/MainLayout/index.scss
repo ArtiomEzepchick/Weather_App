@@ -141,7 +141,7 @@
         }
     }
 
-    @media (max-width: $size-l) {
+    @media (max-width: $width-window-l) {
         .site-layout {
             .ant-layout-content {
                 padding: 0 2rem 2rem;
@@ -149,7 +149,7 @@
         }
     }
 
-    @media (max-width: $size-xs) {
+    @media (max-width: $width-window-xs) {
         .ant-layout-sider-collapsed {
             width: 3rem !important;
             max-width: 3rem !important;
@@ -158,7 +158,6 @@
 
         .site-layout {
             padding-left: 3rem;
-            
             .ant-layout-header {
                 gap: 1rem;
                 padding: 0 0.5rem;
