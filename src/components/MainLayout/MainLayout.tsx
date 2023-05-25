@@ -180,15 +180,11 @@ const MainLayout: React.FC = () => {
     ])
 
     const fetchUserLocation = useCallback(async (): Promise<void> => {
-        const lsAllCitiesWeatherData = JSON.parse(localStorage.getItem(ALL_CITIES_WEATHER_DATA) || '[]')
-
         try {
-            if (!lsAllCitiesWeatherData.length) {
-                dispatch(setIsLoading(true))
-                const userLocation: string = await getUserLocation()
-                dispatch(setInputCityValue(userLocation))
-                dispatch(setIsLoading(false))
-            }
+            dispatch(setIsLoading(true))
+            const userLocation: string = await getUserLocation()
+            dispatch(setInputCityValue(userLocation))
+            dispatch(setIsLoading(false))
         } catch (error: any) {
             console.log(error)
         } finally {
@@ -326,9 +322,9 @@ const MainLayout: React.FC = () => {
 
     return (
         <Layout style={{
-            backgroundImage: `url(${WEATHER_IMAGES_SRC + 
+            backgroundImage: `url(${WEATHER_IMAGES_SRC +
                 (savedWeatherDataRef.current ? setBackgroundImage(savedWeatherDataRef.current?.iconId) : '01d')
-            }.jpg)`,
+                }.jpg)`,
             backgroundColor: `${savedWeatherDataRef.current?.iconId ? 'none' : '#3badff'}`
         }}>
             <Sider
