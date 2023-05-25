@@ -51,7 +51,7 @@ export const getWeatherFromOpenWeatherApi = async (city: string): Promise<Weathe
 }
 
 export const getWeatherFromWeatherApi = async (city: string): Promise<WeatherTransformedData> => {
-    const API_URL: string = `http://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${city}&days=2&aqi=no&alerts=no`
+    const API_URL: string = `https://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${city}&days=2&aqi=no&alerts=no`
 
     try {
         const response: Response = await fetch(API_URL)
