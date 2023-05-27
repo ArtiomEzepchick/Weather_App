@@ -1,13 +1,12 @@
 import React from "react"
 import moment from "moment-timezone"
 import classNames from "classnames"
-import { useDispatch } from "react-redux"
 import { Dispatch } from "redux"
 import { Space, Select } from "antd"
 
 import CalendarEvents from "../CalendarEvents/CalendarEvents"
 
-import { API_NAMES, DEGREE_SYMBOL } from "../../helpers/constants/weather/weatherConstants"
+import { API_NAMES, DEGREE_SYMBOL } from "../../helpers/constants/weather/weather"
 import { getCurrentWeather, setChosenWeatherAPI } from "../../model/weather/actions/actions"
 import {
     WeatherTransformedData,
@@ -16,23 +15,27 @@ import {
 } from "../../types/weather/weather"
 import {
     transformDetailedForecast,
-    filterWeatherDataDays,
+    filterWeatherDays,
     addUnitsBasedOnLabels,
     setLocalDateAndTime
-} from "../../helpers/utils/weather/weatherUtils"
+} from "../../helpers/utils/weather/weather"
 
 import './index.scss'
 
 type Props = {
+    dispatch: Dispatch;
     weatherData: WeatherTransformedData;
     isLoading: boolean;
 }
 
-const WeatherForecast: React.FC<Props> = ({ weatherData, isLoading }) => {
-    const dispatch: Dispatch = useDispatch()
+const WeatherForecast: React.FC<Props> = ({ 
+    dispatch,
+    weatherData, 
+    isLoading 
+}) => {
     const { localTime, localDate, localDayOfTheWeek } = setLocalDateAndTime(weatherData)
     const detailedForecastData: ForecastData[] = transformDetailedForecast(weatherData)
-    const nextDaysForecastData: WeatherList[] = filterWeatherDataDays(weatherData.list)
+    const nextDaysForecastData: WeatherList[] = filterWeatherDays(weatherData.list)
     const lastWeatherUpdate: string = moment.utc(weatherData.lastUpdate).fromNow()
 
     const handleUpdateWeatherData = (): void => {
@@ -89,7 +92,11 @@ const WeatherForecast: React.FC<Props> = ({ weatherData, isLoading }) => {
                                 <section className="weather-hourly-forecast-item" key={item.id}>
                                     <span>{item.time}</span>
                                     <p>
-                                        <img src={item.icon} alt={item.description} />
+                                        <img
+                                            src={item.icon}
+                                            alt={item.description}
+                                            title={item.description}
+                                        />
                                         <span>{item.temp}{DEGREE_SYMBOL}</span>
                                     </p>
                                 </section>

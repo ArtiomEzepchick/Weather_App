@@ -1,6 +1,6 @@
 import { transformOpenWeatherAPIPayload, transformWeatherAPIPayload } from "../../utils/weather/transformWeatherPayload"
 import { WeatherTransformedData } from "../../../types/weather/weather"
-import { filterSearchOptions } from "../../utils/weather/weatherUtils"
+import { filterSearchOptions } from "../../utils/weather/weather"
 import { 
     OpenWeatherCombinedPayload,
     OpenWeatherCurrentDayPayload,
@@ -43,6 +43,8 @@ export const getWeatherFromOpenWeatherApi = async (city: string): Promise<Weathe
             wind: currentDayData.wind.speed,
             visibility: currentDayData.visibility,
         }
+
+        console.log(transformOpenWeatherAPIPayload(combinedData))
 
         return transformOpenWeatherAPIPayload(combinedData)
     } catch (error: any) {

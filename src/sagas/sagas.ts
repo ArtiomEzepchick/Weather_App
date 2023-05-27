@@ -12,7 +12,7 @@ import {
 import { GET_CURRENT_WEATHER_REQUEST, GET_SEARCH_OPTIONS_REQUEST } from '../model/weather/constants/constants'
 import { WeatherTransformedData } from '../types/weather/weather'
 import { GET_USER_DATA_REQUEST, GET_CALENDAR_EVENTS_REQUEST } from '../model/calendar/constants/constants'
-import { formatEvents } from '../helpers/utils/calendar/calendarUtils'
+import { formatEvents } from '../helpers/utils/calendar/calendar'
 import { FormattedEventsItem, UserDataPayload } from '../types/calendar/user'
 import {
   GetCurrentWeatherAction,
@@ -31,18 +31,18 @@ import {
   getCalendarEventsSuccess,
   getCalendarEventsFailure
 } from '../model/calendar/actions/actions'
-import { getUserData, getCalendarEvents } from '../helpers/requests/calendar/calendarRequests'
+import { getUserData, getCalendarEvents } from '../helpers/requests/calendar/calendar'
 import { 
   getSearchOptions,
   getWeatherFromOpenWeatherApi,
   getWeatherFromWeatherApi 
-} from '../helpers/requests/weather/weatherRequests'
+} from '../helpers/requests/weather/weather'
 import {
   GetCalendarEventsAction,
   GetUserDataAction,
   UserAction
 } from '../types/calendar/actions'
-import { API_NAMES } from '../helpers/constants/weather/weatherConstants'
+import { API_NAMES } from '../helpers/constants/weather/weather'
 
 export function* searchCitySaga(action: GetSearchOptionsRequestAction): Generator<
   CallEffect<string[]> | PutEffect<WeatherAction>,

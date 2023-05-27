@@ -9,8 +9,9 @@ import {
     InputRef,
     Space
 } from "antd"
-import { useDispatch } from 'react-redux'
+import { Dispatch } from "redux"
 
+import { API_NAMES } from "../../helpers/constants/weather/weather"
 import {
     getCurrentWeather,
     setInputCityValue,
@@ -22,9 +23,9 @@ import {
 } from '../../model/weather/actions/actions'
 
 import './index.scss'
-import { API_NAMES } from "../../helpers/constants/weather/weatherConstants"
 
 type Props = {
+    dispatch: Dispatch;
     inputCityValue: string | null;
     isLoading: boolean;
     inputRef: RefObject<InputRef>;
@@ -33,6 +34,7 @@ type Props = {
 }
 
 const CitySearch: React.FC<Props> = ({
+    dispatch,
     searchOptions,
     inputCityValue,
     isLoading,
@@ -40,7 +42,6 @@ const CitySearch: React.FC<Props> = ({
     dataLength
 }) => {
     const optionsRef = useRef<HTMLDivElement>(null)
-    const dispatch = useDispatch()
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         optionsRef.current?.classList.add('show')
@@ -122,10 +123,7 @@ const CitySearch: React.FC<Props> = ({
                     Find
                 </Button>
             </Space.Compact>
-            <div
-                className="search-options-container"
-                ref={optionsRef}
-            >
+            <div className="search-options-container" ref={optionsRef}>
                 {searchOptions?.length
                     ? searchOptions.map((item, index) => (
                         <Button

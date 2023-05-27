@@ -1,6 +1,6 @@
 import { InitAction, WeatherAction } from '../../../types/weather/actions'
-
-import { API_NAMES } from '../../../helpers/constants/weather/weatherConstants'
+import { API_NAMES } from '../../../helpers/constants/weather/weather'
+import { WeatherState } from '../../../types/weather/states'
 import {
   GET_CURRENT_WEATHER_REQUEST,
   GET_CURRENT_WEATHER_SUCCESS,
@@ -19,8 +19,6 @@ import {
   CLEAR_SEARCH_OPTIONS,
   SET_IS_MODAL_OPEN
 } from '../constants/constants'
-
-import { WeatherState } from '../../../types/weather/states'
 
 export const initialState: WeatherState = {
   asideCollapsed: true,

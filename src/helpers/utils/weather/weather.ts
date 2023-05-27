@@ -12,7 +12,7 @@ import {
     ICONS_SRC,
     DEGREE_SYMBOL,
     WEATHER_CODES
-} from "../../constants/weather/weatherConstants"
+} from "../../constants/weather/weather"
 import { StringValuesOnly } from '../../../types/commonTypes'
 
 export const addUnitsBasedOnLabels = (label: string): string | JSX.Element => {
@@ -77,7 +77,7 @@ export const filterSearchOptions = (payload: SearchOption[]): string[] => {
     return filteredOptions
 }
 
-export const filterWeatherDataDays = (list: WeatherList[]): WeatherList[] => {
+export const filterWeatherDays = (list: WeatherList[]): WeatherList[] => {
     let currentDay: string = list[0].day ? list[0].day : ''
     let count: number = 0
     let index: number = 0
@@ -142,7 +142,7 @@ export const setLocalDateAndTime = (weatherData: WeatherTransformedData): String
         localDayOfTheWeek: ''
     }
 
-    if (weatherData.timezone) {
+    if (weatherData.timezone || weatherData.timezone === 0) {
         result.localTime = moment().utcOffset(weatherData.timezone / 60).format("H:mm")
         result.localDate = moment().utcOffset(weatherData.timezone / 60).format('MMMM DD')
         result.localDayOfTheWeek = moment().utcOffset(weatherData.timezone / 60).format("dddd")
