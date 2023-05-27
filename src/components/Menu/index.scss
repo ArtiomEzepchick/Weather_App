@@ -1,0 +1,45 @@
+@import '../../variables.scss';
+
+.ant-menu {
+    position: relative;
+
+    .menu-delete-btn {
+        @include hidden-element;
+    }
+
+    &.ant-menu-inline-collapsed {
+        pointer-events: none;
+
+        .ant-menu-item, .ant-menu-item-selected {
+            .menu-delete-btn {
+                @include hidden-element;
+            }
+        }
+    }
+
+    .ant-menu-item-selected {
+        .menu-delete-btn {
+            position: absolute;
+            @include flex-all-centered;
+            @include transition-standard;
+            border-radius: 100%;
+            width: 1.5rem;
+            height: 1.5rem;
+            right: 4%;
+            top: 50%;
+            color: $color-dark-blue;
+            transform: translateY(-50%);
+            visibility: visible;
+            opacity: 1;
+            border: none;
+            cursor: pointer;
+            z-index: 100;
+            border: 1px solid $color-dark-blue;
+
+            &:active {
+                color: $color-red;
+                border: 1px solid $color-red;
+            }
+        }
+    }
+}

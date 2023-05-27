@@ -9,7 +9,7 @@ type Props = {
 }
 
 const Overlay: React.FC<Props> = ({ isModalOpen, children }) => {
-    return(
+    return (
         <div className={classNames("overlay", isModalOpen && "show")}>
             {children}
         </div>

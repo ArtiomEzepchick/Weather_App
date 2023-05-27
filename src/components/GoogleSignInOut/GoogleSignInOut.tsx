@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react"
 import { Button } from "antd"
 import { useGoogleLogin, googleLogout } from "@react-oauth/google"
-import { useDispatch } from "react-redux"
+import { Dispatch } from "redux"
 
 import {
     setUserToken,
@@ -12,13 +12,14 @@ import {
 } from "../../model/calendar/actions/actions"
 import { setIsLoading } from "../../model/weather/actions/actions"
 import { UserDataPayload } from "../../types/calendar/user"
-import { SCOPE } from "../../helpers/constants/calendar/calendarConstants"
+import { SCOPE } from "../../helpers/constants/calendar/calendar"
 import { LOCAL_STORAGE_ITEMS } from "../../helpers/localStorageItems/localStorageItems"
-import { logOutUser } from "../../helpers/requests/calendar/calendarRequests"
+import { logOutUser } from "../../helpers/requests/calendar/calendar"
 
 import './index.scss'
 
 type Props = {
+    dispatch: Dispatch;
     isLoading: boolean;
     userToken: string | null;
     userData: UserDataPayload | null;
@@ -26,13 +27,13 @@ type Props = {
 }
 
 const GoogleSignInOut: React.FC<Props> = ({ 
+    dispatch,
     isLoading, 
     userData,
     userToken,
     userError 
 }) => {
     const profileActionsRef = useRef<HTMLDivElement>(null)
-    const dispatch = useDispatch()
 
     const handleLogin = useGoogleLogin({
         scope: SCOPE,
@@ -77,7 +78,6 @@ const GoogleSignInOut: React.FC<Props> = ({
 
         if (userError) {
             localStorage.removeItem(LOCAL_STORAGE_ITEMS.USER_TOKEN)
-            dispatch(setUserToken(null))
             dispatch(resetUserState())
             handleLogin()
         }
