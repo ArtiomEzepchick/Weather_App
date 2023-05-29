@@ -9,10 +9,11 @@ import { UserState } from '../../types/calendar/states'
 import './index.scss'
 
 type Props = {
+  isLoading: boolean;
   handleUpdateCalendarEvents: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const CalendarEvents: React.FC<Props> = ({ handleUpdateCalendarEvents }) => {
+const CalendarEvents: React.FC<Props> = ({ isLoading, handleUpdateCalendarEvents }) => {
   const {
     userData,
     calendarEvents,
@@ -35,26 +36,30 @@ const CalendarEvents: React.FC<Props> = ({ handleUpdateCalendarEvents }) => {
   ])
 
   return (
-    <section className={classNames('events-container', !calendarEvents?.length && 'justify-content-center')}>
+    <section className={classNames('events-container', !calendarEvents?.length && 'justify-center')}>
       {!calendarEvents?.length && <Empty description={emptyEventsDescription} />}
       {calendarEvents?.length && <>
-          <section className='events-header'>
-            <h3>
-              <i className="fa-solid fa-calendar-days" />
-              Upcoming events
-            </h3>
-            <button onClick={handleUpdateCalendarEvents} />
-          </section>
+        <section className='events-header'>
+          <h3>
+            <i className="fa-solid fa-calendar-days" />
+            Upcoming events
+          </h3>
+          <button onClick={handleUpdateCalendarEvents} disabled={isLoading}/>
+        </section>
+        <section className='events-items'>
           {calendarEvents.map(item => (
             <p className='events-item' key={item.id}>
               <span>
-                {item.time}
-                <br />
                 <b>{item.date}</b>
+                <br />
+                {item.startTime}-{item.endTime}
               </span>
-              <span className='event-title'>{item.title}</span>
+              <span className='event-title'>
+                {item.title}
+              </span>
             </p>))}
-        </>}
+        </section>
+      </>}
     </section>
   )
 }

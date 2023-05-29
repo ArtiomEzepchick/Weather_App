@@ -63,11 +63,15 @@ const WeatherForecast: React.FC<Props> = ({
         <section className={classNames("weather-fc-container", isLoading && 'opacity-low')}>
             <section className="weather-short-fc-and-calendar">
                 <ShortForecast
+                    isLoading={isLoading}
                     weatherData={weatherData}
                     handleSelectChange={handleSelectChange}
                     handleUpdateWeatherData={handleUpdateWeatherData}
                 />
-                <CalendarEvents handleUpdateCalendarEvents={handleUpdateCalendarEvents} />
+                <CalendarEvents
+                    isLoading={isLoading}
+                    handleUpdateCalendarEvents={handleUpdateCalendarEvents}
+                />
             </section>
             <section className="weather-main-fc">
                 {weatherData.chosenWeatherApi === OPEN_WEATHER_API && nextDaysForecastData.length &&
@@ -76,7 +80,7 @@ const WeatherForecast: React.FC<Props> = ({
                 {weatherData.chosenWeatherApi === WEATHER_API && weatherData.list.length &&
                     <HourlyForecast weatherDataList={weatherData.list} />
                 }
-                <DetailedForecast detailedForecastData={detailedForecastData}/>
+                <DetailedForecast detailedForecastData={detailedForecastData} />
             </section>
         </section>
     )

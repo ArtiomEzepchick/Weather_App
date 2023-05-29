@@ -15,6 +15,7 @@ const MenuItem: React.FC<Props> = ({
         <>
             <span>{menuLabel}</span>
             <button
+                disabled={isLoading}
                 className='menu-delete-btn'
                 onClick={handleDeleteBtnClick}
                 title='Delete'

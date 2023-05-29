@@ -9,12 +9,14 @@ import { API_NAMES, DEGREE_SYMBOL } from "../../../helpers/constants/weather/wea
 import './index.scss'
 
 type Props = {
+    isLoading: boolean;
     weatherData: WeatherTransformedData;
     handleSelectChange: ((value: string) => void);
     handleUpdateWeatherData: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const ShortForecast: React.FC<Props> = ({
+    isLoading,
     weatherData,
     handleSelectChange,
     handleUpdateWeatherData
@@ -26,6 +28,7 @@ const ShortForecast: React.FC<Props> = ({
         <section className="weather-short-fc">
             <Space wrap>
                 <Select
+                    disabled={isLoading}
                     value={weatherData.chosenWeatherApi}
                     style={{ width: 180 }}
                     onChange={handleSelectChange}
@@ -46,7 +49,7 @@ const ShortForecast: React.FC<Props> = ({
             <p className='last-update'>
                 Last updated: {lastWeatherUpdate}
             </p>
-            <button onClick={handleUpdateWeatherData} />
+            <button onClick={handleUpdateWeatherData} disabled={isLoading}/>
         </section>
     )
 }

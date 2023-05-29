@@ -1,13 +1,10 @@
 import React, {
     useEffect,
     useRef,
-    useCallback,
     useMemo
 } from 'react'
-import {
-    InputRef,
-    Layout
-} from 'antd'
+import classNames from 'classnames'
+import { InputRef, Layout } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { Dispatch } from 'redux'
 
@@ -15,6 +12,7 @@ import CitySearch from '../CitySearch/CitySearch'
 import GoogleSignInOut from '../GoogleSignInOut/GoogleSignInOut'
 import Greeting from '../Greeting/Greeting'
 import Loader from '../Loader/Loader'
+import Menu from '../Menu/Menu'
 import Modal from '../Modal/Modal'
 import WeatherForecast from '../WeatherForecast/WeatherForecast'
 
@@ -22,7 +20,6 @@ import { useScrollLock } from '../../hooks/useScrollLock'
 import { State } from '../../types/commonTypes'
 import { WeatherTransformedData } from '../../types/weather/weather'
 import { copyrightLinks } from '../../helpers/copyrightLinks/copyrightLinks'
-import { getUserLocation } from '../../helpers/requests/weather/weather'
 import { LOCAL_STORAGE_ITEMS } from '../../helpers/localStorageItems/localStorageItems'
 import { WeatherState } from '../../types/weather/states'
 import { UserState } from '../../types/calendar/states'
@@ -31,14 +28,10 @@ import { setBackgroundImage } from '../../helpers/utils/weather/weather'
 import {
     setCurrentWeatherData,
     setInputCityValue,
-    updateAllCitiesWeatherData,
-    setIsLoading
+    updateAllCitiesWeatherData
 } from '../../model/weather/actions/actions'
 
 import './index.scss'
-import Menu from '../Menu/Menu'
-import classNames from 'classnames'
-
 
 const { Header, Content, Footer, Sider } = Layout
 
@@ -77,27 +70,6 @@ const MainLayout: React.FC = () => {
     const cities = useMemo((): string[] => {
         return allCitiesWeatherData.map((item): string => item.city)
     }, [allCitiesWeatherData])
-
-    const fetchUserLocation = useCallback(async (): Promise<void> => {
-        try {
-            dispatch(setIsLoading(true))
-            const userLocation: string = await getUserLocation()
-            dispatch(setInputCityValue(userLocation))
-            dispatch(setIsLoading(false))
-        } catch (error: any) {
-            console.log(error)
-        } finally {
-            dispatch(setIsLoading(false))
-        }
-    }, [dispatch])
-
-    useEffect(() => {
-        dispatch(setIsLoading(true))
-
-        const timer = setTimeout(() => fetchUserLocation(), 500)
-
-        return () => clearTimeout(timer)
-    }, [fetchUserLocation, dispatch])
 
     useEffect(() => {
         // Set state and refs depending on local storage items
@@ -231,7 +203,7 @@ const MainLayout: React.FC = () => {
                             weatherData={savedWeatherDataRef.current}
                             userToken={userToken}
                         />}
-                    {isLoading && <Loader />}
+                    {isLoading && <Loader weatherDataLength={allCitiesWeatherData.length}/>}
                 </Content>
                 <Footer style={{ padding: '0 1rem', height: '3rem' }}>
                     <p>&#169; 2023 Made by Artsiom Ezepchik</p>

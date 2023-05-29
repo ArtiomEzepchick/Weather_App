@@ -4,7 +4,7 @@
     height: 100vh;
     background: none;
     background-size: cover;
-    transition: background-image 0.4s ease-in-out;
+    transition: background-image .4s ease-in-out;
 
     .ant-layout-sider {
         overflow: auto;
@@ -14,7 +14,7 @@
         top: 0;
         bottom: 0;
         z-index: 100;
-        opacity: 0.8;
+        opacity: .8;
 
         &.hidden {
             display: none;
@@ -62,7 +62,7 @@
             .copyright-links {
                 display: flex;
                 align-items: center;
-                gap: 0.5rem;
+                gap: .5rem;
 
                 i {
                     font-size: 1.5rem;
@@ -70,20 +70,15 @@
                 }
 
                 i:hover {
-                    opacity: 0.6;
+                    opacity: .6;
                 }
             }
         }
     }
 
     @media (max-width: $width-window-l) {
+        min-height: 100vh;
         height: 100%;
-
-        .site-layout {
-            .ant-layout-content {
-                padding: 0 2rem 2rem;
-            }
-        }
     }
 
     @media (max-width: $width-window-s) {
@@ -97,12 +92,12 @@
             padding-left: 3rem;
             .ant-layout-header {
                 gap: 1rem;
-                padding: 0 0.5rem;
+                padding: 0 .5rem;
             }   
         }
 
         .ant-layout-footer {
-            font-size: 0.7rem;
+            font-size: .7rem;
         }
     }
 }
