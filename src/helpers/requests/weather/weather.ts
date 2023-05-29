@@ -44,8 +44,6 @@ export const getWeatherFromOpenWeatherApi = async (city: string): Promise<Weathe
             visibility: currentDayData.visibility,
         }
 
-        console.log(transformOpenWeatherAPIPayload(combinedData))
-
         return transformOpenWeatherAPIPayload(combinedData)
     } catch (error: any) {
         throw new Error(`City not found. Please enter correct city name`)

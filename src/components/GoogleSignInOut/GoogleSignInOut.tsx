@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react"
+import React, { useCallback, useEffect, useRef } from "react"
 import { Button } from "antd"
 import { useGoogleLogin, googleLogout } from "@react-oauth/google"
 import { Dispatch } from "redux"
@@ -44,7 +44,7 @@ const GoogleSignInOut: React.FC<Props> = ({
         onError: (error) => dispatch(setUserError(`Login Failed: ${error}`)),
     })
 
-    const handleLogout = async () => {
+    const handleLogout = useCallback(async () => {
         try {
             dispatch(setIsLoading(true))
             googleLogout()
@@ -59,7 +59,7 @@ const GoogleSignInOut: React.FC<Props> = ({
         } finally {
             dispatch(setIsLoading(false))
         }
-    }
+    }, [dispatch, userToken])
 
     useEffect(() => {
         const lsUserToken = localStorage.getItem(LOCAL_STORAGE_ITEMS.USER_TOKEN)

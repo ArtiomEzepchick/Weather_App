@@ -45,7 +45,7 @@
         }   
     }
 
-    @media (max-width: $width-window-xs) {
+    @media (max-width: $width-window-s) {
         .modal-window {
             width: $width-container-m;
             height: 20rem;

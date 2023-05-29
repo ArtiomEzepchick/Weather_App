@@ -1,0 +1,52 @@
+@import '../../../variables.scss';
+
+.weather-hourly-fc {
+    .weather-hourly-fc-items {
+        display: flex;
+        gap: 2rem;
+
+        .weather-hourly-fc-item {
+            @include flex-all-centered;
+            flex-direction: column;
+
+            &,
+            & p {
+                gap: 0.5rem;
+            }
+
+            p {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    }
+
+    @media (max-width: $width-window-l) {
+        flex-direction: column;
+        overflow-y: auto;
+        justify-self: center;
+
+        .weather-hourly-fc-items {
+            flex-direction: column;
+            margin-top: 1rem;
+
+            .weather-hourly-fc-item {
+                padding: 0 1.5rem;
+                flex-direction: row;
+                justify-content: space-between;
+                border-radius: $border-radius-common-block;
+                @include border-grey;
+                @include box-shadow-light;
+
+                p {
+                    flex-direction: row;
+                }
+
+                img {
+                    margin-left: auto;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,86 @@
+@import '../../../variables.scss';
+
+.weather-detailed-fc {
+    display: flex;
+    gap: 1rem;
+
+    .weather-detailed-fc-item {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        height: 10rem;
+        background-color: $color-white;
+        border-radius: $border-radius-common-block;
+
+        img {
+            position: absolute;
+            width: 6rem;
+            height: 6rem;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.04;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        p {
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: $width-window-l) {
+        width: $width-container-l;
+        flex-wrap: wrap;
+        justify-content: center;
+        height: 28rem;
+
+        .weather-detailed-fc-item {
+            width: 9.5rem;
+            height: 8.6rem;
+
+            &:last-child {
+                margin: 0 auto;
+            }
+        }
+    }
+
+    @media (max-width: $width-window-m) {
+        width: $width-container-m;
+        justify-content: space-between;
+        height: 25rem;
+
+        .weather-detailed-fc-item {
+            width: 8.5rem;
+            height: 7.5rem;
+
+            &:last-child {
+                margin: auto auto 0;
+            }
+
+            img {
+                width: 5rem;
+                height: 5rem;
+            }
+
+            h2,
+            p {
+                font-size: 0.9rem;
+            }
+        }
+    }
+
+    @media (max-width: $width-window-s) {
+        height: 22rem;
+
+        .weather-detailed-fc-item {
+            width: 7rem;
+            height: 7rem;
+        }
+    }
+}

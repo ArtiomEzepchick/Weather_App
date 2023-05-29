@@ -51,7 +51,7 @@ export const transformOpenWeatherAPIPayload = (payload: OpenWeatherCombinedPaylo
       return {
         id: nanoid(),
         day: moment().day(forecastDay).format('dddd'),
-        calendarDay: moment().day(forecastDay).format('MMMM DD'),
+        calendarDay: moment().day(forecastDay).format('MMM D'),
         description: `${item.weather[0].description.slice(0, 1).toUpperCase() + item.weather[0].description.slice(1)}`,
         icon: `${WEATHER_ICON_URL}${item.weather[0].icon}@2x.png`,
         temp: `${Math.round(item.main.temp_max)}`,

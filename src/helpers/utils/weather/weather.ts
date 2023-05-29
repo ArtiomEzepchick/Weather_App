@@ -144,7 +144,7 @@ export const setLocalDateAndTime = (weatherData: WeatherTransformedData): String
 
     if (weatherData.timezone || weatherData.timezone === 0) {
         result.localTime = moment().utcOffset(weatherData.timezone / 60).format("H:mm")
-        result.localDate = moment().utcOffset(weatherData.timezone / 60).format('MMMM DD')
+        result.localDate = moment().utcOffset(weatherData.timezone / 60).format('MMM DD')
         result.localDayOfTheWeek = moment().utcOffset(weatherData.timezone / 60).format("dddd")
     } else {
         if (weatherData.tzId) {

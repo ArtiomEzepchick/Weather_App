@@ -1,5 +1,6 @@
 import React, {
     RefObject,
+    useCallback,
     useEffect,
     useRef
 } from "react"
@@ -43,12 +44,12 @@ const CitySearch: React.FC<Props> = ({
 }) => {
     const optionsRef = useRef<HTMLDivElement>(null)
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
         optionsRef.current?.classList.add('show')
         dispatch(setInputCityValue(e.target.value))
-    }
+    }, [dispatch])
 
-    const handleInputFocus = (): void => {
+    const handleInputFocus = useCallback((): void => {
         optionsRef.current?.classList.add('show')
         dispatch(clearSearchOptions())
 
@@ -57,9 +58,9 @@ const CitySearch: React.FC<Props> = ({
             dispatch(setIsModalOpen(true))
             return
         }
-    }
+    }, [dataLength, dispatch])
 
-    const handleOptionClick = (e: React.FormEvent): void => {
+    const handleOptionClick = useCallback((e: React.FormEvent): void => {
         const target = e.currentTarget
 
         if (target.textContent) {
@@ -67,9 +68,9 @@ const CitySearch: React.FC<Props> = ({
             dispatch(getCurrentWeather(target.textContent))
             dispatch(clearSearchOptions())
         }
-    }
+    }, [dispatch])
 
-    const handleSubmit = (e: React.FormEvent): void => {
+    const handleSubmit = useCallback((e: React.FormEvent): void => {
         e.preventDefault()
 
         if (inputCityValue) {
@@ -77,7 +78,7 @@ const CitySearch: React.FC<Props> = ({
             dispatch(getCurrentWeather(inputCityValue.trim()))
             dispatch(clearSearchOptions())
         }
-    }
+    }, [dispatch, inputCityValue])
 
     useEffect(() => {
         if (!inputCityValue) {
