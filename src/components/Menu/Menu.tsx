@@ -160,6 +160,7 @@ const Menu: React.FC<Props> = ({
 
     return (
         <AntMenu
+            disabled={isLoading}
             selectable={!isLoading}
             selectedKeys={[menuKeyRef.current]}
             theme='dark'

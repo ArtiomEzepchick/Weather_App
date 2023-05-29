@@ -4,17 +4,20 @@
     position: fixed;
     top: 50%;
     left: 50%;
-    bottom: 50%;
-    right: 50%;
     border: 4px solid $color-white;
     border-top: 4px solid $color-dark-blue;
     border-radius: 50%;
     width: 3rem;
     height: 3rem;
+    margin-top: -2.6rem;
+    margin-left: -.5rem;
     animation: rotate 2s linear infinite;
-    margin-top: -3rem;
-    margin-left: 1rem;
     z-index: 500;
+
+    &.margin-added {
+        margin-left: -1.2rem;
+        margin-top: -2rem;
+    }
 
     @keyframes rotate {
         0% {
@@ -24,6 +27,10 @@
         100% {
             transform: rotate(360deg);
         }
+    }
+    
+    @media (max-width: $width-window-m) {
+        margin-left: 1rem;
     }
 
     @media (max-width: $width-window-s) {

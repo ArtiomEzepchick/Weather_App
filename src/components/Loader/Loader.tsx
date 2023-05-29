@@ -1,10 +1,15 @@
 import React from "react"
+import classNames from "classnames"
 
 import "./index.scss"
 
-const Loader: React.FC = () => {
+type Props = {
+    weatherDataLength: number;
+}
+
+const Loader: React.FC<Props> = ({ weatherDataLength }) => {
     return (
-        <div id="loader"></div>
+        <div id="loader" className={classNames(!weatherDataLength && 'margin-added')}></div>
     )
 }
 

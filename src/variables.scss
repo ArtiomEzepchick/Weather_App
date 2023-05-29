@@ -51,6 +51,10 @@ $width-window-s: 540px;
     &:hover {
         opacity: 0.8;
     }
+
+    &:disabled {
+        cursor: not-allowed;
+    }
 }
 
 @mixin transition-standard {

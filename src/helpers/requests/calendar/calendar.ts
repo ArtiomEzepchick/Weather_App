@@ -13,12 +13,12 @@ export const getUserData = async (token: string): Promise<UserDataPayload> => {
         })
 
         if (response.status !== 200) {
-            throw new Error(`${response.status}`)
+            throw new Error(`${response}`)
         }
 
         return await response.json()
     } catch (error: any) {
-        throw new Error(error.message)
+        throw new Error(error)
     }
 }
 
@@ -32,12 +32,12 @@ export const getCalendarEvents = async (token: string): Promise<gapi.client.cale
         })
 
         if (response.status !== 200) {
-            throw new Error(`${response.status}`)
+            throw new Error(`${response}`)
         }
 
         return await response.json()
     } catch (error: any) {
-        throw new Error(error.message)
+        throw new Error(error)
     }
 }
 
