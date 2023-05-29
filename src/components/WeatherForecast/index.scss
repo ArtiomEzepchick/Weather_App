@@ -1,369 +1,100 @@
 @import '../../variables.scss';
 
 
-.weather-forecast-container {
+.weather-fc-container {
     @include opacity-low;
 
-    .weather-short-forecast,
-    .weather-hourly-forecast,
-    .weather-days-forecast {
+    .weather-short-fc,
+    .weather-hourly-fc,
+    .weather-days-fc {
         @include box-shadow-standard;
     }
 
-    .weather-with-calendar-container {
+    .weather-short-fc-and-calendar {
         @include flex-all-centered;
-        gap: 2rem;
-        margin-top: 2rem;
-
-        .weather-short-forecast {
-            @include flex-all-centered;
-            position: relative;
-            gap: 0.5rem;
-            width: $width-container-m;
-            height: 19rem;
-            padding: 1rem;
-            flex-direction: column;
-            background-color: $color-white;
-            border-radius: $border-radius-common-block;
-
-            p {
-                font-size: 1.2rem;
-
-                &.last-update {
-                    font-size: 0.8rem;
-                }
-
-                &.degree {
-                    @include flex-all-centered;
-                    width: max-content;
-                    padding: 0 0.5rem;
-
-                    img {
-                        height: 4rem;
-                        width: 4rem;
-                    }
-                }
-            }
-
-            h1 {
-                font-size: 1.8rem;
-                text-align: center;
-                word-wrap: break-word;
-            }
-
-            .degree {
-                font-size: 2.8rem;
-            }
-
-            button {
-                @include update-button;
-            }
-        }
+        gap: 1rem;
+        margin-top: 1rem;
     }
 
-    .weather-main-forecast {
+    .weather-main-fc {
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 1fr;
-        margin-top: 2rem;
-        gap: 2rem;
+        margin-top: 1rem;
+        gap: 1rem;
+        width: 100%;
         justify-content: center;
 
         & > section {
             border-radius: $border-radius-common-block;
         }
 
-        .weather-hourly-forecast,
-        .weather-days-forecast {
+        .weather-hourly-fc,
+        .weather-days-fc {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             height: 10rem;
-            width: max-content;
-            padding: 1rem;
+            width: 59rem;
+            padding: 0.5rem;
             background-color: $color-white;
+
+            h2 {
+                text-align: center;
+            }
 
             img {
                 width: 3rem;
                 height: 3rem;
             }
         }
+    }
 
-        .weather-hourly-forecast {
-            h2 {
-                text-align: center;
-            }
-
-            .weather-hourly-forecast-items {
-                display: flex;
-                gap: 2rem;
-
-                .weather-hourly-forecast-item {
-                    @include flex-all-centered;
-                    flex-direction: column;
-                    
-                    &, & p {
-                        gap: 0.5rem;
-                    }
-
-                    p {
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                    }
-                }
-            }
+    @media (max-width: $width-window-l) {
+        .weather-short-fc-and-calendar {
+            justify-content: space-between;
         }
 
-        .weather-days-forecast {
-            h2 {
-                text-align: center;
-            }
-
-            .weather-days-forecast-items {
-                height: 100%;
-
-                .weather-days-forecast-item {
-                    display: flex;
-                    align-items: center;
-                    position: relative;
-                    text-align: center;
-                    min-width: 12rem;
-                    gap: 2rem;
-                    padding: 0.5rem;
-                    border-radius: $border-radius-common-block;
-                    @include box-shadow-light;
-                    @include border-grey;
-
-                    .weather-days-forecast-item-date {
-                        display: flex;
-                        flex-direction: column;
-                        text-align: start;
-                    }
-
-                    img {
-                        height: 3rem;
-                        width: 3rem;
-                    }
-
-                    & > p {
-                        display: flex;
-                    }
-
-                    .weather-days-forecast-item-temp {
-                        @include flex-all-centered;
-                        width: 4rem;
-                        text-align: start;
-                        font-size: 0.9rem;
-                    }
-                }
-            }
-
-            & > section {
-                @include flex-all-centered;
-                gap: 2rem;
-            }
-        }
-
-        .weather-detailed-forecast {
+        .weather-main-fc {
             display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
 
-            .weather-detailed-forecast-item {
-                position: relative;
-                width: 10rem;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: space-around;
-                height: 10rem;
-                background-color: $color-white;
-                padding: 1rem;
-                border-radius: $border-radius-common-block;
-
-                img {
-                    position: absolute;
-                    width: 6rem;
-                    height: 6rem;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    opacity: 0.04;
-                }
-
-                h2 {
-                    text-align: center;
-                }
-
-                p {
-                    font-size: 1rem;
-                }
+            .weather-hourly-fc,
+            .weather-days-fc {
+                width: $width-container-m;
+                height: 28rem;
             }
         }
     }
 
-    @media (max-width: $width-window-l) {
-        .weather-with-calendar-container {
-            justify-content: space-between;
+    @media (max-width: $width-window-m) {
+        @include flex-all-centered;
+        flex-direction: column;
+        gap: 1rem;
+
+        .weather-short-fc-and-calendar {
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        .weather-main-forecast {
-            display: flex;
+        .weather-main-fc {
+            flex-wrap: wrap;
+            margin-top: 0;
 
-            .weather-hourly-forecast,
-            .weather-days-forecast {
-                width: $width-container-m;
-                height: 28rem;
-            }
-
-            .weather-hourly-forecast {
-                flex-direction: column;
-                overflow-y: auto;
-                justify-self: center;
-
-                .weather-hourly-forecast-items {
-                    flex-direction: column;
-                    margin-top: 1rem;
-
-                    .weather-hourly-forecast-item {
-                        padding: 0 1.5rem;
-                        flex-direction: row;
-                        justify-content: space-between;
-                        border-radius: $border-radius-common-block;
-                        @include border-grey;
-                        @include box-shadow-light;
-
-                        p {
-                            flex-direction: row;
-                        }
-
-                        img {
-                            margin-left: auto;
-                        }
-                    }
-                }
-            }
-
-            .weather-days-forecast {
-                .weather-days-forecast-items {
-                    margin-top: 1rem;
-
-                    .weather-days-forecast-item {
-                        min-width: 16rem;
-                        justify-content: space-between;
-                    }
-                }
-
-                & > section {
-                    flex-direction: column;
-                    justify-content: space-around;
-                }
-            }
-
-            .weather-detailed-forecast {
-                width: $width-container-l;
-                justify-content: space-between;
-
-                .weather-detailed-forecast-item {
-                    width: 9rem;
-                    height: 9rem;
-
-                    &:last-child {
-                        margin: 0 auto;
-                    }
-                }
+            .weather-hourly-fc,
+            .weather-days-fc {
+                height: 25rem;
             }
         }
     }
 
     @media (max-width: $width-window-s) {
-        @include flex-all-centered;
-        flex-direction: column;
-        gap: 1rem;
+        .weather-main-fc {
+            gap: 1rem;
 
-        .weather-with-calendar-container {
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .weather-main-forecast {
-            flex-wrap: wrap;
-            margin-top: 1rem;
-
-            .weather-hourly-forecast,
-            .weather-days-forecast {
-                height: 25rem;
-            }
-
-            .weather-days-forecast {
-                .weather-days-forecast-items {
-                    gap: 0;
-                }
-            }
-
-            .weather-detailed-forecast {
-                width: $width-container-m;
-                justify-content: space-between;
-    
-                .weather-detailed-forecast-item {
-                    width: 8rem;
-                    height: 8rem;
-    
-                    &:last-child {
-                        margin: auto auto 0;
-                    }
-    
-                    img {
-                        width: 3rem;
-                        height: 3rem;
-                    }
-    
-                    h2, p {
-                        font-size: 0.9rem;
-                    }
-                }
-            }
-        }
-    }
-
-    @media (max-width: $width-window-xs) {
-        .weather-with-calendar-container {
-            .weather-short-forecast {
+            .weather-hourly-fc,
+            .weather-days-fc,
+            .weather-detailed-fc {
                 width: $width-container-s;
-                height: max-content;
-            }
-        }
-
-        .weather-main-forecast {
-            gap: 0.5rem;
-
-            .weather-hourly-forecast,
-            .weather-days-forecast,
-            .weather-detailed-forecast {
-                width: $width-container-s;
-            }
-
-            .weather-days-forecast {
-                padding: 0.5rem 0.5rem 1rem;
-
-                .weather-days-forecast-items {
-                    .weather-days-forecast-item {
-                        gap: 1rem;
-                        min-width: 0;
-                        width: 100%;
-                    }
-                }
-            }
-
-            .weather-detailed-forecast {
-                margin-top: 1.5rem;
-    
-                .weather-detailed-forecast-item {
-                    width: 7rem;
-                    height: 7rem;
-                }
             }
         }
     }

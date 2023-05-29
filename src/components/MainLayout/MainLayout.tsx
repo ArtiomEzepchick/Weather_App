@@ -229,6 +229,7 @@ const MainLayout: React.FC = () => {
                             dispatch={dispatch}
                             isLoading={isLoading}
                             weatherData={savedWeatherDataRef.current}
+                            userToken={userToken}
                         />}
                     {isLoading && <Loader />}
                 </Content>

@@ -22,7 +22,7 @@ import { LOCAL_STORAGE_ITEMS } from "../../helpers/localStorageItems/localStorag
 import { WeatherTransformedData } from "../../types/weather/weather"
 
 import './index.scss'
-import MenuItem from "../MenuItem/MenuItem"
+import MenuItem from "./MenuItem/MenuItem"
 
 type MenuItemType = Required<MenuProps>['items'][number]
 
@@ -128,12 +128,17 @@ const Menu: React.FC<Props> = ({
         isLoading
     ])
 
-    const handleMenuItemSelect = (menuInfo: MenuInfo): void => {
+    const handleMenuItemSelect = useCallback((menuInfo: MenuInfo): void => {
         menuKeyRef.current = menuInfo.key
         animateScroll.scrollToTop({ duration: 500 })
         dispatch(setCurrentWeatherData(allCitiesWeatherData[Number(menuInfo.key)]))
         savedWeatherDataRef.current = allCitiesWeatherData[Number(menuInfo.key)]
-    }
+    }, [
+        allCitiesWeatherData,
+        dispatch, 
+        menuKeyRef, 
+        savedWeatherDataRef
+    ])
 
     useEffect(() => {
         const handleMouseOverSider = (e: MouseEvent): void => {

@@ -1,30 +1,32 @@
 import React, { useMemo } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Empty } from 'antd'
 import classNames from 'classnames'
 
-import { getCalendarEvents } from '../../model/calendar/actions/actions'
 import { State } from '../../types/commonTypes'
 import { UserState } from '../../types/calendar/states'
 
 import './index.scss'
 
-const CalendarEvents: React.FC = () => {
+type Props = {
+  handleUpdateCalendarEvents: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+const CalendarEvents: React.FC<Props> = ({ handleUpdateCalendarEvents }) => {
   const {
-    userToken,
     userData,
     calendarEvents,
     isCalendarLoading,
     userError
   } = useSelector((state: State): UserState => state.userReducer)
 
-  const dispatch = useDispatch()
-
-  const emptyEventsDescription = useMemo(() => {
+  const emptyEventsDescription = useMemo((): string | null => {
     if (userError) return `${userError}`
     if (!userData) return 'You need to sign in to see your calendar events'
     if (isCalendarLoading) return 'Loading events...'
     if (!calendarEvents?.length) return 'No upcoming events'
+
+    return null
   }, [
     userData,
     isCalendarLoading,
@@ -32,17 +34,10 @@ const CalendarEvents: React.FC = () => {
     userError
   ])
 
-  const handleUpdateCalendarEvents = (): void => {
-    if (userToken) {
-      dispatch(getCalendarEvents(userToken))
-    }
-  }
-
   return (
     <section className={classNames('events-container', !calendarEvents?.length && 'justify-content-center')}>
       {!calendarEvents?.length && <Empty description={emptyEventsDescription} />}
-      {calendarEvents?.length
-        ? <>
+      {calendarEvents?.length && <>
           <section className='events-header'>
             <h3>
               <i className="fa-solid fa-calendar-days" />
@@ -53,14 +48,13 @@ const CalendarEvents: React.FC = () => {
           {calendarEvents.map(item => (
             <p className='events-item' key={item.id}>
               <span>
-                <b>{item.time}</b>
+                {item.time}
                 <br />
-                {item.date}
+                <b>{item.date}</b>
               </span>
               <span className='event-title'>{item.title}</span>
             </p>))}
-        </>
-        : ''}
+        </>}
     </section>
   )
 }
