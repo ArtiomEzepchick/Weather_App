@@ -9,7 +9,7 @@ import HourlyForecast from "./HourlyForecast/HourlyForecast"
 import DetailedForecast from "./DetailedForecast/DetailedForecast"
 
 import { API_NAMES } from "../../helpers/constants/weather/weather"
-import { getCalendarEvents } from "../../model/calendar/actions/actions"
+import { getCalendarEvents } from "../../model/user/actions/actions"
 import { getCurrentWeather, setChosenWeatherAPI } from "../../model/weather/actions/actions"
 import { transformDetailedForecast, filterWeatherDays } from "../../helpers/utils/weather/weather"
 import {

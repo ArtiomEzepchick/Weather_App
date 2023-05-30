@@ -9,8 +9,8 @@ import {
     SET_USER_ERROR,
     RESET_USER_STATE
 } from '../constants/constants'
-import { FormattedEventsItem, UserDataPayload } from '../../../types/calendar/user'
-import { UserAction } from '../../../types/calendar/actions'
+import { FormattedEventsItem, UserDataPayload } from '../../../types/user/user'
+import { UserAction } from '../../../types/user/actions'
 
 export const setUserToken = (payload: string | null): UserAction => ({
     type: SET_USER_TOKEN,

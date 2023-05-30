@@ -1,10 +1,8 @@
 import React, { useMemo } from 'react'
-import { useSelector } from 'react-redux'
 import { Empty } from 'antd'
 import classNames from 'classnames'
 
-import { State } from '../../types/commonTypes'
-import { UserState } from '../../types/calendar/states'
+import { useUserSelector } from '../../selectors/selectors'
 
 import './index.scss'
 
@@ -19,7 +17,7 @@ const CalendarEvents: React.FC<Props> = ({ isLoading, handleUpdateCalendarEvents
     calendarEvents,
     isCalendarLoading,
     userError
-  } = useSelector((state: State): UserState => state.userReducer)
+  } = useUserSelector()
 
   const emptyEventsDescription = useMemo((): string | null => {
     if (userError) return `${userError}`

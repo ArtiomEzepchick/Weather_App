@@ -1,5 +1,5 @@
-import { InitAction, UserAction } from '../../../types/calendar/actions'
-import { UserState } from '../../../types/calendar/states'
+import { InitAction, UserAction } from '../../../types/user/actions'
+import { UserState } from '../../../types/user/states'
 
 import {
   SET_USER_TOKEN,

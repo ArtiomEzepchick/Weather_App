@@ -13,7 +13,7 @@ import {
     DEGREE_SYMBOL,
     WEATHER_CODES
 } from "../../constants/weather/weather"
-import { StringValuesOnly } from '../../../types/commonTypes'
+import { ObjectType } from '../../../types/commonTypes'
 
 export const addUnitsBasedOnLabels = (label: string): string | JSX.Element => {
     switch (label) {
@@ -135,8 +135,8 @@ export const setBackgroundImage = (url: string): string | null => {
     return result[0]
 }
 
-export const setLocalDateAndTime = (weatherData: WeatherTransformedData): StringValuesOnly => {
-    const result = {
+export const setLocalDateAndTime = (weatherData: WeatherTransformedData): ObjectType => {
+    const result: ObjectType = {
         localTime: '',
         localDate: '',
         localDayOfTheWeek: ''

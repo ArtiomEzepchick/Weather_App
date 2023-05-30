@@ -9,7 +9,7 @@ import {
     GET_CALENDAR_EVENTS_FAILURE,
     SET_USER_ERROR,
     RESET_USER_STATE
-} from '../../model/calendar/constants/constants'
+} from '../../model/user/constants/constants'
 import { UserDataPayload, FormattedEventsItem } from './user'
 
 export interface InitAction {
