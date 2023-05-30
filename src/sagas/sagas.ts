@@ -43,6 +43,7 @@ import {
   UserAction
 } from '../types/user/actions'
 import { API_NAMES } from '../helpers/constants/weather/weather'
+import { State } from '../types/state'
 
 export function* searchCitySaga(action: GetSearchOptionsRequestAction): Generator<
   CallEffect<string[]> | PutEffect<WeatherAction>,
@@ -64,7 +65,7 @@ export function* weatherSaga(action: GetCurrentWeatherAction): Generator<
   WeatherTransformedData
 > | SelectEffect {
   try {
-    const chosenWeatherApi = yield select(state => state.weatherReducer.chosenWeatherApi)
+    const chosenWeatherApi = yield select((state: State): string => state.weatherReducer.chosenWeatherApi)
     
     if (chosenWeatherApi === API_NAMES.OPEN_WEATHER_API) {
       const response = yield call(getWeatherFromOpenWeatherApi, action.payload)

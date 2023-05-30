@@ -1,6 +1,6 @@
-import { StringValuesOnly } from "../../types/commonTypes"
+import { LocalStorageType } from "../../types/commonTypes"
 
-export const LOCAL_STORAGE_ITEMS: StringValuesOnly = {
+export const LOCAL_STORAGE_ITEMS: LocalStorageType = {
     ALL_CITIES_WEATHER_DATA: 'allCitiesWeatherData',
     CURRENT_WEATHER_DATA: 'currentWeatherData',
     SAVED_WEATHER_DATA_REF: 'savedWeatherDataRef',
