@@ -5,7 +5,7 @@ import React, {
 } from 'react'
 import classNames from 'classnames'
 import { InputRef, Layout } from 'antd'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Dispatch } from 'redux'
 
 import CitySearch from '../CitySearch/CitySearch'
@@ -16,13 +16,11 @@ import Menu from '../Menu/Menu'
 import Modal from '../Modal/Modal'
 import WeatherForecast from '../WeatherForecast/WeatherForecast'
 
+import { useUserSelector, useWeatherSelector } from '../../selectors/selectors'
 import { useScrollLock } from '../../hooks/useScrollLock'
-import { State } from '../../types/commonTypes'
 import { WeatherTransformedData } from '../../types/weather/weather'
 import { copyrightLinks } from '../../helpers/copyrightLinks/copyrightLinks'
 import { LOCAL_STORAGE_ITEMS } from '../../helpers/localStorageItems/localStorageItems'
-import { WeatherState } from '../../types/weather/states'
-import { UserState } from '../../types/calendar/states'
 import { WEATHER_IMAGES_SRC } from '../../helpers/constants/weather/weather'
 import { setBackgroundImage } from '../../helpers/utils/weather/weather'
 import {
@@ -47,7 +45,7 @@ const MainLayout: React.FC = () => {
         userData,
         userToken,
         userError
-    } = useSelector((state: State): UserState => state.userReducer)
+    } = useUserSelector()
 
     const {
         allCitiesWeatherData,
@@ -58,7 +56,7 @@ const MainLayout: React.FC = () => {
         inputCityValue,
         asideCollapsed,
         searchOptions
-    } = useSelector((state: State): WeatherState => state.weatherReducer)
+    } = useWeatherSelector()
 
     const menuKeyRef = useRef<string>('')
     const siderRef = useRef<HTMLDivElement>(null)

@@ -1,4 +1,4 @@
-import { UserState } from "./calendar/states"
+import { UserState } from "./user/states"
 import { WeatherState } from "./weather/states"
 
 export interface State {

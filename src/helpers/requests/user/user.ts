@@ -1,5 +1,5 @@
-import { UserDataPayload } from '../../../types/calendar/user'
-import { CALENDAR_URL } from "../../constants/calendar/calendar"
+import { UserDataPayload } from '../../../types/user/user'
+import { CALENDAR_URL } from "../../constants/user/user"
 
 export const getUserData = async (token: string): Promise<UserDataPayload> => {
     try {

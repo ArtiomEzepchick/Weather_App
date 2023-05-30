@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid"
 import moment from "moment"
 
-import { FormattedEventsItem } from "../../../types/calendar/user"
+import { FormattedEventsItem } from "../../../types/user/user"
 
 export const formatEvents = (list: gapi.client.calendar.Event[]): FormattedEventsItem[] => {
     return list.map((item): FormattedEventsItem => {

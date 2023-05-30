@@ -9,12 +9,12 @@ import {
     resetUserState,
     getUserData,
     getCalendarEvents
-} from "../../model/calendar/actions/actions"
+} from "../../model/user/actions/actions"
 import { setIsLoading } from "../../model/weather/actions/actions"
-import { UserDataPayload } from "../../types/calendar/user"
-import { SCOPE } from "../../helpers/constants/calendar/calendar"
+import { UserDataPayload } from "../../types/user/user"
+import { SCOPE } from "../../helpers/constants/user/user"
 import { LOCAL_STORAGE_ITEMS } from "../../helpers/localStorageItems/localStorageItems"
-import { logOutUser } from "../../helpers/requests/calendar/calendar"
+import { logOutUser } from "../../helpers/requests/user/user"
 
 import './index.scss'
 
