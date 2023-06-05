@@ -4,7 +4,7 @@
     @include flex-all-centered;
     position: relative;
     gap: 0.5rem;
-    width: 50%;
+    width: $width-container-l;
     height: 19rem;
     padding: 1rem;
     flex-direction: column;

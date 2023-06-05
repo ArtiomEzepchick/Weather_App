@@ -46,6 +46,7 @@
 
         .ant-layout-content {
             @include flex-all-centered;
+            @include opacity-low;
             padding: 0 4rem 1rem;
             width: 100%;
         }
@@ -90,6 +91,11 @@
 
         .site-layout {
             padding-left: 3rem;
+
+            .ant-layout-content {
+                padding: 0 1rem 1rem;
+            }
+
             .ant-layout-header {
                 gap: 1rem;
                 padding: 0 .5rem;

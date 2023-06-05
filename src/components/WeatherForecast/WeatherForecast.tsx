@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo } from "react"
-import classNames from "classnames"
 import { Dispatch } from "redux"
 
 import CalendarEvents from "../CalendarEvents/CalendarEvents"
@@ -60,7 +59,7 @@ const WeatherForecast: React.FC<Props> = ({
     }, [dispatch, weatherData?.city])
 
     return (
-        <section className={classNames("weather-fc-container", isLoading && 'opacity-low')}>
+        <section className="weather-fc-container">
             <section className="weather-short-fc-and-calendar">
                 <ShortForecast
                     isLoading={isLoading}
