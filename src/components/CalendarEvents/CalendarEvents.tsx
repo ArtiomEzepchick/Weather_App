@@ -37,26 +37,28 @@ const CalendarEvents: React.FC<Props> = ({ isLoading, handleUpdateCalendarEvents
     <section className={classNames('events-container', !calendarEvents?.length && 'justify-center')}>
       {!calendarEvents?.length && <Empty description={emptyEventsDescription} />}
       {calendarEvents?.length && <>
-        <section className='events-header'>
-          <h3>
-            <i className="fa-solid fa-calendar-days" />
-            Upcoming events
-          </h3>
-          <button onClick={handleUpdateCalendarEvents} disabled={isLoading}/>
+        <section className='events-wrapper'>
+          <section className='events-header'>
+            <h3>
+              <i className="fa-solid fa-calendar-days" />
+              Upcoming events
+            </h3>
+          </section>
+          <section className='events-items'>
+            {calendarEvents.map(item => (
+              <p className='events-item' key={item.id}>
+                <span>
+                  <b>{item.date}</b>
+                  <br />
+                  {item.startTime}-{item.endTime}
+                </span>
+                <span className='event-title'>
+                  {item.title}
+                </span>
+              </p>))}
+          </section>
         </section>
-        <section className='events-items'>
-          {calendarEvents.map(item => (
-            <p className='events-item' key={item.id}>
-              <span>
-                <b>{item.date}</b>
-                <br />
-                {item.startTime}-{item.endTime}
-              </span>
-              <span className='event-title'>
-                {item.title}
-              </span>
-            </p>))}
-        </section>
+        <button onClick={handleUpdateCalendarEvents} disabled={isLoading} />
       </>}
     </section>
   )

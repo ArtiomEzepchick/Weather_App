@@ -9,7 +9,11 @@ type Props = {
 
 const Loader: React.FC<Props> = ({ weatherDataLength }) => {
     return (
-        <div id="loader" className={classNames(!weatherDataLength && 'margin-added')}></div>
+        <div
+            id="loader"
+            className={classNames(!weatherDataLength && 'margin-added')}
+            data-testid="loader"
+        />
     )
 }
 

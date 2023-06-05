@@ -1,8 +1,8 @@
-import React, { 
-    useRef, 
-    useEffect, 
-    useCallback, 
-    RefObject 
+import React, {
+    useRef,
+    useEffect,
+    useCallback,
+    RefObject
 } from "react"
 import { Button, InputRef } from "antd"
 import { createPortal } from "react-dom"
@@ -78,16 +78,24 @@ const Modal: React.FC<Props> = ({
 
     return (
         createPortal(
-            <Overlay isModalOpen={isModalOpen}>
-                <div className="modal-container">
+            <Overlay isModalOpen={isModalOpen} data-testid='overlay'>
+                <div className="modal-container" data-testid='modalContainer'>
                     <div className="modal-window" ref={modalRef}>
                         <section className="modal-content">
-                            <h2>An error has occurred</h2>
-                            <p>{contentText}</p>
+                            <h2 data-testid='modalHeader'>
+                                An error has occurred
+                            </h2>
+                            <p data-testid='modalContent'>
+                                {contentText}
+                            </p>
                         </section>
                         <section className="modal-buttons">
-                            <Button onClick={handleCloseModal}>Ok</Button>
-                            <Button onClick={handleCloseModalAndEdit}>Return to edit</Button>
+                            <Button onClick={handleCloseModal}>
+                                Ok
+                            </Button>
+                            <Button onClick={handleCloseModalAndEdit}>
+                                Return to edit
+                            </Button>
                         </section>
                     </div>
                 </div>

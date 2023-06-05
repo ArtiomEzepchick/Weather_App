@@ -2,8 +2,6 @@
 
 
 .weather-fc-container {
-    @include opacity-low;
-
     .weather-short-fc,
     .weather-hourly-fc,
     .weather-days-fc {
@@ -12,6 +10,7 @@
 
     .weather-short-fc-and-calendar {
         @include flex-all-centered;
+        width: 59rem;
         gap: 1rem;
         margin-top: 1rem;
     }
@@ -52,6 +51,7 @@
 
     @media (max-width: $width-window-l) {
         .weather-short-fc-and-calendar {
+            width: unset;
             justify-content: space-between;
         }
 

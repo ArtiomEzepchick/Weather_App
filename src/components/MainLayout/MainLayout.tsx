@@ -191,9 +191,9 @@ const MainLayout: React.FC = () => {
                         isLoading={isLoading}
                     />
                 </Header>
-                <Content>
+                <Content className={classNames(isLoading && 'opacity-low')}>
                     {!savedWeatherDataRef.current &&
-                        <Greeting isLoading={isLoading} />}
+                        <Greeting />}
                     {savedWeatherDataRef.current &&
                         <WeatherForecast
                             dispatch={dispatch}

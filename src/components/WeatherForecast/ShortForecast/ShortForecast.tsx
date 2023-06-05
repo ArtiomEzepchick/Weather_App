@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Space, Select } from "antd"
 import moment from "moment-timezone"
 
@@ -11,8 +11,8 @@ import './index.scss'
 type Props = {
     isLoading: boolean;
     weatherData: WeatherTransformedData;
-    handleSelectChange: ((value: string) => void);
-    handleUpdateWeatherData: React.MouseEventHandler<HTMLButtonElement>;
+    handleSelectChange: (value: string) => void;
+    handleUpdateWeatherData: () => void;
 }
 
 const ShortForecast: React.FC<Props> = ({
@@ -23,6 +23,16 @@ const ShortForecast: React.FC<Props> = ({
 }) => {
     const { localTime, localDate, localDayOfTheWeek } = setLocalDateAndTime(weatherData)
     const lastWeatherUpdate: string = moment.utc(weatherData.lastUpdate).fromNow()
+
+    useEffect(() => {
+        if (
+            !lastWeatherUpdate.includes('minute')
+            && !lastWeatherUpdate.includes('minutes')
+            && !lastWeatherUpdate.includes('seconds')
+        ) {
+            handleUpdateWeatherData()
+        }
+    }, [handleUpdateWeatherData, lastWeatherUpdate])
 
     return (
         <section className="weather-short-fc">
@@ -49,7 +59,7 @@ const ShortForecast: React.FC<Props> = ({
             <p className='last-update'>
                 Last updated: {lastWeatherUpdate}
             </p>
-            <button onClick={handleUpdateWeatherData} disabled={isLoading}/>
+            <button onClick={handleUpdateWeatherData} disabled={isLoading} />
         </section>
     )
 }

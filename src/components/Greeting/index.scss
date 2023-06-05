@@ -2,7 +2,7 @@
 
 .greeting-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     flex-direction: column;
     gap: .5rem;
     width: 30rem;
@@ -12,7 +12,6 @@
     padding: 2rem;
     text-align: center;
     @include box-shadow-standard;
-    @include opacity-low;
 
     h1 {
         font-size: 2rem;

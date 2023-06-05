@@ -5,12 +5,15 @@ import "./index.scss"
 
 type Props = {
     isModalOpen: boolean;
-    children: JSX.Element;
+    children?: JSX.Element;
 }
 
 const Overlay: React.FC<Props> = ({ isModalOpen, children }) => {
     return (
-        <div className={classNames("overlay", isModalOpen && "show")}>
+        <div
+            className={classNames("overlay", isModalOpen && "show")}
+            data-testid='overlay'
+        >
             {children}
         </div>
     )
