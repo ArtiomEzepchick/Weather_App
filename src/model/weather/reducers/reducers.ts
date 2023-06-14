@@ -1,6 +1,6 @@
 import { InitAction, WeatherAction } from '../../../types/weather/actions'
 import { API_NAMES } from '../../../helpers/constants/weather/weather'
-import { WeatherState } from '../../../types/weather/states'
+import { WeatherState } from '../../../types/weather/state'
 import {
   GET_CURRENT_WEATHER_REQUEST,
   GET_CURRENT_WEATHER_SUCCESS,

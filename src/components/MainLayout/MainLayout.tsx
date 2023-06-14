@@ -22,7 +22,7 @@ import { WeatherTransformedData } from '../../types/weather/weather'
 import { copyrightLinks } from '../../helpers/copyrightLinks/copyrightLinks'
 import { LOCAL_STORAGE_ITEMS } from '../../helpers/localStorageItems/localStorageItems'
 import { WEATHER_IMAGES_SRC } from '../../helpers/constants/weather/weather'
-import { setBackgroundImage } from '../../helpers/utils/weather/weather'
+import { setBackgroundImage } from '../../helpers/utils/weather/setBackgroundImage'
 import {
     setCurrentWeatherData,
     setInputCityValue,

@@ -1,6 +1,10 @@
 @import '../../../variables.scss';
 
 .weather-hourly-fc {
+    background-color: $color-white;
+    padding: 0.3rem 0;
+    flex-direction: column;
+
     .weather-hourly-fc-items {
         display: flex;
         gap: 2rem;
@@ -22,22 +26,23 @@
         }
     }
 
-    @media (max-width: $width-window-l) {
+    @media (max-width: $window-l) {
         flex-direction: column;
         overflow-y: auto;
         justify-self: center;
+        background-color: unset;
+        padding: 0;
 
         .weather-hourly-fc-items {
             flex-direction: column;
-            margin-top: 1rem;
             gap: 1rem;
 
             .weather-hourly-fc-item {
                 padding: 0 1.5rem;
                 flex-direction: row;
                 justify-content: space-between;
+                background-color: $color-white;
                 border-radius: $border-radius-common-block;
-                @include border-grey;
                 @include box-shadow-light;
 
                 p {

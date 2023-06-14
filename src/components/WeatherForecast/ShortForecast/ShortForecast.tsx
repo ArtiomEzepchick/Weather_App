@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import { Space, Select } from "antd"
 import moment from "moment-timezone"
 
-import { setLocalDateAndTime } from "../../../helpers/utils/weather/weather"
+import { setLocalDateAndTime } from "../../../helpers/utils/weather/setLocalDateAndTime"
 import { WeatherTransformedData } from "../../../types/weather/weather"
 import { API_NAMES, DEGREE_SYMBOL } from "../../../helpers/constants/weather/weather"
 

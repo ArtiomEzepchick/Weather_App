@@ -34,11 +34,11 @@
         }
     }
 
-    @media (max-width: $width-window-l) {
-        width: $width-container-l;
+    @media (max-width: $window-l) {
+        width: $size-l;
         flex-wrap: wrap;
         justify-content: center;
-        height: 28rem;
+        height: $size-xl;
 
         .weather-detailed-fc-item {
             width: 9.5rem;
@@ -50,8 +50,8 @@
         }
     }
 
-    @media (max-width: $width-window-m) {
-        width: $width-container-m;
+    @media (max-width: $window-m) {
+        width: $size-m;
         justify-content: space-between;
         height: 25rem;
 
@@ -75,7 +75,7 @@
         }
     }
 
-    @media (max-width: $width-window-s) {
+    @media (max-width: $window-s) {
         height: 22rem;
         margin-bottom: 1rem;
 

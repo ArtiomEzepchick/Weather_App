@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loader renders with 'margin-added' class when weatherDataLength equals 0 1`] = `
+<div
+  class="margin-added"
+  data-testid="loader"
+  id="loader"
+/>
+`;
+
+exports[`Loader renders without 'margin-added' class when weatherDataLength is more than 0 1`] = `
+<div
+  class=""
+  data-testid="loader"
+  id="loader"
+/>
+`;

@@ -12,6 +12,7 @@ describe('Loader', () => {
 
         expect(loader).toBeInTheDocument()
         expect(loader).toHaveClass('margin-added')
+        expect(loader).toMatchSnapshot()
     })
 
     it("renders without 'margin-added' class when weatherDataLength is more than 0", () => {
@@ -21,5 +22,6 @@ describe('Loader', () => {
         
         expect(loader).toBeInTheDocument()
         expect(loader).not.toHaveClass('margin-added')
+        expect(loader).toMatchSnapshot()
     })
 })

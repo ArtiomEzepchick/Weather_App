@@ -2,23 +2,15 @@
 
 
 .weather-fc-container {
-    .weather-short-fc,
-    .weather-hourly-fc,
-    .weather-days-fc {
-        @include box-shadow-standard;
-    }
-
     .weather-short-fc-and-calendar {
         @include flex-all-centered;
-        width: 59rem;
+        width: $size-xxl;
         gap: 1rem;
         margin-top: 1rem;
     }
 
     .weather-main-fc {
         display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr;
         margin-top: 1rem;
         gap: 1rem;
         width: 100%;
@@ -30,17 +22,10 @@
 
         .weather-hourly-fc,
         .weather-days-fc {
+            height: 6.5rem;
             display: flex;
-            flex-direction: column;
             justify-content: space-between;
-            height: 10rem;
-            width: 59rem;
-            padding: 0.5rem;
-            background-color: $color-white;
-
-            h2 {
-                text-align: center;
-            }
+            width: $size-xxl;
 
             img {
                 width: 3rem;
@@ -49,7 +34,7 @@
         }
     }
 
-    @media (max-width: $width-window-l) {
+    @media (max-width: $window-l) {
         .weather-short-fc-and-calendar {
             width: unset;
             justify-content: space-between;
@@ -60,13 +45,13 @@
 
             .weather-hourly-fc,
             .weather-days-fc {
-                width: $width-container-m;
-                height: 28rem;
+                width: $size-m;
+                height: $size-xl;
             }
         }
     }
 
-    @media (max-width: $width-window-m) {
+    @media (max-width: $window-m) {
         @include flex-all-centered;
         flex-direction: column;
         gap: 1rem;
@@ -87,14 +72,14 @@
         }
     }
 
-    @media (max-width: $width-window-s) {
+    @media (max-width: $window-s) {
         .weather-main-fc {
             gap: 1rem;
 
             .weather-hourly-fc,
             .weather-days-fc,
             .weather-detailed-fc {
-                width: $width-container-s;
+                width: $size-s;
             }
         }
     }

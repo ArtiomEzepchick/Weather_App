@@ -36,13 +36,14 @@ const CalendarEvents: React.FC<Props> = ({ isLoading, handleUpdateCalendarEvents
   return (
     <section className={classNames('events-container', !calendarEvents?.length && 'justify-center')}>
       {!calendarEvents?.length && <Empty description={emptyEventsDescription} />}
-      {calendarEvents?.length && <>
+      {calendarEvents?.length 
+      ? <>
         <section className='events-wrapper'>
           <section className='events-header'>
-            <h3>
+            <h2>
               <i className="fa-solid fa-calendar-days" />
               Upcoming events
-            </h3>
+            </h2>
           </section>
           <section className='events-items'>
             {calendarEvents.map(item => (
@@ -59,7 +60,8 @@ const CalendarEvents: React.FC<Props> = ({ isLoading, handleUpdateCalendarEvents
           </section>
         </section>
         <button onClick={handleUpdateCalendarEvents} disabled={isLoading} />
-      </>}
+      </>
+      : null}
     </section>
   )
 }

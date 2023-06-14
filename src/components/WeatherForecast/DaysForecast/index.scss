@@ -1,14 +1,14 @@
 @import '../../../variables.scss';
 
 .weather-days-fc {
+    flex-direction: column;
+
     & > section {
         @include flex-all-centered;
         gap: 1rem;
     }
     
     .weather-days-fc-items {
-        height: 100%;
-
         .weather-days-fc-item {
             display: flex;
             align-items: center;
@@ -17,9 +17,10 @@
             text-align: center;
             width: 14rem;
             padding: 0.5rem;
+            height: 6.5rem;
             border-radius: $border-radius-common-block;
-            @include box-shadow-light;
-            @include border-grey;
+            background-color: $color-white;
+            @include box-shadow-standard;
 
             .weather-days-fc-item-date {
                 display: flex;
@@ -40,12 +41,13 @@
         }
     }
 
-    @media (max-width: $width-window-l) {
+    @media (max-width: $window-l) {
         .weather-days-fc-items {
-            margin-top: 1rem;
+            justify-content: space-between;
 
             .weather-days-fc-item {
-                min-width: 16rem;
+                height: 6.25rem;
+                min-width: $size-m;
                 justify-content: space-between;
             }
         }
@@ -56,22 +58,25 @@
         }
     }
 
-    @media (max-width: $width-window-m) {
+    @media (max-width: $window-m) {
+        flex-direction: row;
+
         .weather-days-fc-items {
             gap: 0;
+
+            .weather-days-fc-item {
+                height: 5.5rem;
+            }
         }
     }
 
-    @media (max-width: $width-window-s) {
-        padding: 0.5rem 0.5rem 1rem;
-
+    @media (max-width: $window-s) {
         .weather-days-fc-items {
             margin-top: 0;
+            width: $size-s;
             
             .weather-days-fc-item {
-                gap: 1rem;
-                min-width: 0;
-                width: 100%;
+                min-width: 100%;
             }
         }
     }

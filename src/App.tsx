@@ -4,7 +4,7 @@ import { Dispatch } from 'redux'
 
 import HomePage from './pages/Home/HomePage'
 
-import { getUserLocation } from './helpers/requests/weather/weather'
+import { getUserLocation } from './helpers/requests/weather/getUserLocation'
 import { setIsLoading, setInputCityValue } from './model/weather/actions/actions'
 
 const App: React.FC = () => {

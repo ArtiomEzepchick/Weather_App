@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Overlay renders with 'show' class when isModalOpen equals true 1`] = `
+<div
+  class="overlay show"
+  data-testid="overlay"
+/>
+`;
+
+exports[`Overlay renders with 'show' class when isModalOpen equals true and with children 1`] = `
+<div
+  class="overlay show"
+  data-testid="overlay"
+>
+  <p>
+    Content
+  </p>
+</div>
+`;
+
+exports[`Overlay renders without 'show' class when isModalOpen equals false 1`] = `
+<div
+  class="overlay"
+  data-testid="overlay"
+/>
+`;
