@@ -10,7 +10,8 @@ import DetailedForecast from "./DetailedForecast/DetailedForecast"
 import { API_NAMES } from "../../helpers/constants/weather/weather"
 import { getCalendarEvents } from "../../model/user/actions/actions"
 import { getCurrentWeather, setChosenWeatherAPI } from "../../model/weather/actions/actions"
-import { transformDetailedForecast, filterWeatherDays } from "../../helpers/utils/weather/weather"
+import { transformDetailedForecast } from "../../helpers/utils/weather/transformDetailedForecast"
+import { filterWeatherDays } from "../../helpers/utils/weather/filterWeatherDays"
 import {
     WeatherTransformedData,
     ForecastData,

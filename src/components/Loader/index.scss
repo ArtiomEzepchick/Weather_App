@@ -29,11 +29,11 @@
         }
     }
     
-    @media (max-width: $width-window-m) {
+    @media (max-width: $window-m) {
         margin-left: 1rem;
     }
 
-    @media (max-width: $width-window-s) {
+    @media (max-width: $window-s) {
         margin-left: 0;
     }
 }

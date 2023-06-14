@@ -1,5 +1,5 @@
-import { UserState } from "./user/states"
-import { WeatherState } from "./weather/states"
+import { UserState } from "./user/state"
+import { WeatherState } from "./weather/state"
 
 export interface State {
     weatherReducer: WeatherState;

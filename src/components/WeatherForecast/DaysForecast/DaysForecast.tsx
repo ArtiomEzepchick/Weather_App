@@ -12,7 +12,6 @@ type Props = {
 const DaysForecast: React.FC<Props> = ({ nextDaysForecastData }) => {
     return (
         <section className="weather-days-fc">
-            <h2>{nextDaysForecastData.length}-day forecast</h2>
             <section className="weather-days-fc-items">
                 {nextDaysForecastData.map(item => (
                     <section className="weather-days-fc-item" key={item.id}>

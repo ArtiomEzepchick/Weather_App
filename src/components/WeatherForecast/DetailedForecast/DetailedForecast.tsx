@@ -1,7 +1,7 @@
 import React from "react"
 
 import { ForecastData } from "../../../types/weather/weather"
-import { addUnitsBasedOnLabels } from "../../../helpers/utils/weather/weather"
+import { addUnitsBasedOnLabels } from "../../../helpers/utils/weather/addUnitsBasedOnLabels"
 
 import './index.scss'
 

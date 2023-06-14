@@ -77,12 +77,12 @@
         }
     }
 
-    @media (max-width: $width-window-l) {
+    @media (max-width: $window-l) {
         min-height: 100vh;
         height: 100%;
     }
 
-    @media (max-width: $width-window-s) {
+    @media (max-width: $window-s) {
         .ant-layout-sider-collapsed {
             width: 3rem !important;
             max-width: 3rem !important;

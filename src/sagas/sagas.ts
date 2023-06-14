@@ -12,7 +12,7 @@ import {
 import { GET_CURRENT_WEATHER_REQUEST, GET_SEARCH_OPTIONS_REQUEST } from '../model/weather/constants/constants'
 import { WeatherTransformedData } from '../types/weather/weather'
 import { GET_USER_DATA_REQUEST, GET_CALENDAR_EVENTS_REQUEST } from '../model/user/constants/constants'
-import { formatEvents } from '../helpers/utils/user/user'
+import { formatEvents } from '../helpers/utils/user/formatEvents'
 import { FormattedEventsItem, UserDataPayload } from '../types/user/user'
 import {
   GetCurrentWeatherAction,
@@ -31,12 +31,11 @@ import {
   getCalendarEventsSuccess,
   getCalendarEventsFailure
 } from '../model/user/actions/actions'
-import { getUserData, getCalendarEvents } from '../helpers/requests/user/user'
-import { 
-  getSearchOptions,
-  getWeatherFromOpenWeatherApi,
-  getWeatherFromWeatherApi 
-} from '../helpers/requests/weather/weather'
+import { getUserData } from '../helpers/requests/user/getUserData'
+import { getCalendarEvents } from '../helpers/requests/user/getCalendarEvents'
+import { getSearchOptions } from '../helpers/requests/weather/getSearchOptions'
+import { getWeatherFromOpenWeatherApi } from '../helpers/requests/weather/getWeatherFromOpenWeatherApi'
+import { getWeatherFromWeatherApi } from '../helpers/requests/weather/getWeatherFromWeatherApi'
 import {
   GetCalendarEventsAction,
   GetUserDataAction,

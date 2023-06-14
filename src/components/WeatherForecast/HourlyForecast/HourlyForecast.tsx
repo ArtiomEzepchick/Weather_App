@@ -12,7 +12,6 @@ type Props = {
 const HourlyForecast: React.FC<Props> = ({ weatherDataList }) => {
     return (
         <section className="weather-hourly-fc">
-            <h2>Hourly forecast</h2>
             <section className="weather-hourly-fc-items">
                 {weatherDataList.map(item => (
                     <section className="weather-hourly-fc-item" key={item.id}>

@@ -12,7 +12,7 @@
         flex-direction: column;
         position: fixed;
         width: 25rem;
-        height: 15rem;
+        height: $size-s;
         border-radius: 2rem;
         left: 50%;
         top: 50%;
@@ -45,10 +45,10 @@
         }   
     }
 
-    @media (max-width: $width-window-s) {
+    @media (max-width: $window-s) {
         .modal-window {
-            width: $width-container-m;
-            height: 20rem;
+            width: $size-m;
+            height: $size-l;
         }
     }
 }

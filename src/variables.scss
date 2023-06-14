@@ -1,3 +1,13 @@
+$size-xxl: 59rem;
+$size-xl: 28rem;
+$size-l: 20rem;
+$size-m: 18rem;
+$size-s: 15rem;
+
+$window-l: 1180px;
+$window-m: 790px;
+$window-s: 540px;
+
 $color-white: #ffffff;
 $color-dark-blue: #01396e;
 $color-red: #ff6868;
@@ -5,14 +15,6 @@ $color-red: #ff6868;
 $width-sider: 5rem;
 
 $border-radius-common-block: 0.5rem;
-
-$width-container-l: 20rem;
-$width-container-m: 18rem;
-$width-container-s: 15rem;
-
-$width-window-l: 1180px;
-$width-window-m: 790px;
-$width-window-s: 540px;
 
 @mixin flex-all-centered {
     display: flex;
@@ -26,10 +28,6 @@ $width-window-s: 540px;
     &.opacity-low {
         opacity: 0.5;
     }
-}
-
-@mixin border-grey {
-    border: 1px solid #b6b6b6;
 }
 
 @mixin update-button {

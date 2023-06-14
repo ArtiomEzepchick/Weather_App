@@ -11,7 +11,7 @@
     background-color: #ffffff7c;
     @include box-shadow-standard;
     
-    h3,
+    h2,
     .events-item,
     .ant-empty {
         background-color: $color-white;
@@ -34,7 +34,7 @@
             width: max-content;
             margin: 0 auto;
             
-            h3 {
+            h2 {
                 @include flex-all-centered;
                 text-align: center;
                 min-height: 2.5rem;
@@ -42,6 +42,7 @@
                 margin-top: .5rem;
                 padding: .2rem 1rem;
                 gap: 1rem;
+                font-size: 1rem;
             }
         }   
 
@@ -80,20 +81,20 @@
         right: -2%;
     }
 
-    @media (max-width: $width-window-l) {
-        width: $width-container-l;
+    @media (max-width: $window-l) {
+        width: $size-l;
 
         button {
             right: -5%;
         }
     }
     
-    @media (max-width: $width-window-m) {
-        width: $width-container-m;
+    @media (max-width: $window-m) {
+        width: $size-m;
     }
 
-    @media (max-width: $width-window-s) {
-        width: $width-container-s;
+    @media (max-width: $window-s) {
+        width: $size-s;
 
         .events-wrapper {
             .events-items {

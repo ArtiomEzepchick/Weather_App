@@ -2,7 +2,7 @@ import moment from 'moment'
 import { nanoid } from 'nanoid'
 
 import { API_NAMES, WEATHER_ICON_URL } from '../../constants/weather/weather'
-import { getLocTime } from './weather'
+import { getLocTime } from './getLocTime'
 import {
   OpenWeatherCombinedPayload,
   WeatherApiPayload,

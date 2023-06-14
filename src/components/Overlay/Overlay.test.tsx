@@ -12,6 +12,7 @@ describe('Overlay', () => {
 
         expect(overlay).toBeInTheDocument()
         expect(overlay).toHaveClass('show')
+        expect(overlay).toMatchSnapshot()
     })
 
     it("renders with 'show' class when isModalOpen equals true and with children", () => {
@@ -24,6 +25,7 @@ describe('Overlay', () => {
         expect(overlay).toBeInTheDocument()
         expect(overlay).toHaveClass('show')
         expect(getByText(/Content/i)).toBeInTheDocument()
+        expect(overlay).toMatchSnapshot()
     })
 
     it("renders without 'show' class when isModalOpen equals false", () => {
@@ -33,5 +35,6 @@ describe('Overlay', () => {
         
         expect(overlay).toBeInTheDocument()
         expect(overlay).not.toHaveClass('show')
+        expect(overlay).toMatchSnapshot()
     })
 })

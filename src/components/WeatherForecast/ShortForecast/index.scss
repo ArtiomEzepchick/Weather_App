@@ -2,9 +2,10 @@
 
 .weather-short-fc {
     @include flex-all-centered;
+    @include box-shadow-standard;
     position: relative;
     gap: 0.5rem;
-    width: $width-container-l;
+    width: $size-l;
     height: 19rem;
     padding: 1rem;
     flex-direction: column;
@@ -44,12 +45,12 @@
         @include update-button;
     }
 
-    @media (max-width: $width-window-l) {
-        width: $width-container-m;
+    @media (max-width: $window-l) {
+        width: $size-m;
     }
 
-    @media (max-width: $width-window-s) {
-        width: $width-container-s;
+    @media (max-width: $window-s) {
+        width: $size-s;
         height: max-content;
     }
 }

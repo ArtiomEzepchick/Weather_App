@@ -42,18 +42,6 @@ const {
     SAVED_WEATHER_DATA_REF
 } = LOCAL_STORAGE_ITEMS
 
-const makeMenuItem = (
-    label: React.ReactNode,
-    key: React.Key,
-    icon?: React.ReactNode,
-): MenuItemType => {
-    return {
-        label,
-        key,
-        icon
-    } as MenuItemType
-}
-
 const Menu: React.FC<Props> = ({
     isLoading,
     menuKeyRef,
@@ -112,6 +100,18 @@ const Menu: React.FC<Props> = ({
 
     const menuItems = useMemo((): MenuItemType[] => allCitiesWeatherData.map((item, index) => {
         const menuLabel: string = item.temp + DEGREE_SYMBOL + ' ' + item.city
+
+        const makeMenuItem = (
+            label: React.ReactNode,
+            key: React.Key,
+            icon?: React.ReactNode,
+        ): MenuItemType => {
+            return {
+                label,
+                key,
+                icon
+            }
+        }
 
         return makeMenuItem(
             <MenuItem
