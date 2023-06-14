@@ -1,6 +1,6 @@
 # Weather App
 
-Currently working on this project.
+Currently working on this project. You can also see it on github-pages (project is deployed).
 
 - The project is written in TypeScript.
 - Redux is used as a state manager. And Redux Saga used as Middleware.
