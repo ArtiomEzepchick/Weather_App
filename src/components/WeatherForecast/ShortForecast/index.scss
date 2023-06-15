@@ -11,6 +11,7 @@
     flex-direction: column;
     background-color: $color-white;
     border-radius: $border-radius-common-block;
+    text-align: center;
 
     p {
         font-size: 1.2rem;
@@ -33,7 +34,6 @@
 
     h1 {
         font-size: 1.8rem;
-        text-align: center;
         word-wrap: break-word;
     }
 

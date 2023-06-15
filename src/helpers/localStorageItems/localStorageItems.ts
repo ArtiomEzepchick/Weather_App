@@ -1,6 +1,4 @@
-import { LocalStorageType } from "../../types/commonTypes"
-
-export const LOCAL_STORAGE_ITEMS: LocalStorageType = {
+export const LOCAL_STORAGE_ITEMS = {
     ALL_CITIES_WEATHER_DATA: 'allCitiesWeatherData',
     CURRENT_WEATHER_DATA: 'currentWeatherData',
     SAVED_WEATHER_DATA_REF: 'savedWeatherDataRef',
