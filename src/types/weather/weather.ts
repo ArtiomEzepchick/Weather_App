@@ -1,8 +1,3 @@
-import { ObjectType } from "../commonTypes"
-
-export type ApiWeatherType = ObjectType
-export type ForecastLabelsType = ObjectType
-
 export interface UserLocation {
   city: string;
   county: string;

@@ -1,10 +1,9 @@
 import moment from 'moment-timezone'
 
-import { ObjectType } from "../../../types/commonTypes"
 import { WeatherTransformedData } from "../../../types/weather/weather"
 
-export const setLocalDateAndTime = (weatherData: WeatherTransformedData): ObjectType => {
-  const result: ObjectType = {
+export const setLocalDateAndTime = (weatherData: WeatherTransformedData) => {
+  const result = {
     localTime: '',
     localDate: '',
     localDayOfTheWeek: ''

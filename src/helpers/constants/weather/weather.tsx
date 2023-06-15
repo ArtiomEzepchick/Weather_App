@@ -1,5 +1,3 @@
-import { ApiWeatherType, ForecastLabelsType } from "../../../types/weather/weather"
-
 export const WEATHER_ICON_URL: string = 'https://openweathermap.org/img/wn/'
 export const WEATHER_IMAGES_SRC: string = `${process.env.PUBLIC_URL}/assets/weatherImages/`
 export const ICONS_SRC: string = `${process.env.PUBLIC_URL}/assets/icons/`
@@ -56,12 +54,12 @@ export const WEATHER_CODES: {
     ]
 }
 
-export const API_NAMES: ApiWeatherType = {
+export const API_NAMES = {
     OPEN_WEATHER_API: 'openWeatherApi',
     WEATHER_API: 'weatherApi'
 }
 
-export const FORECAST_LABELS: ForecastLabelsType = {
+export const FORECAST_LABELS = {
     FEELS_LIKE: 'Feels like',
     HUMIDITY: 'Humidity',
     PRESSURE: 'Pressure',
