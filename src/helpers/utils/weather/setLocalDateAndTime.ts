@@ -16,7 +16,7 @@ export const setLocalDateAndTime = (weatherData: WeatherTransformedData) => {
   } else {
     if (weatherData.tzId) {
       result.localTime = moment().tz(weatherData.tzId).format('H:mm')
-      result.localDate = moment().tz(weatherData.tzId).format('MMMM DD')
+      result.localDate = moment().tz(weatherData.tzId).format('MMM DD')
       result.localDayOfTheWeek = moment().tz(weatherData.tzId).format("dddd")
     }
   }
