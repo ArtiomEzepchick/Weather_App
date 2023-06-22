@@ -59,9 +59,9 @@ const CalendarEvents: React.FC<Props> = ({ isLoading, handleUpdateCalendarEvents
               </p>))}
           </section>
         </section>
-        <button onClick={handleUpdateCalendarEvents} disabled={isLoading} />
       </>
       : null}
+      {userData && <button onClick={handleUpdateCalendarEvents} disabled={isLoading} />}
     </section>
   )
 }

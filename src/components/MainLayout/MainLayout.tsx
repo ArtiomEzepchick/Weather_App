@@ -74,7 +74,7 @@ const MainLayout: React.FC = () => {
         const lsAllCitiesWeatherData: WeatherTransformedData[] = JSON.parse(localStorage.getItem(ALL_CITIES_WEATHER_DATA) || '[]')
         const lsCurrentWeatherData: WeatherTransformedData = JSON.parse(localStorage.getItem(CURRENT_WEATHER_DATA) || '[]')
         const lsSavedWeatherDataRef: WeatherTransformedData = JSON.parse(localStorage.getItem(SAVED_WEATHER_DATA_REF) || '{}')
-        const lsMenuKeyRef: string = JSON.parse(localStorage.getItem(MENU_KEY_REF) || '')
+        const lsMenuKeyRef: string = localStorage.getItem(MENU_KEY_REF) || ''
 
         if (lsAllCitiesWeatherData.length) {
             dispatch(updateAllCitiesWeatherData(lsAllCitiesWeatherData))
@@ -102,7 +102,7 @@ const MainLayout: React.FC = () => {
             localStorage.setItem(CURRENT_WEATHER_DATA, JSON.stringify(currentWeatherData))
             localStorage.setItem(SAVED_WEATHER_DATA_REF, JSON.stringify(currentWeatherData))
         } else {
-            const lsMenuKeyRef: string = JSON.parse(localStorage.getItem(MENU_KEY_REF) || '')
+            const lsMenuKeyRef: string = localStorage.getItem(MENU_KEY_REF) || ''
             menuKeyRef.current = lsMenuKeyRef
             return
         }
