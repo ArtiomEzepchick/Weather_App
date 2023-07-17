@@ -251,6 +251,7 @@ const MainLayout: React.FC = () => {
       </Layout>
       {error && (
         <Modal
+          isReturnToEditShow={allCitiesWeatherData.length !== 10}
           dispatch={dispatch}
           contentText={error}
           isModalOpen={isModalOpen}

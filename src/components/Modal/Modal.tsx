@@ -19,6 +19,7 @@ type Props = {
   contentText: string;
   isModalOpen: boolean;
   inputRef: RefObject<InputRef>;
+  isReturnToEditShow?: boolean;
 };
 
 const Modal: React.FC<Props> = ({
@@ -26,6 +27,7 @@ const Modal: React.FC<Props> = ({
   contentText,
   isModalOpen,
   inputRef,
+  isReturnToEditShow = true,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const { lockScroll, unlockScroll } = useScrollLock();
@@ -78,7 +80,9 @@ const Modal: React.FC<Props> = ({
           </section>
           <section className="modal-buttons">
             <Button onClick={handleCloseModal}>Ok</Button>
-            <Button onClick={handleCloseModalAndEdit}>Return to edit</Button>
+            {isReturnToEditShow && (
+              <Button onClick={handleCloseModalAndEdit}>Return to edit</Button>
+            )}
           </section>
         </div>
       </div>
