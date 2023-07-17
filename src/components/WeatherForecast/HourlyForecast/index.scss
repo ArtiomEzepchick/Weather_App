@@ -41,12 +41,12 @@
       padding: 0;
 
       .weather-hourly-fc-item {
+        min-height: 3.5rem;
         padding: 0 1.5rem;
         flex-direction: row;
         justify-content: space-between;
         background-color: $color-white;
         border-radius: $border-radius-common-block;
-        @include box-shadow-light;
 
         p {
           flex-direction: row;
@@ -55,6 +55,14 @@
         img {
           margin-left: auto;
         }
+      }
+    }
+  }
+
+  @media (max-width: $window-s) {
+    .weather-hourly-fc-items {
+      .weather-hourly-fc-item {
+        min-height: 3rem;
       }
     }
   }

@@ -5,7 +5,6 @@
     @include flex-all-centered;
     width: $size-xxl;
     gap: 1rem;
-    margin-top: 1rem;
   }
 
   .weather-main-fc {
@@ -58,6 +57,7 @@
     .weather-short-fc-and-calendar {
       flex-wrap: wrap;
       justify-content: center;
+      padding-top: 1rem;
     }
 
     .weather-main-fc {

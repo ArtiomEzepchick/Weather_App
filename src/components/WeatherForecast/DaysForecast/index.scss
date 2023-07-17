@@ -20,7 +20,6 @@
       height: 6.5rem;
       border-radius: $border-radius-common-block;
       background-color: $color-white;
-      @include box-shadow-standard;
 
       .weather-days-fc-item-date {
         display: flex;
