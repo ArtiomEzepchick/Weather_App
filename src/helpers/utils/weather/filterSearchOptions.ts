@@ -1,13 +1,13 @@
-import { SearchOption } from "../../../types/weather/weather"
+import { SearchOption } from "../../../types/weather/weather";
 
 export const filterSearchOptions = (payload: SearchOption[]): string[] => {
-  const filteredOptions: string[] = []
+  const filteredOptions: string[] = [];
 
   payload.forEach((item: SearchOption) => {
-    const city = `${item.name}, ${item.country}`
+    const city = `${item.name}, ${item.country}`;
 
-    if (!filteredOptions.includes(city)) filteredOptions.push(city)
-  })
+    if (!filteredOptions.includes(city)) filteredOptions.push(city);
+  });
 
-  return filteredOptions
-}
+  return filteredOptions;
+};

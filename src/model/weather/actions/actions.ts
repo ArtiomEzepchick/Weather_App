@@ -14,87 +14,93 @@ import {
   GET_SEARCH_OPTIONS_FAILURE,
   SET_IS_LOADING,
   SET_IS_MODAL_OPEN,
-  CLEAR_SEARCH_OPTIONS
-} from '../constants/constants'
-import { WeatherAction } from '../../../types/weather/actions'
-import { WeatherTransformedData } from '../../../types/weather/weather'
+  CLEAR_SEARCH_OPTIONS,
+} from "../constants/constants";
+import { WeatherAction } from "../../../types/weather/actions";
+import { WeatherTransformedData } from "../../../types/weather/weather";
 
-export const getCurrentWeather = (payload: string): WeatherAction  => ({
+export const getCurrentWeather = (payload: string): WeatherAction => ({
   type: GET_CURRENT_WEATHER_REQUEST,
-  payload
-})
+  payload,
+});
 
-export const getCurrentWeatherSuccess = (payload: WeatherTransformedData): WeatherAction  => ({
+export const getCurrentWeatherSuccess = (
+  payload: WeatherTransformedData
+): WeatherAction => ({
   type: GET_CURRENT_WEATHER_SUCCESS,
-  payload
-})
+  payload,
+});
 
-export const getCurrentWeatherFailure = (payload: string): WeatherAction  => ({
+export const getCurrentWeatherFailure = (payload: string): WeatherAction => ({
   type: GET_CURRENT_WEATHER_FAILURE,
-  payload
-})
+  payload,
+});
 
-export const getSearchOptionsRequest = (payload: string): WeatherAction  => ({
+export const getSearchOptionsRequest = (payload: string): WeatherAction => ({
   type: GET_SEARCH_OPTIONS_REQUEST,
-  payload
-})
+  payload,
+});
 
-export const getSearchOptionsSuccess = (payload: string[]): WeatherAction  => ({
+export const getSearchOptionsSuccess = (payload: string[]): WeatherAction => ({
   type: GET_SEARCH_OPTIONS_SUCCESS,
-  payload
-})
+  payload,
+});
 
-export const getSearchOptionsFailure = (payload: string): WeatherAction  => ({
+export const getSearchOptionsFailure = (payload: string): WeatherAction => ({
   type: GET_SEARCH_OPTIONS_FAILURE,
-  payload
-})
+  payload,
+});
 
-export const clearSearchOptions = (): WeatherAction  => ({
+export const clearSearchOptions = (): WeatherAction => ({
   type: CLEAR_SEARCH_OPTIONS,
-  payload: null
-})
+  payload: null,
+});
 
-export const setCurrentWeatherData = (payload: WeatherTransformedData | null): WeatherAction  => ({
+export const setCurrentWeatherData = (
+  payload: WeatherTransformedData | null
+): WeatherAction => ({
   type: SET_CURRENT_WEATHER_DATA,
-  payload
-})
+  payload,
+});
 
-export const setChosenWeatherAPI = (payload: string): WeatherAction  => ({
+export const setChosenWeatherAPI = (payload: string): WeatherAction => ({
   type: SET_CHOSEN_WEATHER_API,
-  payload
-})
+  payload,
+});
 
-export const updateAllCitiesWeatherData = (payload: WeatherTransformedData[]): WeatherAction => ({
+export const updateAllCitiesWeatherData = (
+  payload: WeatherTransformedData[]
+): WeatherAction => ({
   type: UPDATE_ALL_CITIES_WEATHER_DATA,
-  payload
-})
+  payload,
+});
 
 export const setInputCityValue = (payload: string | null): WeatherAction => ({
   type: SET_INPUT_CITY_VALUE,
-  payload
-})
+  payload,
+});
 
 export const setAsideCollapsed = (payload: boolean): WeatherAction => ({
   type: SET_ASIDE_COLLAPSED,
-  payload
-})
+  payload,
+});
 
 export const setError = (payload: string): WeatherAction => ({
   type: SET_ERROR,
-  payload
-})
+  payload,
+});
 
 export const clearError = (): WeatherAction => ({
   type: CLEAR_ERROR,
-  payload: null
-})
+  payload: null,
+});
 
 export const setIsLoading = (payload: boolean): WeatherAction => ({
   type: SET_IS_LOADING,
-  payload
-})
+  payload,
+});
 
 export const setIsModalOpen = (payload: boolean): WeatherAction => ({
   type: SET_IS_MODAL_OPEN,
-  payload
-})
+  payload,
+});

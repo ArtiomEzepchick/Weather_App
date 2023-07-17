@@ -96,10 +96,10 @@ export interface WeatherApiPayload {
           icon: string;
           code: number;
           text: string;
-        }
-      }[]
-    }[]
-  }
+        };
+      }[];
+    }[];
+  };
 }
 
 export interface WeatherList {

@@ -1,56 +1,55 @@
-@import '../../../variables.scss';
+@import "../../../variables.scss";
 
 .weather-short-fc {
-    @include flex-all-centered;
-    @include box-shadow-standard;
-    position: relative;
-    gap: 0.5rem;
-    width: $size-l;
-    height: 19rem;
-    padding: 1rem;
-    flex-direction: column;
-    background-color: $color-white;
-    border-radius: $border-radius-common-block;
-    text-align: center;
+  @include flex-all-centered;
+  position: relative;
+  gap: 0.5rem;
+  width: $size-l;
+  height: 19rem;
+  padding: 1rem;
+  flex-direction: column;
+  background-color: $color-white;
+  border-radius: $border-radius-common-block;
+  text-align: center;
 
-    p {
-        font-size: 1.2rem;
+  p {
+    font-size: 1.2rem;
 
-        &.last-update {
-            font-size: 0.8rem;
-        }
-
-        &.degree {
-            @include flex-all-centered;
-            width: max-content;
-            padding: 0 0.5rem;
-
-            img {
-                height: 4rem;
-                width: 4rem;
-            }
-        }
+    &.last-update {
+      font-size: 0.8rem;
     }
 
-    h1 {
-        font-size: 1.8rem;
-        word-wrap: break-word;
-    }
+    &.degree {
+      @include flex-all-centered;
+      width: max-content;
+      padding: 0 0.5rem;
 
-    .degree {
-        font-size: 2.8rem;
+      img {
+        height: 4rem;
+        width: 4rem;
+      }
     }
+  }
 
-    button {
-        @include update-button;
-    }
+  h1 {
+    font-size: 1.8rem;
+    word-wrap: break-word;
+  }
 
-    @media (max-width: $window-l) {
-        width: $size-m;
-    }
+  .degree {
+    font-size: 2.8rem;
+  }
 
-    @media (max-width: $window-s) {
-        width: $size-s;
-        height: max-content;
-    }
+  button {
+    @include update-button;
+  }
+
+  @media (max-width: $window-l) {
+    width: $size-m;
+  }
+
+  @media (max-width: $window-s) {
+    width: $size-s;
+    height: max-content;
+  }
 }
