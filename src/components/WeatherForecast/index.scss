@@ -1,86 +1,85 @@
-@import '../../variables.scss';
-
+@import "../../variables.scss";
 
 .weather-fc-container {
+  .weather-short-fc-and-calendar {
+    @include flex-all-centered;
+    width: $size-xxl;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .weather-main-fc {
+    display: grid;
+    margin-top: 1rem;
+    gap: 1rem;
+    width: 100%;
+    justify-content: center;
+
+    & > section {
+      border-radius: $border-radius-common-block;
+    }
+
+    .weather-hourly-fc,
+    .weather-days-fc {
+      height: 6.5rem;
+      display: flex;
+      justify-content: space-between;
+      width: $size-xxl;
+
+      img {
+        width: 3rem;
+        height: 3rem;
+      }
+    }
+  }
+
+  @media (max-width: $window-l) {
     .weather-short-fc-and-calendar {
-        @include flex-all-centered;
-        width: $size-xxl;
-        gap: 1rem;
-        margin-top: 1rem;
+      width: unset;
+      justify-content: space-between;
     }
 
     .weather-main-fc {
-        display: grid;
-        margin-top: 1rem;
-        gap: 1rem;
-        width: 100%;
-        justify-content: center;
+      display: flex;
 
-        & > section {
-            border-radius: $border-radius-common-block;
-        }
+      .weather-hourly-fc,
+      .weather-days-fc {
+        width: $size-m;
+        height: $size-xl;
+      }
+    }
+  }
 
-        .weather-hourly-fc,
-        .weather-days-fc {
-            height: 6.5rem;
-            display: flex;
-            justify-content: space-between;
-            width: $size-xxl;
+  @media (max-width: $window-m) {
+    @include flex-all-centered;
+    flex-direction: column;
+    gap: 1rem;
 
-            img {
-                width: 3rem;
-                height: 3rem;
-            }
-        }
+    .weather-short-fc-and-calendar {
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
-    @media (max-width: $window-l) {
-        .weather-short-fc-and-calendar {
-            width: unset;
-            justify-content: space-between;
-        }
+    .weather-main-fc {
+      flex-wrap: wrap;
+      margin-top: 0;
 
-        .weather-main-fc {
-            display: flex;
-
-            .weather-hourly-fc,
-            .weather-days-fc {
-                width: $size-m;
-                height: $size-xl;
-            }
-        }
+      .weather-hourly-fc,
+      .weather-days-fc {
+        height: 25rem;
+      }
     }
+  }
 
-    @media (max-width: $window-m) {
-        @include flex-all-centered;
-        flex-direction: column;
-        gap: 1rem;
+  @media (max-width: $window-s) {
+    .weather-main-fc {
+      gap: 1rem;
 
-        .weather-short-fc-and-calendar {
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .weather-main-fc {
-            flex-wrap: wrap;
-            margin-top: 0;
-
-            .weather-hourly-fc,
-            .weather-days-fc {
-                height: 25rem;
-            }
-        }
+      .weather-hourly-fc,
+      .weather-days-fc,
+      .weather-detailed-fc {
+        width: $size-s;
+      }
     }
-
-    @media (max-width: $window-s) {
-        .weather-main-fc {
-            gap: 1rem;
-
-            .weather-hourly-fc,
-            .weather-days-fc,
-            .weather-detailed-fc {
-                width: $size-s;
-            }
-        }
-    }
+  }
 }

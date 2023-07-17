@@ -1,4 +1,4 @@
-import { WeatherTransformedData } from './weather'
+import { WeatherTransformedData } from "./weather";
 
 export interface WeatherState {
   asideCollapsed: boolean;

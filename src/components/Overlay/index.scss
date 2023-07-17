@@ -1,44 +1,44 @@
 .overlay {
-    display: none;
-    position: fixed;
-    opacity: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 100;
+  display: none;
+  position: fixed;
+  opacity: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
 
-    &.show {
-        visibility: visible;
-        display: block;
-        opacity: 1;
-        overflow: hidden;
-        background-color: #7c7c7cf0;
-        animation: fadeInFromNone 0.3s ease-in-out;
-        animation-fill-mode: forwards;
-    }
+  &.show {
+    visibility: visible;
+    display: block;
+    opacity: 1;
+    overflow: hidden;
+    background-color: #7c7c7cf0;
+    animation: fadeInFromNone 0.3s ease-in-out;
+    animation-fill-mode: forwards;
+  }
 
-    &.hidden {
-        animation: fadeOutFromBlock 0.3s ease-in-out;
-    }
+  &.hidden {
+    animation: fadeOutFromBlock 0.3s ease-in-out;
+  }
 }
 
 @keyframes fadeInFromNone {
-    0% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
 
-    100% {
-        opacity: 1;
-    }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeOutFromBlock {
-    0% {
-        opacity: 1;
-    }
+  0% {
+    opacity: 1;
+  }
 
-    100% {
-        opacity: 0;
-    }
+  100% {
+    opacity: 0;
+  }
 }

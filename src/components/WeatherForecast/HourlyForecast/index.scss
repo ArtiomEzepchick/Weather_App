@@ -1,61 +1,61 @@
-@import '../../../variables.scss';
+@import "../../../variables.scss";
 
 .weather-hourly-fc {
-    background-color: $color-white;
-    padding: 0.3rem 0;
+  background-color: $color-white;
+  padding: 0.3rem 0;
+  flex-direction: column;
+
+  .weather-hourly-fc-items {
+    display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+    padding: 0 0.2rem;
+
+    .weather-hourly-fc-item {
+      @include flex-all-centered;
+      flex-direction: column;
+
+      &,
+      & p {
+        gap: 0.5rem;
+      }
+
+      p {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  }
+
+  @media (max-width: $window-l) {
     flex-direction: column;
+    overflow-y: auto;
+    justify-self: center;
+    background-color: unset;
+    padding: 0;
 
     .weather-hourly-fc-items {
-        display: flex;
-        gap: 2rem;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 0;
+
+      .weather-hourly-fc-item {
+        padding: 0 1.5rem;
+        flex-direction: row;
         justify-content: space-between;
-        padding: 0 .2rem;
+        background-color: $color-white;
+        border-radius: $border-radius-common-block;
+        @include box-shadow-light;
 
-        .weather-hourly-fc-item {
-            @include flex-all-centered;
-            flex-direction: column;
-
-            &,
-            & p {
-                gap: 0.5rem;
-            }
-
-            p {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
+        p {
+          flex-direction: row;
         }
-    }
 
-    @media (max-width: $window-l) {
-        flex-direction: column;
-        overflow-y: auto;
-        justify-self: center;
-        background-color: unset;
-        padding: 0;
-
-        .weather-hourly-fc-items {
-            flex-direction: column;
-            gap: 1rem;
-            padding: 0;
-
-            .weather-hourly-fc-item {
-                padding: 0 1.5rem;
-                flex-direction: row;
-                justify-content: space-between;
-                background-color: $color-white;
-                border-radius: $border-radius-common-block;
-                @include box-shadow-light;
-
-                p {
-                    flex-direction: row;
-                }
-
-                img {
-                    margin-left: auto;
-                }
-            }
+        img {
+          margin-left: auto;
         }
+      }
     }
+  }
 }

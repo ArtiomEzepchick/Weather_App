@@ -1,109 +1,109 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
 .ant-layout {
+  height: 100vh;
+  background: none;
+  background-size: cover;
+  transition: background-image 0.4s ease-in-out;
+
+  .ant-layout-sider {
+    overflow: auto;
     height: 100vh;
-    background: none;
-    background-size: cover;
-    transition: background-image .4s ease-in-out;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+    opacity: 0.8;
 
-    .ant-layout-sider {
-        overflow: auto;
-        height: 100vh;
-        position: fixed;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        z-index: 100;
-        opacity: .8;
+    &.hidden {
+      display: none;
+    }
 
-        &.hidden {
-            display: none;
+    &.opacity-initial,
+    &:hover {
+      opacity: 1;
+    }
+
+    .ant-layout-sider-children {
+      padding-top: 3rem;
+    }
+  }
+
+  .site-layout {
+    padding-left: $width-sider;
+
+    &.padding-initial {
+      padding-left: 0;
+    }
+
+    .ant-layout-header {
+      height: 3rem;
+      background-color: transparent;
+      display: flex;
+      align-items: center;
+    }
+
+    .ant-layout-content {
+      @include flex-all-centered;
+      @include opacity-low;
+      padding: 0 4rem 1rem;
+      width: 100%;
+    }
+
+    .ant-layout-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: row;
+      color: $color-white;
+      gap: 1rem;
+      background-color: $color-dark-blue;
+
+      .copyright-links {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        i {
+          font-size: 1.5rem;
+          color: $color-white;
         }
 
-        &.opacity-initial,
-        &:hover {
-            opacity: 1;
+        i:hover {
+          opacity: 0.6;
         }
+      }
+    }
+  }
 
-        .ant-layout-sider-children {
-            padding-top: 3rem;
-        }
+  @media (max-width: $window-l) {
+    min-height: 100vh;
+    height: 100%;
+  }
+
+  @media (max-width: $window-s) {
+    .ant-layout-sider-collapsed {
+      width: 3rem !important;
+      max-width: 3rem !important;
+      min-width: 3rem !important;
     }
 
     .site-layout {
-        padding-left: $width-sider;
+      padding-left: 3rem;
 
-        &.padding-initial {
-            padding-left: 0;
-        }
+      .ant-layout-content {
+        padding: 0 1rem 1rem;
+      }
 
-        .ant-layout-header {
-            height: 3rem;
-            background-color: transparent;
-            display: flex;
-            align-items: center;
-        }
-
-        .ant-layout-content {
-            @include flex-all-centered;
-            @include opacity-low;
-            padding: 0 4rem 1rem;
-            width: 100%;
-        }
-
-        .ant-layout-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-direction: row;
-            color: $color-white;
-            gap: 1rem;
-            background-color: $color-dark-blue;
-
-            .copyright-links {
-                display: flex;
-                align-items: center;
-                gap: .5rem;
-
-                i {
-                    font-size: 1.5rem;
-                    color: $color-white
-                }
-
-                i:hover {
-                    opacity: .6;
-                }
-            }
-        }
+      .ant-layout-header {
+        gap: 1rem;
+        padding: 0 0.5rem;
+      }
     }
 
-    @media (max-width: $window-l) {
-        min-height: 100vh;
-        height: 100%;
+    .ant-layout-footer {
+      font-size: 0.7rem;
     }
-
-    @media (max-width: $window-s) {
-        .ant-layout-sider-collapsed {
-            width: 3rem !important;
-            max-width: 3rem !important;
-            min-width: 3rem !important;
-        }
-
-        .site-layout {
-            padding-left: 3rem;
-
-            .ant-layout-content {
-                padding: 0 1rem 1rem;
-            }
-
-            .ant-layout-header {
-                gap: 1rem;
-                padding: 0 .5rem;
-            }   
-        }
-
-        .ant-layout-footer {
-            font-size: .7rem;
-        }
-    }
+  }
 }

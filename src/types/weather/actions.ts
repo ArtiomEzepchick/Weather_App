@@ -15,9 +15,9 @@ import {
   GET_SEARCH_OPTIONS_SUCCESS,
   GET_SEARCH_OPTIONS_FAILURE,
   CLEAR_SEARCH_OPTIONS,
-  SET_IS_MODAL_OPEN
-} from '../../model/weather/constants/constants'
-import { WeatherTransformedData } from './weather'
+  SET_IS_MODAL_OPEN,
+} from "../../model/weather/constants/constants";
+import { WeatherTransformedData } from "./weather";
 
 export interface InitAction {
   type: typeof INIT;
@@ -104,20 +104,20 @@ interface SetIsModalOpenAction {
 }
 
 export type WeatherAction =
-  InitAction |
-  GetCurrentWeatherAction |
-  GetCurrentWeatherSuccessAction |
-  GetCurrentWeatherFailureAction |
-  SetCurrentWeatherDataAction |
-  UpdateAllCitiesWeatherDataAction |
-  SetInputCityValueAction  |
-  SetAsideCollapsedAction |
-  SetChosenWeatherAPIAction |
-  GetSearchOptionsRequestAction |
-  GetSearchOptionsSuccessAction |
-  GetSearchOptionsFailureAction |
-  ClearSearchOptionsAction |
-  SetErrorAction|
-  ClearErrorAction |
-  SetIsLoadingAction |
-  SetIsModalOpenAction
+  | InitAction
+  | GetCurrentWeatherAction
+  | GetCurrentWeatherSuccessAction
+  | GetCurrentWeatherFailureAction
+  | SetCurrentWeatherDataAction
+  | UpdateAllCitiesWeatherDataAction
+  | SetInputCityValueAction
+  | SetAsideCollapsedAction
+  | SetChosenWeatherAPIAction
+  | GetSearchOptionsRequestAction
+  | GetSearchOptionsSuccessAction
+  | GetSearchOptionsFailureAction
+  | ClearSearchOptionsAction
+  | SetErrorAction
+  | ClearErrorAction
+  | SetIsLoadingAction
+  | SetIsModalOpenAction;

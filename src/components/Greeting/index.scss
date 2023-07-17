@@ -1,33 +1,33 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
 .greeting-container {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    gap: .5rem;
-    width: 30rem;
-    min-height: $size-s;
-    background-color: $color-white;
-    border-radius: $border-radius-common-block;
-    padding: 2rem;
-    text-align: center;
-    @include box-shadow-standard;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 30rem;
+  min-height: $size-s;
+  background-color: $color-white;
+  border-radius: $border-radius-common-block;
+  padding: 2rem;
+  text-align: center;
+  @include box-shadow-standard;
 
+  h1 {
+    font-size: 2rem;
+  }
+
+  p {
+    font-size: 1.2rem;
+  }
+
+  @media (max-width: $window-s) {
     h1 {
-        font-size: 2rem;
+      font-size: 1.3rem;
     }
 
     p {
-        font-size: 1.2rem;
+      font-size: 0.9rem;
     }
-
-    @media (max-width: $window-s) {
-        h1 {
-            font-size: 1.3rem;
-        }
-
-        p {
-            font-size: .9rem;
-        }
-    }
+  }
 }

@@ -1,6 +1,6 @@
-import { InitAction, WeatherAction } from '../../../types/weather/actions'
-import { API_NAMES } from '../../../helpers/constants/weather/weather'
-import { WeatherState } from '../../../types/weather/state'
+import { InitAction, WeatherAction } from "../../../types/weather/actions";
+import { API_NAMES } from "../../../helpers/constants/weather/weather";
+import { WeatherState } from "../../../types/weather/state";
 import {
   GET_CURRENT_WEATHER_REQUEST,
   GET_CURRENT_WEATHER_SUCCESS,
@@ -17,116 +17,116 @@ import {
   GET_SEARCH_OPTIONS_SUCCESS,
   GET_SEARCH_OPTIONS_FAILURE,
   CLEAR_SEARCH_OPTIONS,
-  SET_IS_MODAL_OPEN
-} from '../constants/constants'
+  SET_IS_MODAL_OPEN,
+} from "../constants/constants";
 
 export const initialState: WeatherState = {
   asideCollapsed: true,
   error: null,
   isLoading: false,
   isModalOpen: false,
-  inputCityValue: '',
+  inputCityValue: "",
   currentWeatherData: null,
   allCitiesWeatherData: [],
   chosenWeatherApi: API_NAMES.OPEN_WEATHER_API,
-  searchOptions: null
-}
+  searchOptions: null,
+};
 
 const weatherReducer = (
   state: WeatherState = initialState,
-  action: WeatherAction | InitAction,
+  action: WeatherAction | InitAction
 ): WeatherState => {
   switch (action.type) {
     case GET_CURRENT_WEATHER_REQUEST:
       return {
         ...state,
         currentWeatherData: null,
-        isLoading: true
-      }
+        isLoading: true,
+      };
     case GET_CURRENT_WEATHER_SUCCESS:
       return {
         ...state,
         currentWeatherData: action.payload,
         error: null,
-        isLoading: false
-      }
+        isLoading: false,
+      };
     case GET_CURRENT_WEATHER_FAILURE:
       return {
         ...state,
         currentWeatherData: null,
         error: action.payload,
         isLoading: false,
-        isModalOpen: true
-      }
+        isModalOpen: true,
+      };
     case SET_CURRENT_WEATHER_DATA:
       return {
         ...state,
-        currentWeatherData: action.payload
-      }
+        currentWeatherData: action.payload,
+      };
     case UPDATE_ALL_CITIES_WEATHER_DATA:
       return {
         ...state,
-        allCitiesWeatherData: action.payload
-      }
+        allCitiesWeatherData: action.payload,
+      };
     case SET_INPUT_CITY_VALUE:
       return {
         ...state,
-        inputCityValue: action.payload
-      }
+        inputCityValue: action.payload,
+      };
     case SET_CHOSEN_WEATHER_API:
       return {
         ...state,
-        chosenWeatherApi: action.payload
-      }
+        chosenWeatherApi: action.payload,
+      };
     case SET_ASIDE_COLLAPSED:
       return {
         ...state,
-        asideCollapsed: action.payload
-      }
+        asideCollapsed: action.payload,
+      };
     case GET_SEARCH_OPTIONS_REQUEST:
       return {
         ...state,
         searchOptions: null,
-      }
+      };
     case GET_SEARCH_OPTIONS_SUCCESS:
       return {
         ...state,
-        searchOptions: action.payload
-      }
+        searchOptions: action.payload,
+      };
     case GET_SEARCH_OPTIONS_FAILURE:
       return {
         ...state,
         searchOptions: null,
-        error: action.payload
-      }
+        error: action.payload,
+      };
     case CLEAR_SEARCH_OPTIONS:
       return {
         ...state,
-        searchOptions: null
-      }
+        searchOptions: null,
+      };
     case SET_ERROR:
       return {
         ...state,
-        error: action.payload
-      }
+        error: action.payload,
+      };
     case CLEAR_ERROR:
       return {
         ...state,
-        error: null
-      }
+        error: null,
+      };
     case SET_IS_LOADING:
       return {
         ...state,
-        isLoading: action.payload
-      }
+        isLoading: action.payload,
+      };
     case SET_IS_MODAL_OPEN:
       return {
         ...state,
-        isModalOpen: action.payload
-      }
+        isModalOpen: action.payload,
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default weatherReducer
+export default weatherReducer;
