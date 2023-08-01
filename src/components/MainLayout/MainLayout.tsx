@@ -179,16 +179,6 @@ const MainLayout: React.FC = () => {
         }`,
       }}
     >
-      {/* <img
-        className="background-image"
-        src={`${
-          "/Weather_App/assets/weatherImages/" +
-          (savedWeatherDataRef.current
-            ? setBackgroundImage(savedWeatherDataRef.current?.iconId)
-            : "01d")
-        }.jpg)`}
-        alt="Weather"
-      /> */}
       <Sider
         className={classNames(
           !allCitiesWeatherData.length && "hidden",

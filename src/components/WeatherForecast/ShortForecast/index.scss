@@ -6,12 +6,20 @@
   position: relative;
   gap: 0.5rem;
   width: $size-l;
-  height: 19rem;
+  height: 20rem;
   padding: 1rem;
   flex-direction: column;
   background-color: $color-white;
   border-radius: $border-radius-common-block;
   text-align: center;
+
+  .ant-space {
+    opacity: 0.7;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 
   p {
     font-size: 1.2rem;

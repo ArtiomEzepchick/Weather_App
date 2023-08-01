@@ -2,11 +2,14 @@
 @import "../../styles/mixins.scss";
 
 .events-container {
+  &.hidden {
+    display: none;
+  }
+
   position: relative;
-  flex-direction: column;
-  gap: 1rem;
+  display: block;
   width: 70%;
-  height: 19rem;
+  height: 20rem;
   padding: 0.5rem;
   border-radius: $border-radius-common-block;
   background-color: #ffffff7c;
@@ -26,7 +29,7 @@
   }
 
   .events-wrapper {
-    height: 18.5rem;
+    height: 19.5rem;
     overflow-y: auto;
     padding-bottom: 1rem;
 
