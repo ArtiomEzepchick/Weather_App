@@ -109,7 +109,7 @@ const MainLayout: React.FC = () => {
       );
     } else {
       const lsMenuKeyRef: string = localStorage.getItem(MENU_KEY_REF) || "";
-      menuKeyRef.current = JSON.parse(lsMenuKeyRef);
+      menuKeyRef.current = lsMenuKeyRef;
       return;
     }
 

@@ -1,21 +1,3 @@
-$size-xxl: 59rem;
-$size-xl: 28rem;
-$size-l: 20rem;
-$size-m: 18rem;
-$size-s: 15rem;
-
-$window-l: 1180px;
-$window-m: 790px;
-$window-s: 540px;
-
-$color-white: #ffffff;
-$color-dark-blue: #01396e;
-$color-red: #ff6868;
-
-$width-sider: 5rem;
-
-$border-radius-common-block: 0.5rem;
-
 @mixin flex-all-centered {
   display: flex;
   justify-content: center;
@@ -34,7 +16,7 @@ $border-radius-common-block: 0.5rem;
   position: absolute;
   top: -5%;
   right: -5%;
-  background-image: url("../public/assets/icons/update.png");
+  background-image: url("../../public/assets/icons/update.png");
   background-size: contain;
   background-color: $color-white;
   cursor: pointer;
