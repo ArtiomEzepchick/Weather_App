@@ -1,4 +1,4 @@
-import { WeatherList } from "../../../types/weather/weather";
+import { WeatherList } from "../../../../types/weather/weather";
 
 export const filterWeatherDays = (list: WeatherList[]): WeatherList[] => {
   let currentDay: string = list[0].day ? list[0].day : "";

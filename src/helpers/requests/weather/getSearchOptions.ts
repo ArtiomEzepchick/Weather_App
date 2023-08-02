@@ -1,4 +1,4 @@
-import { filterSearchOptions } from "../../utils/weather/filterSearchOptions";
+import { filterSearchOptions } from "../../utils/weather/filterSearchOptions/filterSearchOptions";
 
 export const getSearchOptions = async (value: string): Promise<string[]> => {
   const OPENWEATHER_API_KEY = process.env.REACT_APP_OPENWEATHER_API_KEY;

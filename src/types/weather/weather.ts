@@ -14,7 +14,7 @@ export interface SearchOption {
   lat: number;
   lon: number;
   name: string;
-  state: string;
+  state?: string;
 }
 
 export interface OpenWeatherDaysPayload {

@@ -1,4 +1,4 @@
-import { SearchOption } from "../../../types/weather/weather";
+import { SearchOption } from "../../../../types/weather/weather";
 
 export const filterSearchOptions = (payload: SearchOption[]): string[] => {
   const filteredOptions: string[] = [];

@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-type ScrollLockType = {
+export type ScrollLockType = {
   lockScroll: () => void;
   unlockScroll: () => void;
 };
