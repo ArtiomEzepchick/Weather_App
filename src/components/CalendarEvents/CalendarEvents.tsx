@@ -31,7 +31,8 @@ const CalendarEvents: React.FC<Props> = ({
     <section
       className={classNames(
         "events-container",
-        !calendarEvents?.length && "justify-center"
+        !calendarEvents?.length && "justify-center",
+        !userData && "hidden"
       )}
     >
       {!calendarEvents?.length && (

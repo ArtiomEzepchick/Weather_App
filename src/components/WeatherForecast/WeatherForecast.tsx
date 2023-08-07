@@ -14,7 +14,7 @@ import {
   setChosenWeatherAPI,
 } from "../../model/weather/actions/actions";
 import { transformDetailedForecast } from "../../helpers/utils/weather/transformDetailedForecast";
-import { filterWeatherDays } from "../../helpers/utils/weather/filterWeatherDays";
+import { filterWeatherDays } from "../../helpers/utils/weather/filterWeatherDays/filterWeatherDays";
 import {
   WeatherTransformedData,
   ForecastData,

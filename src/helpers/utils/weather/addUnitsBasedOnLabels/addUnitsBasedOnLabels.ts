@@ -1,7 +1,7 @@
 import {
   FORECAST_LABELS,
   DEGREE_SYMBOL,
-} from "../../constants/weather/weather";
+} from "../../../constants/weather/weather";
 
 export const addUnitsBasedOnLabels = (label: string): string | JSX.Element => {
   switch (label) {

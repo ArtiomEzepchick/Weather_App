@@ -18,7 +18,7 @@ import { WeatherTransformedData } from "../../types/weather/weather";
 import { copyrightLinks } from "../../helpers/copyrightLinks/copyrightLinks";
 import { LOCAL_STORAGE_ITEMS } from "../../helpers/localStorageItems/localStorageItems";
 import { WEATHER_IMAGES_SRC } from "../../helpers/constants/weather/weather";
-import { setBackgroundImage } from "../../helpers/utils/weather/setBackgroundImage";
+import { getBackgroundIconId } from "../../helpers/utils/weather/getBackgroundIconId/getBackgroundIconId";
 import {
   setCurrentWeatherData,
   setInputCityValue,
@@ -109,7 +109,7 @@ const MainLayout: React.FC = () => {
       );
     } else {
       const lsMenuKeyRef: string = localStorage.getItem(MENU_KEY_REF) || "";
-      menuKeyRef.current = JSON.parse(lsMenuKeyRef);
+      menuKeyRef.current = lsMenuKeyRef;
       return;
     }
 
@@ -171,7 +171,7 @@ const MainLayout: React.FC = () => {
         backgroundImage: `url(${
           WEATHER_IMAGES_SRC +
           (savedWeatherDataRef.current
-            ? setBackgroundImage(savedWeatherDataRef.current?.iconId)
+            ? getBackgroundIconId(savedWeatherDataRef.current?.iconId)
             : "01d")
         }.jpg)`,
         backgroundColor: `${
@@ -179,16 +179,6 @@ const MainLayout: React.FC = () => {
         }`,
       }}
     >
-      {/* <img
-        className="background-image"
-        src={`${
-          "/Weather_App/assets/weatherImages/" +
-          (savedWeatherDataRef.current
-            ? setBackgroundImage(savedWeatherDataRef.current?.iconId)
-            : "01d")
-        }.jpg)`}
-        alt="Weather"
-      /> */}
       <Sider
         className={classNames(
           !allCitiesWeatherData.length && "hidden",
