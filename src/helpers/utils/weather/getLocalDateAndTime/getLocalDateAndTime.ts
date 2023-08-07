@@ -1,8 +1,8 @@
 import moment from "moment-timezone";
 
-import { WeatherTransformedData } from "../../../types/weather/weather";
+import { WeatherTransformedData } from "../../../../types/weather/weather";
 
-export const setLocalDateAndTime = (weatherData: WeatherTransformedData) => {
+export const getLocalDateAndTime = (weatherData: WeatherTransformedData) => {
   const result = {
     localTime: "",
     localDate: "",

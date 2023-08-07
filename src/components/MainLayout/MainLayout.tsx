@@ -18,7 +18,7 @@ import { WeatherTransformedData } from "../../types/weather/weather";
 import { copyrightLinks } from "../../helpers/copyrightLinks/copyrightLinks";
 import { LOCAL_STORAGE_ITEMS } from "../../helpers/localStorageItems/localStorageItems";
 import { WEATHER_IMAGES_SRC } from "../../helpers/constants/weather/weather";
-import { setBackgroundImage } from "../../helpers/utils/weather/setBackgroundImage";
+import { getBackgroundIconId } from "../../helpers/utils/weather/getBackgroundIconId/getBackgroundIconId";
 import {
   setCurrentWeatherData,
   setInputCityValue,
@@ -171,7 +171,7 @@ const MainLayout: React.FC = () => {
         backgroundImage: `url(${
           WEATHER_IMAGES_SRC +
           (savedWeatherDataRef.current
-            ? setBackgroundImage(savedWeatherDataRef.current?.iconId)
+            ? getBackgroundIconId(savedWeatherDataRef.current?.iconId)
             : "01d")
         }.jpg)`,
         backgroundColor: `${

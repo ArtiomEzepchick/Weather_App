@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Space, Select } from "antd";
 import moment from "moment-timezone";
 
-import { setLocalDateAndTime } from "../../../helpers/utils/weather/setLocalDateAndTime";
+import { getLocalDateAndTime } from "../../../helpers/utils/weather/getLocalDateAndTime/getLocalDateAndTime";
 import { WeatherTransformedData } from "../../../types/weather/weather";
 import {
   API_NAMES,
@@ -25,7 +25,7 @@ const ShortForecast: React.FC<Props> = ({
   handleUpdateWeatherData,
 }) => {
   const { localTime, localDate, localDayOfTheWeek } =
-    setLocalDateAndTime(weatherData);
+    getLocalDateAndTime(weatherData);
   const lastWeatherUpdate: string = moment
     .utc(weatherData.lastUpdate)
     .fromNow();
