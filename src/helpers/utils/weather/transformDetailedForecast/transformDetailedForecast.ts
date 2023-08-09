@@ -2,8 +2,8 @@ import {
   WeatherTransformedData,
   Forecast,
   ForecastData,
-} from "../../../types/weather/weather";
-import { FORECAST_LABELS, ICONS_SRC } from "../../constants/weather/weather";
+} from "../../../../types/weather/weather";
+import { FORECAST_LABELS, ICONS_SRC } from "../../../constants/weather/weather";
 
 export const transformDetailedForecast = (
   data: WeatherTransformedData

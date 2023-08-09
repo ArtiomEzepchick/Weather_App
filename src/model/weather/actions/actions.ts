@@ -63,7 +63,7 @@ export const setCurrentWeatherData = (
   payload,
 });
 
-export const setChosenWeatherAPI = (payload: string): WeatherAction => ({
+export const setChosenWeatherApi = (payload: string): WeatherAction => ({
   type: SET_CHOSEN_WEATHER_API,
   payload,
 });

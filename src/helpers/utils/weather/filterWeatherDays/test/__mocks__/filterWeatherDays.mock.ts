@@ -1,6 +1,4 @@
-import { WeatherList } from "../../../../../types/weather/weather";
-
-export const mockData: WeatherList[] = [
+export const mockData = [
   {
     id: "CDJVgm64pjy7JKjAwV9PT",
     day: "Wednesday",

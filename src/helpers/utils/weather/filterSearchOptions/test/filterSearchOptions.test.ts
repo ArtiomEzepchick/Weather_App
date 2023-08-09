@@ -1,5 +1,5 @@
 import { filterSearchOptions } from "../filterSearchOptions";
-import { mockData } from "./mockData";
+import { mockData } from "./__mocks__/filterSearchOptions.mock";
 
 test("should filter search options correctly", () => {
   const filteredOptions = filterSearchOptions(mockData);

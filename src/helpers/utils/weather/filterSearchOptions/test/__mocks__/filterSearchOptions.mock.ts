@@ -1,6 +1,4 @@
-import { SearchOption } from "../../../../../types/weather/weather";
-
-export const mockData: SearchOption[] = [
+export const mockData = [
   {
     name: "Brest",
     lat: 48.3905283,

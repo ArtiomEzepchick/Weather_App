@@ -58,7 +58,7 @@ interface SetAsideCollapsedAction {
   payload: boolean;
 }
 
-interface SetChosenWeatherAPIAction {
+interface SetChosenWeatherApiAction {
   type: typeof SET_CHOSEN_WEATHER_API;
   payload: string;
 }
@@ -112,7 +112,7 @@ export type WeatherAction =
   | UpdateAllCitiesWeatherDataAction
   | SetInputCityValueAction
   | SetAsideCollapsedAction
-  | SetChosenWeatherAPIAction
+  | SetChosenWeatherApiAction
   | GetSearchOptionsRequestAction
   | GetSearchOptionsSuccessAction
   | GetSearchOptionsFailureAction

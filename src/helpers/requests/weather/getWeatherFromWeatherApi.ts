@@ -2,7 +2,7 @@ import {
   WeatherTransformedData,
   WeatherApiPayload,
 } from "../../../types/weather/weather";
-import { transformWeatherAPIPayload } from "../../utils/weather/transformWeatherPayload";
+import { transformWeatherApiPayload } from "../../utils/weather/transformWeatherApiPayload/transformWeatherApiPayload";
 
 export const getWeatherFromWeatherApi = async (
   city: string
@@ -14,7 +14,7 @@ export const getWeatherFromWeatherApi = async (
     const response: Response = await fetch(API_URL);
     const data: WeatherApiPayload = await response.json();
 
-    return transformWeatherAPIPayload(data, city);
+    return transformWeatherApiPayload(data, city);
   } catch (error: any) {
     throw new Error(`City not found. Please enter correct city name`);
   }

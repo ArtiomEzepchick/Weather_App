@@ -10,7 +10,7 @@ import {
   setIsModalOpen,
   getSearchOptionsRequest,
   clearSearchOptions,
-  setChosenWeatherAPI,
+  setChosenWeatherApi,
 } from "../../model/weather/actions/actions";
 
 import "./index.scss";
@@ -63,7 +63,7 @@ const CitySearch: React.FC<Props> = ({
       const target = e.currentTarget;
 
       if (target.textContent) {
-        dispatch(setChosenWeatherAPI(API_NAMES.OPEN_WEATHER_API));
+        dispatch(setChosenWeatherApi(API_NAMES.OPEN_WEATHER_API));
         dispatch(getCurrentWeather(target.textContent));
         dispatch(clearSearchOptions());
       }
@@ -76,7 +76,7 @@ const CitySearch: React.FC<Props> = ({
       e.preventDefault();
 
       if (inputCityValue) {
-        dispatch(setChosenWeatherAPI(API_NAMES.OPEN_WEATHER_API));
+        dispatch(setChosenWeatherApi(API_NAMES.OPEN_WEATHER_API));
         dispatch(getCurrentWeather(inputCityValue.trim()));
         dispatch(clearSearchOptions());
       }

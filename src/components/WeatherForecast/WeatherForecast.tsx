@@ -11,9 +11,9 @@ import { API_NAMES } from "../../helpers/constants/weather/weather";
 import { getCalendarEvents } from "../../model/user/actions/actions";
 import {
   getCurrentWeather,
-  setChosenWeatherAPI,
+  setChosenWeatherApi,
 } from "../../model/weather/actions/actions";
-import { transformDetailedForecast } from "../../helpers/utils/weather/transformDetailedForecast";
+import { transformDetailedForecast } from "../../helpers/utils/weather/transformDetailedForecast/transformDetailedForecast";
 import { filterWeatherDays } from "../../helpers/utils/weather/filterWeatherDays/filterWeatherDays";
 import {
   WeatherTransformedData,
@@ -49,7 +49,7 @@ const WeatherForecast: React.FC<Props> = ({
 
   const handleUpdateWeatherData = useCallback((): void => {
     if (weatherData) {
-      dispatch(setChosenWeatherAPI(weatherData.chosenWeatherApi));
+      dispatch(setChosenWeatherApi(weatherData.chosenWeatherApi));
       dispatch(getCurrentWeather(weatherData.city));
     }
   }, [dispatch, weatherData]);
@@ -62,7 +62,7 @@ const WeatherForecast: React.FC<Props> = ({
 
   const handleSelectChange = useCallback(
     (value: string): void => {
-      dispatch(setChosenWeatherAPI(value));
+      dispatch(setChosenWeatherApi(value));
 
       if (weatherData?.city) {
         dispatch(getCurrentWeather(weatherData?.city));

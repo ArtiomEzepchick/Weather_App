@@ -1,4 +1,4 @@
-import { WeatherTransformedData } from "../../../../../types/weather/weather";
+import { WeatherTransformedData } from "../../../../../../types/weather/weather";
 
 export const openWeatherApimockData: WeatherTransformedData = {
   id: "1",
