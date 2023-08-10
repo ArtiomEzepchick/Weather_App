@@ -3,7 +3,7 @@ export const expectedData = {
   city: "Hrodna, BY",
   chosenWeatherApi: "openWeatherApi",
   description: "Overcast clouds",
-  lastUpdate: "2023-08-09T19:52:46.534Z",
+  lastUpdate: new Date(),
   icon: "https://openweathermap.org/img/wn/04n@2x.png",
   iconId: "04n",
   timezone: 10800,
