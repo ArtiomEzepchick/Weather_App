@@ -1,0 +1,27 @@
+export const emptyPayload = {
+  cod: "",
+  message: 0,
+  cnt: 0,
+  list: [],
+  city: {
+    id: 0,
+    name: "",
+    coord: {
+      lat: 0,
+      lon: 0,
+    },
+    country: "",
+    population: 0,
+    timezone: 0,
+    sunrise: 0,
+    sunset: 0,
+  },
+  description: "",
+  icon: "",
+  temp: 0,
+  humidity: 0,
+  feels_like: 0,
+  pressure: 0,
+  wind: 0,
+  visibility: 0,
+};

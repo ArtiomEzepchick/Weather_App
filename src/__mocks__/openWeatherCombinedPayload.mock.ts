@@ -1,4 +1,4 @@
-export const combinedData = {
+export const openWeatherCombinedPayloadMock = {
   cod: "200",
   message: 0,
   cnt: 40,

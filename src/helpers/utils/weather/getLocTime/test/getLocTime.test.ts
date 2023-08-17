@@ -27,4 +27,11 @@ describe("getLocTime", () => {
 
     expect(result).toBe(expected);
   });
+
+  it("should return undefined if no locTime is provided", () => {
+    const locTime = "";
+    const result = getLocTime(locTime);
+
+    expect(result).toBeUndefined();
+  });
 });
