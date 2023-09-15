@@ -33,8 +33,6 @@ export const getWeatherFromOpenWeatherApi = async (
       visibility: currentDayData.visibility,
     };
 
-    console.log(transformOpenWeatherApiPayload(combinedData));
-
     return transformOpenWeatherApiPayload(combinedData);
   } catch (error: any) {
     throw new Error(`City not found. Please enter correct city name`);

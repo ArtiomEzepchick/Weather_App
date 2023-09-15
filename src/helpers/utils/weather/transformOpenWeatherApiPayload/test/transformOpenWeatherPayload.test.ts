@@ -2,7 +2,7 @@ import { transformOpenWeatherApiPayload } from "../transformOpenWeatherApiPayloa
 import { openWeatherCombinedPayloadMock } from "../../../../../__mocks__/openWeatherCombinedPayload.mock";
 import { emptyPayload } from "./__mocks__/transformOpenWeatherPayload.mock";
 
-describe("transformDetailedForecast", () => {
+describe("transformOpenWeatherPayload", () => {
   const originalDateNow = Date.now;
   const mockDateNow = jest.fn(() => new Date("2023-08-10T12:00:00Z").getTime());
   Date.now = mockDateNow;
