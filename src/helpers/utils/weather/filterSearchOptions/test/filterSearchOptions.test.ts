@@ -1,14 +1,16 @@
 import { filterSearchOptions } from "../filterSearchOptions";
-import { mockData } from "./mockData";
+import { options, sameOptions } from "./__mocks__/filterSearchOptions.mock";
 
-test("should filter search options correctly", () => {
-  const filteredOptions = filterSearchOptions(mockData);
+describe("filterSearchOptions", () => {
+  it("should filter search options correctly", () => {
+    const filteredOptions = filterSearchOptions(options);
 
-  expect(filteredOptions).toEqual([
-    "Brest, FR",
-    "Brest, BY",
-    "Brest, HR",
-    "Brest, DE",
-    "Brest, MK",
-  ]);
+    expect(filteredOptions).toEqual(["Brest, BY", "Brest, HR", "Brest, MK"]);
+  });
+
+  it("should return a single option if all options are the same", () => {
+    const filteredOptions = filterSearchOptions(sameOptions);
+
+    expect(filteredOptions).toEqual(["Brest, BY"]);
+  });
 });

@@ -5,8 +5,8 @@ import { FormattedEventsItem } from "../../../types/user/user";
 
 export const formatEvents = (
   list: gapi.client.calendar.Event[]
-): FormattedEventsItem[] => {
-  return list.map((item): FormattedEventsItem => {
+): FormattedEventsItem[] =>
+  list.map((item): FormattedEventsItem => {
     let date = "";
     const currentDate = moment().format("DD.MM.YY");
     const tommorowDate = moment().add(1, "day").format("DD.MM.YY");
@@ -30,4 +30,3 @@ export const formatEvents = (
       date,
     };
   });
-};

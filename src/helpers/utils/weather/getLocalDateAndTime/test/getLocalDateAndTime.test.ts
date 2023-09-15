@@ -5,7 +5,7 @@ import {
   openWeatherApimockData,
   weatherApiMockData,
   noTimezoneData,
-} from "./mockData";
+} from "./__mocks__/getLocalDateAndTime.mock";
 
 describe("getLocalDateAndTime", () => {
   test("should return local date and time when timezone is provided", () => {

@@ -1,6 +1,4 @@
-import { WeatherTransformedData } from "../../../../../types/weather/weather";
-
-export const openWeatherApimockData: WeatherTransformedData = {
+export const openWeatherApimockData = {
   id: "1",
   city: "New York",
   chosenWeatherApi: "openWeatherApi",
@@ -19,7 +17,7 @@ export const openWeatherApimockData: WeatherTransformedData = {
   list: [],
 };
 
-export const weatherApiMockData: WeatherTransformedData = {
+export const weatherApiMockData = {
   id: "1",
   city: "New York",
   chosenWeatherApi: "weatherApi",
@@ -38,7 +36,7 @@ export const weatherApiMockData: WeatherTransformedData = {
   list: [],
 };
 
-export const noTimezoneData: WeatherTransformedData = {
+export const noTimezoneData = {
   id: "1",
   city: "New York",
   chosenWeatherApi: "api",

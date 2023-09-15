@@ -3,8 +3,8 @@ import {
   OpenWeatherDaysPayload,
   OpenWeatherCurrentDayPayload,
   OpenWeatherCombinedPayload,
-} from "../../../types/weather/weather";
-import { transformOpenWeatherAPIPayload } from "../../utils/weather/transformWeatherPayload";
+} from "../../../../types/weather/weather";
+import { transformOpenWeatherApiPayload } from "../../../utils/weather/transformOpenWeatherApiPayload/transformOpenWeatherApiPayload";
 
 export const getWeatherFromOpenWeatherApi = async (
   city: string
@@ -33,7 +33,7 @@ export const getWeatherFromOpenWeatherApi = async (
       visibility: currentDayData.visibility,
     };
 
-    return transformOpenWeatherAPIPayload(combinedData);
+    return transformOpenWeatherApiPayload(combinedData);
   } catch (error: any) {
     throw new Error(`City not found. Please enter correct city name`);
   }
