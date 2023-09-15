@@ -1,4 +1,4 @@
-import { UserDataPayload } from "../../../types/user/user";
+import { UserDataPayload } from "../../../../types/user/user";
 
 export const getUserData = async (token: string): Promise<UserDataPayload> => {
   try {

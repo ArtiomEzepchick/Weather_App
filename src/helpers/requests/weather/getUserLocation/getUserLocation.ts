@@ -1,4 +1,4 @@
-import { UserLocation } from "../../../types/weather/weather";
+import { UserLocation } from "../../../../types/weather/weather";
 
 export const getUserLocation = async (): Promise<string> => {
   const ABSTRACT_API_KEY = process.env.REACT_APP_ABSTRACT_API_KEY;

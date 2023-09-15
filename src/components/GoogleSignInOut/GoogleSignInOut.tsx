@@ -14,7 +14,7 @@ import { setIsLoading } from "../../model/weather/actions/actions";
 import { UserDataPayload } from "../../types/user/user";
 import { SCOPE } from "../../helpers/constants/user/user";
 import { LOCAL_STORAGE_ITEMS } from "../../helpers/localStorageItems/localStorageItems";
-import { logOutUser } from "../../helpers/requests/user/logOutUser";
+import { logOutUser } from "../../helpers/requests/user/logOutUser/logOutUser";
 
 import "./index.scss";
 

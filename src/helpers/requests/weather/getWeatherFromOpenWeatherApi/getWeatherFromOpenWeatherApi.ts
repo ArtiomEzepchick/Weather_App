@@ -3,8 +3,8 @@ import {
   OpenWeatherDaysPayload,
   OpenWeatherCurrentDayPayload,
   OpenWeatherCombinedPayload,
-} from "../../../types/weather/weather";
-import { transformOpenWeatherApiPayload } from "../../utils/weather/transformOpenWeatherApiPayload/transformOpenWeatherApiPayload";
+} from "../../../../types/weather/weather";
+import { transformOpenWeatherApiPayload } from "../../../utils/weather/transformOpenWeatherApiPayload/transformOpenWeatherApiPayload";
 
 export const getWeatherFromOpenWeatherApi = async (
   city: string

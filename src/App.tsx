@@ -4,7 +4,7 @@ import { Dispatch } from "redux";
 
 import HomePage from "./pages/Home/HomePage";
 
-import { getUserLocation } from "./helpers/requests/weather/getUserLocation";
+import { getUserLocation } from "./helpers/requests/weather/getUserLocation/getUserLocation";
 import {
   setIsLoading,
   setInputCityValue,

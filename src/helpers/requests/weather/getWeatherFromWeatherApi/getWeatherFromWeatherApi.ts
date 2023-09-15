@@ -1,8 +1,8 @@
 import {
   WeatherTransformedData,
   WeatherApiPayload,
-} from "../../../types/weather/weather";
-import { transformWeatherApiPayload } from "../../utils/weather/transformWeatherApiPayload/transformWeatherApiPayload";
+} from "../../../../types/weather/weather";
+import { transformWeatherApiPayload } from "../../../utils/weather/transformWeatherApiPayload/transformWeatherApiPayload";
 
 export const getWeatherFromWeatherApi = async (
   city: string

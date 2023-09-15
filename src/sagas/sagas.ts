@@ -37,11 +37,11 @@ import {
   getCalendarEventsSuccess,
   getCalendarEventsFailure,
 } from "../model/user/actions/actions";
-import { getUserData } from "../helpers/requests/user/getUserData";
-import { getCalendarEvents } from "../helpers/requests/user/getCalendarEvents";
-import { getSearchOptions } from "../helpers/requests/weather/getSearchOptions";
-import { getWeatherFromOpenWeatherApi } from "../helpers/requests/weather/getWeatherFromOpenWeatherApi";
-import { getWeatherFromWeatherApi } from "../helpers/requests/weather/getWeatherFromWeatherApi";
+import { getUserData } from "../helpers/requests/user/getUserData/getUserData";
+import { getCalendarEvents } from "../helpers/requests/user/getCalendarEvents/getCalendarEvents";
+import { getSearchOptions } from "../helpers/requests/weather/getSearchOptions/getSearchOptions";
+import { getWeatherFromOpenWeatherApi } from "../helpers/requests/weather/getWeatherFromOpenWeatherApi/getWeatherFromOpenWeatherApi";
+import { getWeatherFromWeatherApi } from "../helpers/requests/weather/getWeatherFromWeatherApi/getWeatherFromWeatherApi";
 import {
   GetCalendarEventsAction,
   GetUserDataAction,
