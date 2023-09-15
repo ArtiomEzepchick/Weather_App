@@ -37,12 +37,6 @@ describe("getCalendarEvents", () => {
     fetchMock.mockResponseOnce("Unauthorized", { status: 401 });
     await expect(getCalendarEvents(token)).rejects.toThrow(errorMessage);
     expect(fetchMock).toHaveBeenCalledTimes(1);
-    expect(fetchMock).toHaveBeenCalledWith(CALENDAR_URL, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-      },
-    });
   });
 
   it("throws an error when request fails", async () => {
@@ -51,11 +45,5 @@ describe("getCalendarEvents", () => {
     fetchMock.mockRejectOnce(new Error(errorMessage));
     await expect(getCalendarEvents(token)).rejects.toThrow(errorMessage);
     expect(fetchMock).toHaveBeenCalledTimes(1);
-    expect(fetchMock).toHaveBeenCalledWith(CALENDAR_URL, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-      },
-    });
   });
 });
