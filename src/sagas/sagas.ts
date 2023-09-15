@@ -114,6 +114,7 @@ export function* calendarEventsSaga(
     const response = yield call(getCalendarEvents, action.payload);
     const formattedEvents: FormattedEventsItem[] = formatEvents(response.items);
 
+    console.log(formattedEvents);
     yield put(getCalendarEventsSuccess(formattedEvents));
   } catch (error: any) {
     yield put(getCalendarEventsFailure(error.message));
